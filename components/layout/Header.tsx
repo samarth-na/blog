@@ -7,8 +7,10 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS = [
-  { label: "ui", href: "/ui" },
   { label: "blog", href: "/blog" },
+  { label: "bookmarks", href: "/bookmarks" },
+  { label: "interests", href: "/interests" },
+  { label: "now", href: "/now" },
 ];
 
 export function Header({ logo = "samarth", currentPath = "/" }: HeaderProps) {
