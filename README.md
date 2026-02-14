@@ -31,7 +31,7 @@ A minimal, text-only developer blog built with Next.js.
 1. home page
     - summary of myself
     - aim/goals
-    - list of fav writings
+    - list of fav blogs
     - bookmarks
     - footer
 2. projects

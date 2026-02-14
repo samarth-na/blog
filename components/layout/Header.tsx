@@ -12,16 +12,13 @@ const NAV_ITEMS = [
   { label: "blog", href: "/blog" },
 ];
 
-export function BlogHeader({
-  logo = "samarth",
-  currentPath = "/",
-}: HeaderProps) {
+export function Header({ logo = "samarth", currentPath = "/" }: HeaderProps) {
   return (
     <header className="mb-12 flex justify-between items-end">
       <div>
         <Link
           href="/"
-          className="text-xl font-medium underline"
+          className="text-xl font-medium underline hover:text-teal-600"
           style={{ fontFamily: "'ibm-plex-serif'" }}
         >
           {logo}

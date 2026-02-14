@@ -1,5 +1,4 @@
-import { BlogHeader } from "../../components/layout/Header";
-import { BlogFooter } from "../../components/layout/Footer";
+import { Footer } from "../../components/layout/Footer";
 import { BlogContainer } from "../../components/layout/Container";
 import { BlogArticleView } from "../../components/content/ArticleView";
 import { BlogPostList, type PostItem } from "../../components/content/PostList";
@@ -43,19 +42,7 @@ export default function UiPage() {
   return (
     <div className="">
       <BlogContainer>
-        <BlogHeader currentPath="/ui" />
-
         <main className="space-y-16">
-          <section>
-            <p className="text-xs text-muted-foreground mb-4">text elements</p>
-            <BlogTextElements />
-          </section>
-
-          <section>
-            <p className="text-xs text-muted-foreground mb-4">links</p>
-            <BlogDemoLinks />
-          </section>
-
           <section>
             <p className="text-xs text-muted-foreground mb-6">article view</p>
             <BlogArticleView
@@ -68,37 +55,6 @@ export default function UiPage() {
                 "The text should be readable and well-structured. Each paragraph adds value to the reader.",
               ]}
             />
-          </section>
-
-          <section>
-            <p className="text-xs text-muted-foreground mb-4">code block</p>
-            <BlogCodeBlock
-              language="javascript"
-              code={`function hello() {
-  const greeting = "hello world";
-  console.log(greeting);
-  return greeting;
-}
-
-hello();`}
-            />
-          </section>
-
-          <section>
-            <p className="text-xs text-muted-foreground mb-4">blockquote</p>
-            <BlogBlockquote
-              text="the best way to predict the future is to create it."
-              cite="peter drucker"
-            />
-          </section>
-
-          <section>
-            <p className="text-xs text-muted-foreground mb-4">unordered list</p>
-            <BlogUnorderedList items={LIST_ITEMS} />
-            <p className="text-xs text-muted-foreground mb-4 mt-6">
-              ordered list
-            </p>
-            <BlogOrderedList items={LIST_ITEMS} />
           </section>
 
           <section>
@@ -138,8 +94,6 @@ hello();`}
             <BlogAboutSection bio="developer based in sf. i build things and write about code, design, and everything in between." />
           </section>
         </main>
-
-        <BlogFooter />
       </BlogContainer>
     </div>
   );

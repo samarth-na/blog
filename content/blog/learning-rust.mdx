@@ -1,0 +1,37 @@
+---
+title: Learning Rust in 2024
+date: 2024-04-05
+tags: [rust, learning, programming]
+excerpt: My journey learning Rust as a JavaScript developer - the challenges, surprises, and why I think Rust is worth the steep learning curve.
+---
+
+# Learning Rust in 2024
+
+Coming from JavaScript/TypeScript, Rust was a significant paradigm shift.
+
+## First Impressions
+
+The borrow checker is intimidating at first. But once you understand ownership, everything clicks.
+
+## What I Love
+
+1. **Performance** - Zero-cost abstractions
+2. **Type Safety** - Catch errors at compile time
+3. **Tooling** - Cargo is fantastic
+4. **Documentation** - docs.rs is incredible
+
+## Current Project
+
+Building a CLI tool to manage my dotfiles. Here's a snippet:
+
+```rust
+use std::fs;
+use std::path::PathBuf;
+
+fn main() {
+    let home = std::env::var("HOME").unwrap();
+    println!("Home directory: {}", home);
+}
+```
+
+More updates as I progress!
