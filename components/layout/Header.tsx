@@ -18,8 +18,8 @@ export function Header({ logo = "samarth", currentPath = "/" }: HeaderProps) {
       <div>
         <Link
           href="/"
-          className="text-xl font-medium underline hover:text-teal-600"
-          style={{ fontFamily: "'ibm-plex-serif'" }}
+          className="text-2xl font-medium underline hover:text-teal-600"
+          style={{ fontFamily: "'IBM Plex Serif', serif" }}
         >
           {logo}
         </Link>

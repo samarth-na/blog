@@ -6,7 +6,7 @@ A minimal, text-only developer blog built with Next.js.
 
 ### Theme
 
-- **Soft Pop** theme from tweakcn
+- **Teal accent** color scheme (teal-600 light, teal-500 dark)
 - Clean, minimal aesthetic with small fonts and line borders
 - No images, cards, or fancy UI elements
 - Focus on typography and content
@@ -17,14 +17,6 @@ A minimal, text-only developer blog built with Next.js.
 - Small fonts (text-xs, text-sm)
 - Consistent side margins
 - Monospace for dates and code
-
-### Colors
-
-- Primary: Purple (#7866d1)
-- Secondary: Teal (#6ccac4)
-- Accent: Yellow (#f5d565)
-- Background: Light gray (#f8f7f4)
-- Dark mode supported
 
 ## Pages
 
@@ -76,64 +68,51 @@ Reference layouts available at:
 - Next.js 16 (App Router)
 - Tailwind CSS 4
 - TypeScript
+- MDX for blog posts
 
 ### Commands
 
 ```bash
 # Run development server
-bun run dev
+npm run dev
 
 # Build for production
-bun run build
+npm run build
 
 # Start production server
-bun run start
+npm run start
 
 # Lint
-bun run lint
+npm run lint
 ```
 
 ## Content
 
-### Adding Articles
+### Adding Blog Posts
 
-Create markdown files in `content/articles/` with frontmatter:
+Create MDX files in `content/blog/` with frontmatter:
 
 ```markdown
 ---
-title: "Article Title"
-date: "2026-02-12"
-category: "development"
-excerpt: "Brief description"
+title: "Post Title"
+date: "2024-01-01"
+tags: [tag1, tag2, tag3]
+excerpt: "Brief description of the post"
 ---
 
 Your content here...
 ```
 
-### Adding Projects
-
-Create markdown files in `content/projects/` with frontmatter:
-
-```markdown
----
-title: "Project Name"
-date: "2026-02-12"
-tech: ["Next.js", "TypeScript"]
-link: "https://..."
----
-
-Project description...
-```
-
 ## Features
 
 - [x] Minimal text-only design
-- [x] Soft pop theme
-- [x] Dark mode support
+- [x] Teal accent color scheme
+- [x] Dark mode support with toggle
 - [x] Responsive layout
+- [x] MDX blog posts with syntax highlighting
+- [x] Blog search and tag filtering
+- [x] Automatic read time calculation
 - [ ] RSS feed
-- [ ] Search
-- [ ] Categories/Tags
 
 ## License
 

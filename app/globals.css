@@ -224,6 +224,10 @@
     body {
         @apply bg-background text-foreground;
     }
+    /* All h1 except MDX h1 - IBM Plex Serif */
+    h1:not(.mdx-h1) {
+        font-family: 'IBM Plex Serif', serif;
+    }
 }
 
 .layout {
