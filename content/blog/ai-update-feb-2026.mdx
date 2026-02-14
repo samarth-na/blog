@@ -1,0 +1,62 @@
+---
+title: 4 new models in one week
+date: 15-2-2026
+tags: [ai, thoughts, review]
+excerpt: Four new models just dropped this is an quick review of those
+read: 1 min
+---
+
+We just got 4 new frontier models from 4 different labs two open source and open
+weight two closed source and proprietary. I'm going to try to review them all
+
+- [gpt5.3-codex](https://openai.com/index/introducing-gpt-5-3-codex/)
+- [opus4.6](https://www.anthropic.com/news/claude-opus-4-6)
+- [glm5](https://z.ai/blog/glm-5)
+- [minmax2.5](https://www.minimax.io/news/minimax-m25)
+
+All of these preform close to each other but still have very different experiences. I'd like to share my experience while coding with each one of these
+
+## artificialanalysis.ai
+![Image](/bnechmark.png)
+
+
+|**Metric**|**GLM-5**|**MiniMax 2.5**|**GPT-5.3 Codex**|**Opus 4.6**|
+|---|---|---|---|---|
+|Input $/1M|~$1.00|~$0.30|~$1.75*|$5.0|
+|Output $/1M|~$3.2|~$1.20|~$14.00*|$25.0|
+|Open Weights|✅|✅|❌|❌|
+|Tool Calling|Good|Very Good|Excellent|Excellent|
+|Context|~200K|~205K|~256–400K|Up to 1M (beta)|
+|Coding (SWE-bench)|~77.8%|~80.2%|~78.2%|~79.4%|
+|Reasoning|Medium-High|Medium|High|Best|
+|Web/General|BrowseComp ~75.9|~76.3 (with context)|Strong Pro Bench|High (1M context)|
+|Best For|Cost-effective high-level tasks|Fast agents & coding loops|Fast coding & terminal tasks|Deep reasoning & agents|
+|Notes|MIT licensed, cheapest open-weights model|Optimized for speed & agent work|Uses GPT-5.2 Codex pricing proxy|Official Anthropic pricing|
+---
+## gpt5.3-codex
+
+No this is not a huge improvement over gpt5.2 one could totally miss that they are not using a newer model its still made on same 1 trillion parameters dataset its more optimized and more fast which matter more than any other thing right now the days of exponential improvement are over we need more optimization which this model easily proves. The best things about the gpt5 plus models is that these models are not token hungry these don't require many output tokens. Plus the tool support by openAI is improving day by day.
+
+![Image](/SWE-Bench-gpt.png)
+
+## opus4.6
+
+Ohh well same story its more of a opus4.5 plus than even a minor version update some say its the failed sonnet 5 which can make sense the writing on wall is clear this architecture is almost maxed out all that is left is optimization until new breakthrough research comes along or paper comes along this still is an state of the art model its one of the best there are not many things that other models can do that opus cant and some only opus can do but thats not the whole picture opus is slow and token hungry yes it can solve any problem in expected amount of prompt but it will take its time and eat the context.
+
+![Image](/opus4.6.webp)
+
+## glm5
+
+I was excited about this from  [theo's](https://www.youtube.com/watch?v=vtWMgVCMsx8) video. the picture on the side of chinese models is also same some have their strong and weak points but they are cheaper and more openly available. this is the next version model from z.ai the company whose previous model glm4.7 was the leading oss model on benchmarks. this is also an benchmark freak that matches opus on many fronts. this model has its own strength that lies in using tools. with tool glm can see upto 40% improvement over any other model lowest gemini which is at less than 15% al though I havent had agentic coding experience i did used it on [website](https://chat.z.ai/) to make a few resume templates optimzed for ATS scanning.
+
+![Image](/glm5.png)
+
+
+## minmax2.5
+
+this follows mostly the same story as glm5 but takes things to even more extreme. this model is ridiculously cheap. though when i tried coding with it i wasnt satisfited and fell back to kimi2.5 which seemed to perfomed better while trying this very website itself the first draft of ui were made by this but later fully taken over by kimi2.5 .  another issue maybe faultu experience in [opencode](https://opencode.ai/) it was dissconecting in middle which i had used for all 4 models it might be an error on opencodes side or a missconfiguration as its the newest
+
+![Image](/minmax2.5.png)
+
+---
+

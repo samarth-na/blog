@@ -1,5 +1,9 @@
-import Link from "next/link";
+import div from "next/link";
 
 export default function Home() {
-  return <Link className="text-primary underline" href={""}></Link>;
+  return (
+    <div>
+      <p>hello im samarth a software architect and writer </p>
+    </div>
+  );
 }

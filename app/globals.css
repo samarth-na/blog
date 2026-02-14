@@ -244,15 +244,15 @@
 
 /* Headings */
 .mdx-h1 {
-    @apply text-xl font-medium mb-4 mt-8;
+    @apply underline text-xl font-medium mb-4 mt-8;
 }
 
 .mdx-h2 {
-    @apply text-sm font-medium mb-4 mt-8;
+    @apply underline font-medium mb-4 mt-8;
 }
 
 .mdx-h3 {
-    @apply text-sm font-medium mb-3 mt-6;
+    @apply underline text-sm font-medium mb-3 mt-6;
 }
 
 .mdx-h4 {
@@ -345,7 +345,12 @@
 
 /* Tables */
 .mdx-table {
-    @apply w-full text-sm text-muted-foreground mb-4;
+    @apply w-full text-xs text-muted-foreground border-collapse min-w-[600px];
+}
+
+/* Table wrapper for scrollable tables */
+.mdx-table-wrapper {
+    @apply overflow-x-auto text-xs w-full flex justify-center;
 }
 
 .mdx-thead {
@@ -353,11 +358,19 @@
 }
 
 .mdx-th {
-    @apply text-left py-2 pr-4 font-medium text-foreground;
+    @apply text-left py-2 px-4 font-medium text-foreground border-l border-border first:border-l-0;
+}
+
+.mdx-th:first-child {
+    @apply font-bold;
 }
 
 .mdx-td {
-    @apply text-left py-2 pr-4;
+    @apply text-left py-2 px-4 border-l border-border first:border-l-0;
+}
+
+.mdx-td:first-child {
+    @apply font-bold text-foreground;
 }
 
 .mdx-tr {

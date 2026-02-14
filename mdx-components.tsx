@@ -20,7 +20,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     li: ({ children, ...props }) => <li className="mdx-li" {...props}>{children}</li>,
     blockquote: ({ children, ...props }) => <blockquote className="mdx-blockquote" {...props}>{children}</blockquote>,
     hr: (props) => <hr className="mdx-hr" {...props} />,
-    table: ({ children, ...props }) => <table className="mdx-table" {...props}>{children}</table>,
+    table: ({ children, ...props }) => (
+      <div className="mdx-table-wrapper">
+        <table className="mdx-table" {...props}>{children}</table>
+      </div>
+    ),
     thead: ({ children, ...props }) => <thead className="mdx-thead" {...props}>{children}</thead>,
     tbody: ({ children, ...props }) => <tbody {...props}>{children}</tbody>,
     tr: ({ children, ...props }) => <tr className="mdx-tr" {...props}>{children}</tr>,
