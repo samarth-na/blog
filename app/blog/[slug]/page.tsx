@@ -56,7 +56,15 @@ export default async function BlogPost({
 
   return (
     <article>
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 border-b border-muted-foreground pb-4">
+      <div className="mb-4">
+        <Link
+          href="/blog"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ← back to blogs
+        </Link>
+      </div>
+      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8 border-b border-muted-foreground pb-4">
         {meta?.date && <span>{meta.date}</span>}
         {meta?.readTime && (
           <>

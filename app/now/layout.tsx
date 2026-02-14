@@ -9,7 +9,9 @@ const components = {
   h5: (props: any) => <h5 className="mdx-h5" {...props} />,
   h6: (props: any) => <h6 className="mdx-h6" {...props} />,
   p: (props: any) => <p className="mdx-p" {...props} />,
-  a: (props: any) => <Link href={props.href || "#"} className="mdx-a" {...props} />,
+  a: (props: any) => (
+    <Link href={props.href || "#"} className="mdx-a" {...props} />
+  ),
   strong: (props: any) => <strong className="mdx-strong" {...props} />,
   em: (props: any) => <em className="mdx-em" {...props} />,
   code: (props: any) => <code className="mdx-code" {...props} />,
@@ -17,7 +19,9 @@ const components = {
   ul: (props: any) => <ul className="mdx-ul" {...props} />,
   ol: (props: any) => <ol className="mdx-ol" {...props} />,
   li: (props: any) => <li className="mdx-li" {...props} />,
-  blockquote: (props: any) => <blockquote className="mdx-blockquote" {...props} />,
+  blockquote: (props: any) => (
+    <blockquote className="mdx-blockquote" {...props} />
+  ),
   hr: (props: any) => <hr className="mdx-hr" {...props} />,
   table: (props: any) => (
     <div className="mdx-table-wrapper">
@@ -31,7 +35,9 @@ const components = {
   td: (props: any) => <td className="mdx-td" {...props} />,
 };
 
-export function useMDXComponents(componentsFromProps: MDXComponents): MDXComponents {
+export function useMDXComponents(
+  componentsFromProps: MDXComponents
+): MDXComponents {
   return {
     ...components,
     ...componentsFromProps,
@@ -39,5 +45,10 @@ export function useMDXComponents(componentsFromProps: MDXComponents): MDXCompone
 }
 
 export default function NowLayout({ children }: { children: React.ReactNode }) {
-  return <div className="prose prose-sm max-w-none">{children}</div>;
+  return (
+    <div className="prose prose-sm max-w-none">
+      <h1 className="text-xl pb-4 ">now</h1>
+      {children}
+    </div>
+  );
 }
