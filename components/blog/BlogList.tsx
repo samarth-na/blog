@@ -58,7 +58,7 @@ export function BlogList({ posts }: BlogListProps) {
               placeholder="Search posts..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+              className="w-full rounded-[3px] px-4 py-3 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
             />
             <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           </div>
@@ -94,10 +94,10 @@ export function BlogList({ posts }: BlogListProps) {
               <button
                 key={tag}
                 onClick={() => toggleTag(tag)}
-                className={`px-3 py-1.5 text-sm border transition-colors ${
+                className={`px-3 py-1.5 text-sm border  rounded-xs transition-colors ${
                   selectedTags.includes(tag)
                     ? "border-primary bg-primary/10 text-primary"
-                    : "border-border hover:border-foreground"
+                    : "border-border hover:border-primary hover:text-primary "
                 }`}
               >
                 {tag}

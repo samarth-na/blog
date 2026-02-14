@@ -34,7 +34,7 @@ export function BookmarkList({ bookmarks }: BookmarkListProps) {
           placeholder="Search bookmarks..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="rounded-[2.5px] w-full px-4 py-3 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+          className="rounded-[3px] w-full px-4 py-3 bg-transparent border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
         />
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
       </div>
@@ -49,19 +49,19 @@ export function BookmarkList({ bookmarks }: BookmarkListProps) {
             <Link
               key={bookmark.slug}
               href={`/bookmarks/${bookmark.slug}`}
-              className="rounded-[2.5px] group px-4 block border border-border hover:border-foreground transition-colors overflow-hidden h-[320px] w-full"
+              className="rounded-[3px] group p-4 block border border-border hover:border-foreground transition-colors overflow-hidden h-[320px] w-full"
             >
-              <h2 className=" mt-4 font-medium text-primary transition-colors">
+              <h2 className=" font-medium text-primary transition-colors">
                 {bookmark.title}
               </h2>
 
               {bookmark.description && (
-                <p className="text-xs text-muted-foreground line-clamp-2">
+                <p className="text-xs text-muted-foreground pb-6.5 line-clamp-2">
                   {bookmark.description}
                 </p>
               )}
               {bookmark.image && (
-                <div className="h-[220px] rounded-[3px] my-4 overflow-hidden bg-muted">
+                <div className="h-[220px] rounded-[3px] overflow-hidden bg-muted">
                   <img
                     src={bookmark.image}
                     alt={bookmark.title}

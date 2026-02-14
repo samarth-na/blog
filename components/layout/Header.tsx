@@ -15,7 +15,7 @@ const NAV_ITEMS = [
 
 export function Header({ logo = "samarth", currentPath = "/" }: HeaderProps) {
   return (
-    <header className="mb-12 flex justify-between items-end">
+    <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
       <div>
         <Link
           href="/"
@@ -26,7 +26,7 @@ export function Header({ logo = "samarth", currentPath = "/" }: HeaderProps) {
         </Link>
       </div>
       <div className="flex items-center gap-4">
-        <nav className="flex gap-2 font-medium underline text-muted-foreground">
+        <nav className="flex gap-2 font-medium underline text-muted-foreground flex-wrap">
           {NAV_ITEMS.map((item, i) => (
             <>
               <Link
