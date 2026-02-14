@@ -1,3 +1,4 @@
+import { BlogHeader } from "@/components/layout/Header";
 import Link from "next/link";
 
 const POSTS = [
@@ -6,40 +7,29 @@ const POSTS = [
   { id: 3, title: "sample post three", date: "feb 8, 2026", words: 600 },
 ];
 
-const CATEGORIES = ["development", "design", "tutorial", "thoughts", "personal"];
+const CATEGORIES = [
+  "development",
+  "design",
+  "tutorial",
+  "thoughts",
+  "personal",
+];
 const SOCIALS = ["twitter", "github", "linkedin", "email", "rss"];
 
 export default function TestPage() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-2xl mx-auto px-6 py-12">
-        <header className="mb-12 flex justify-between items-end">
-          <div>
-            <Link href="/" className="text-sm font-medium">alex</Link>
-          </div>
-          <nav className="flex gap-2 text-xs text-muted-foreground">
-            <Link href="/demo">demo</Link>
-            <span>/</span>
-            <Link href="/test" className="text-foreground">test</Link>
-            <span>/</span>
-            <Link href="/1">l1</Link>
-            <span>/</span>
-            <Link href="/2">l2</Link>
-            <span>/</span>
-            <Link href="/3">l3</Link>
-            <span>/</span>
-            <Link href="/4">l4</Link>
-            <span>/</span>
-            <Link href="/5">l5</Link>
-          </nav>
-        </header>
+        <BlogHeader currentPath="/test" />
 
         <main className="space-y-16">
           {/* Article / Post View */}
           <section>
             <p className="text-xs text-muted-foreground mb-6">article view</p>
             <article>
-              <h1 className="text-sm font-medium mb-2">how to build a blog with next.js</h1>
+              <h1 className="text-sm font-medium mb-2">
+                how to build a blog with next.js
+              </h1>
               <div className="flex gap-3 text-xs text-muted-foreground mb-6">
                 <span>feb 12, 2026</span>
                 <span>·</span>
@@ -49,13 +39,15 @@ export default function TestPage() {
               </div>
               <div className="space-y-4 text-sm">
                 <p>
-                  This is the body of a blog post. It contains multiple paragraphs of text
-                  that explain the content. You can write anything here - tutorials,
-                  thoughts, or updates about what you're working on.
+                  This is the body of a blog post. It contains multiple
+                  paragraphs of text that explain the content. You can write
+                  anything here - tutorials, thoughts, or updates about what
+                  you're working on.
                 </p>
                 <p>
-                  The text should be readable and well-structured. Each paragraph adds
-                  value to the reader. Keep it concise but informative.
+                  The text should be readable and well-structured. Each
+                  paragraph adds value to the reader. Keep it concise but
+                  informative.
                 </p>
               </div>
             </article>
@@ -80,8 +72,12 @@ hello();`}</code>
           <section>
             <p className="text-xs text-muted-foreground mb-4">blockquote</p>
             <blockquote className="pl-4 border-l-2 border-primary py-1">
-              <p className="text-sm italic">the best way to predict the future is to create it.</p>
-              <p className="text-xs text-muted-foreground mt-2">— peter drucker</p>
+              <p className="text-sm italic">
+                the best way to predict the future is to create it.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">
+                — peter drucker
+              </p>
             </blockquote>
           </section>
 
@@ -106,10 +102,12 @@ hello();`}</code>
 
           {/* Newsletter Signup */}
           <section>
-            <p className="text-xs text-muted-foreground mb-4">newsletter signup</p>
+            <p className="text-xs text-muted-foreground mb-4">
+              newsletter signup
+            </p>
             <div className="flex gap-2">
-              <input 
-                type="email" 
+              <input
+                type="email"
                 placeholder="your email"
                 className="flex-1 px-3 py-2 text-sm border border-border bg-background focus:outline-none focus:border-primary"
               />
@@ -124,7 +122,11 @@ hello();`}</code>
             <p className="text-xs text-muted-foreground mb-4">social links</p>
             <div className="flex flex-wrap gap-4 text-sm">
               {SOCIALS.map((social) => (
-                <Link key={social} href={`#${social}`} className="hover:text-primary">
+                <Link
+                  key={social}
+                  href={`#${social}`}
+                  className="hover:text-primary"
+                >
                   {social}
                 </Link>
               ))}
@@ -138,16 +140,28 @@ hello();`}</code>
               <div>
                 <h3 className="text-sm font-medium mb-2">main content</h3>
                 <p className="text-xs text-muted-foreground">
-                  This is the main content area. It takes up the majority of the width
-                  and contains the primary information for the page.
+                  This is the main content area. It takes up the majority of the
+                  width and contains the primary information for the page.
                 </p>
               </div>
               <div>
                 <h3 className="text-xs text-muted-foreground mb-3">sidebar</h3>
                 <ul className="space-y-2 text-xs">
-                  <li><Link href="#" className="hover:text-primary">related post one</Link></li>
-                  <li><Link href="#" className="hover:text-primary">related post two</Link></li>
-                  <li><Link href="#" className="hover:text-primary">related post three</Link></li>
+                  <li>
+                    <Link href="#" className="hover:text-primary">
+                      related post one
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="hover:text-primary">
+                      related post two
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="#" className="hover:text-primary">
+                      related post three
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -159,12 +173,19 @@ hello();`}</code>
             <div className="pt-4 border-t border-border">
               <h3 className="text-sm font-medium mb-2">about</h3>
               <p className="text-xs text-muted-foreground mb-3">
-                developer based in sf. i build things and write about code, design, and everything in between.
+                developer based in sf. i build things and write about code,
+                design, and everything in between.
               </p>
               <div className="flex gap-3 text-xs">
-                <Link href="#" className="hover:text-foreground">twitter</Link>
-                <Link href="#" className="hover:text-foreground">github</Link>
-                <Link href="#" className="hover:text-foreground">email</Link>
+                <Link href="#" className="hover:text-foreground">
+                  twitter
+                </Link>
+                <Link href="#" className="hover:text-foreground">
+                  github
+                </Link>
+                <Link href="#" className="hover:text-foreground">
+                  email
+                </Link>
               </div>
             </div>
           </section>
@@ -174,8 +195,8 @@ hello();`}</code>
             <p className="text-xs text-muted-foreground mb-4">categories</p>
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((cat) => (
-                <Link 
-                  key={cat} 
+                <Link
+                  key={cat}
                   href={`/category/${cat}`}
                   className="px-2 py-1 text-xs border border-border hover:border-foreground"
                 >
@@ -189,9 +210,19 @@ hello();`}</code>
           <section>
             <p className="text-xs text-muted-foreground mb-4">pagination</p>
             <div className="flex gap-4 text-sm">
-              <Link href="#" className="text-muted-foreground hover:text-foreground">← prev</Link>
+              <Link
+                href="#"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                ← prev
+              </Link>
               <span className="text-xs text-muted-foreground">page 1 of 5</span>
-              <Link href="#" className="text-muted-foreground hover:text-foreground">next →</Link>
+              <Link
+                href="#"
+                className="text-muted-foreground hover:text-foreground"
+              >
+                next →
+              </Link>
             </div>
           </section>
 
@@ -202,8 +233,12 @@ hello();`}</code>
               <div key={post.id}>
                 <Link href={`/blog/${post.id}`} className="block py-3 group">
                   <div className="flex justify-between items-baseline">
-                    <span className="text-sm group-hover:text-primary">{post.title}</span>
-                    <span className="text-xs text-muted-foreground">{post.words} words</span>
+                    <span className="text-sm group-hover:text-primary">
+                      {post.title}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {post.words} words
+                    </span>
                   </div>
                 </Link>
                 {i < POSTS.length - 1 && <div className="h-px bg-border/50" />}
@@ -215,15 +250,17 @@ hello();`}</code>
           <section>
             <p className="text-xs text-muted-foreground mb-4">tags</p>
             <div className="flex flex-wrap gap-2">
-              {["javascript", "typescript", "react", "css", "design"].map((tag) => (
-                <Link 
-                  key={tag} 
-                  href={`/tag/${tag}`}
-                  className="px-2 py-1 text-xs border border-border hover:border-foreground"
-                >
-                  {tag}
-                </Link>
-              ))}
+              {["javascript", "typescript", "react", "css", "design"].map(
+                (tag) => (
+                  <Link
+                    key={tag}
+                    href={`/tag/${tag}`}
+                    className="px-2 py-1 text-xs border border-border hover:border-foreground"
+                  >
+                    {tag}
+                  </Link>
+                )
+              )}
             </div>
           </section>
         </main>
@@ -232,9 +269,15 @@ hello();`}</code>
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>© 2026</span>
             <div className="flex gap-4">
-              <Link href="#" className="hover:text-foreground">rss</Link>
-              <Link href="#" className="hover:text-foreground">twitter</Link>
-              <Link href="#" className="hover:text-foreground">github</Link>
+              <Link href="#" className="hover:text-foreground">
+                rss
+              </Link>
+              <Link href="#" className="hover:text-foreground">
+                twitter
+              </Link>
+              <Link href="#" className="hover:text-foreground">
+                github
+              </Link>
             </div>
           </div>
         </footer>

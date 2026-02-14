@@ -1,36 +1,140 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alex Dev Blog
 
-## Getting Started
+A minimal, text-only developer blog built with Next.js.
 
-First, run the development server:
+## Design System
+
+### Theme
+
+- **Soft Pop** theme from tweakcn
+- Clean, minimal aesthetic with small fonts and line borders
+- No images, cards, or fancy UI elements
+- Focus on typography and content
+
+### Design Principles
+
+- Text-only design with line borders connecting elements
+- Small fonts (text-xs, text-sm)
+- Consistent side margins
+- Monospace for dates and code
+
+### Colors
+
+- Primary: Purple (#7866d1)
+- Secondary: Teal (#6ccac4)
+- Accent: Yellow (#f5d565)
+- Background: Light gray (#f8f7f4)
+- Dark mode supported
+
+## Pages
+
+1. home page
+    - summary of myself
+    - aim/goals
+    - list of fav writings
+    - bookmarks
+    - footer
+2. projects
+3. prject page
+4. articles list
+    - weeklogs
+    - thoughts
+    - critical
+    - review
+5. article page
+6. my story
+    - story of mine
+7. Contact
+    - twitter/linkedin/email
+8. Uses/Tools
+    - nvim
+    - fedora
+    - ts/next
+    - etc......
+9. Now
+    - devops,backend
+10. Archive
+    - unfiltered collection of all articles
+11. Snippets
+    - idk
+12. Bookmarks
+    - books
+    - movies
+    - shows
+13. 404
+
+## Development
+
+### Layouts Reference
+
+Reference layouts available at:
+
+- `/ui`
+
+### Tech Stack
+
+- Next.js 16 (App Router)
+- Tailwind CSS 4
+- TypeScript
+
+### Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run development server
+bun run dev
+
+# Build for production
+bun run build
+
+# Start production server
+bun run start
+
+# Lint
+bun run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Adding Articles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create markdown files in `content/articles/` with frontmatter:
 
-## Learn More
+```markdown
+---
+title: "Article Title"
+date: "2026-02-12"
+category: "development"
+excerpt: "Brief description"
+---
 
-To learn more about Next.js, take a look at the following resources:
+Your content here...
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Adding Projects
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Create markdown files in `content/projects/` with frontmatter:
 
-## Deploy on Vercel
+```markdown
+---
+title: "Project Name"
+date: "2026-02-12"
+tech: ["Next.js", "TypeScript"]
+link: "https://..."
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Project description...
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+
+- [x] Minimal text-only design
+- [x] Soft pop theme
+- [x] Dark mode support
+- [x] Responsive layout
+- [ ] RSS feed
+- [ ] Search
+- [ ] Categories/Tags
+
+## License
+
+MIT

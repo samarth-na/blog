@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+
+/app/demo/
+
 /.pnp
 .pnp.*
 .yarn/*
