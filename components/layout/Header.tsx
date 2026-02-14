@@ -7,7 +7,6 @@ interface HeaderProps {
 }
 
 const NAV_ITEMS = [
-  { label: "test", href: "/test" },
   { label: "ui", href: "/ui" },
   { label: "blog", href: "/blog" },
 ];

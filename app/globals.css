@@ -226,7 +226,7 @@
     }
     /* All h1 except MDX h1 - IBM Plex Serif */
     h1:not(.mdx-h1) {
-        font-family: 'IBM Plex Serif', serif;
+        font-family: "IBM Plex Serif", serif;
     }
 }
 
@@ -298,7 +298,7 @@
 
 /* Code blocks - matching BlogCodeBlock component */
 .mdx-pre {
-    @apply p-4 dark:bg-zinc-800 bg-white rounded-sm text-xs overflow-x-auto border border-border mb-4 dark:border-none;
+    @apply p-4 dark:bg-zinc-800 bg-white rounded-[2.5px] text-xs overflow-x-auto border border-border mb-4 dark:border-none;
 }
 
 .mdx-pre code {
