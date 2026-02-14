@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 interface HeaderProps {
   logo?: string;
@@ -8,31 +9,41 @@ interface HeaderProps {
 const NAV_ITEMS = [
   { label: "test", href: "/test" },
   { label: "ui", href: "/ui" },
-  { label: "mdx", href: "/mdx" },
+  { label: "blog", href: "/blog" },
 ];
 
-export function BlogHeader({ logo = "alex", currentPath = "/" }: HeaderProps) {
+export function BlogHeader({
+  logo = "samarth",
+  currentPath = "/",
+}: HeaderProps) {
   return (
     <header className="mb-12 flex justify-between items-end">
       <div>
-        <Link href="/" className="text-sm font-medium">
+        <Link
+          href="/"
+          className="text-xl font-medium underline"
+          style={{ fontFamily: "'ibm-plex-serif'" }}
+        >
           {logo}
         </Link>
       </div>
-      <nav className="flex gap-2 text-xs text-muted-foreground">
-        {NAV_ITEMS.map((item, i) => (
-          <>
-            <Link
-              key={item.href}
-              href={item.href}
-              className={currentPath === item.href ? "text-foreground" : ""}
-            >
-              {item.label}
-            </Link>
-            {i < NAV_ITEMS.length - 1 && <span key={`sep-${i}`}>/</span>}
-          </>
-        ))}
-      </nav>
+      <div className="flex items-center gap-4">
+        <nav className="flex gap-2 font-medium underline text-muted-foreground">
+          {NAV_ITEMS.map((item, i) => (
+            <>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={currentPath === item.href ? "text-foreground" : ""}
+              >
+                {item.label}
+              </Link>
+              {i < NAV_ITEMS.length - 1 && <span key={`sep-${i}`}>/</span>}
+            </>
+          ))}
+        </nav>
+        <ThemeToggle />
+      </div>
     </header>
   );
 }

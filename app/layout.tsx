@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { BlogHeader as Header } from "@/components/layout/Header";
 import { BlogFooter as Footer } from "@/components/layout/Footer";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,22 +39,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background`}
       >
-        <div className="flex-1">
-          <div className={`${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 py-12`}>
-            <Header />
-            <main>{children}</main>
+        <ThemeProvider>
+          <div className="flex-1">
+            <div className={`${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 py-12`}>
+              <Header />
+              <main>{children}</main>
+            </div>
           </div>
-        </div>
 
-        <div
-          className={`w-full ${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 pb-12`}
-        >
-          <Footer />
-        </div>
+          <div
+            className={`w-full ${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 pb-12`}
+          >
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

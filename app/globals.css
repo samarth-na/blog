@@ -9,7 +9,7 @@
     --color-foreground: var(--foreground);
     --font-sans: DM Sans, sans-serif;
     --font-mono: Space Mono, monospace;
-    --font-serif: DM Sans, sans-serif;
+    --font-serif: Georgia, Times New Roman, serif;
     --radius: 1rem;
     --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
     --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -139,7 +139,7 @@
 }
 
 .dark {
-    --background: oklch(0 0 0);
+    --background: oklch(21% 0.006 285.885);
     --foreground: oklch(1 0 0);
     --card: oklch(0.2455 0.0217 257.2823);
     --card-foreground: oklch(1 0 0);
@@ -202,6 +202,10 @@
         0px 8px 10px -1px hsl(0 0% 10.1961% / 0.05);
     --shadow-2xl: 0px 0px 0px 0px hsl(0 0% 10.1961% / 0.13);
 }
+.mdx {
+    letter-spacing: var(--tracking-normal);
+    @apply bg-background text-foreground text-sm;
+}
 
 @layer base {
     body {
@@ -222,8 +226,21 @@
     }
 }
 
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout main {
+    flex: 1;
+}
+
+/* MDX Styles - Matching /ui component styles exactly */
+
+/* Headings */
 .mdx-h1 {
-    @apply text-sm font-medium mb-4 mt-8;
+    @apply text-xl font-medium mb-4 mt-8;
 }
 
 .mdx-h2 {
@@ -246,59 +263,83 @@
     @apply text-sm font-medium mb-3 mt-6;
 }
 
+/* Paragraphs - matching TextElements (text-sm) */
 .mdx-p {
-    @apply text-sm text-muted-foreground mb-4 leading-7;
+    @apply text-sm mb-4;
 }
 
+/* Links - matching BlogDemoLinks component */
 .mdx-a {
     @apply text-primary underline;
 }
 
+.mdx-a:hover {
+    @apply text-primary;
+}
+
+/* Bold text - matching <strong> in TextElements */
 .mdx-strong {
-    @apply text-foreground font-semibold;
+    @apply font-semibold;
 }
 
+/* Italic text - matching <em> in TextElements */
 .mdx-em {
-    @apply text-foreground italic;
+    @apply italic;
 }
 
+/* Inline code - matching code in TextElements (text-xs) */
 .mdx-code {
-    @apply text-xs bg-muted px-1 py-0.5 rounded text-foreground;
+    @apply text-xs;
 }
 
+/* Code blocks - matching BlogCodeBlock component */
 .mdx-pre {
-    @apply bg-muted p-4 rounded-lg overflow-x-auto mb-4;
+    @apply p-4 dark:bg-zinc-800 bg-white rounded-sm text-xs overflow-x-auto border border-border mb-4 dark:border-none;
 }
 
 .mdx-pre code {
-    @apply text-xs text-muted-foreground bg-transparent p-0;
+    @apply text-xs  p-0;
 }
 
-.mdx-ul,
-.mdx-ol {
-    @apply text-sm text-muted-foreground mb-4 pl-6;
-}
-
+/* Unordered lists - matching BlogUnorderedList */
 .mdx-ul {
-    @apply list-disc;
+    @apply list-disc list-inside text-sm space-y-1 text-muted-foreground mb-4;
 }
 
+/* Ordered lists - matching BlogOrderedList */
 .mdx-ol {
-    @apply list-decimal;
+    @apply list-decimal list-inside text-sm space-y-1 text-muted-foreground mb-4;
 }
 
+/* List items */
 .mdx-li {
-    @apply mb-1;
+    @apply text-sm text-muted-foreground;
 }
 
+/* Task list items (checkbox lists) - GFM uses task-list-item class */
+.task-list-item {
+    @apply text-sm text-muted-foreground;
+}
+
+.task-list-item input[type="checkbox"] {
+    @apply mr-2 align-middle;
+}
+
+/* Blockquotes - matching BlogBlockquote */
 .mdx-blockquote {
-    @apply border-l-2 border-muted-foreground pl-4 italic text-sm text-muted-foreground mb-4;
+    @apply pl-4 border-l-2 border-primary py-1 mb-4;
 }
 
+.mdx-blockquote p {
+    @apply text-sm italic;
+}
+
+/* Horizontal rule */
 .mdx-hr {
-    @apply border-none border-t border-border my-8;
+    @apply border-t border-border my-8;
 }
 
+/* Tables */
 .mdx-table {
     @apply w-full text-sm text-muted-foreground mb-4;
 }
@@ -322,14 +363,3 @@
 .mdx-tr:last-child {
     @apply border-b-0;
 }
-
-.layout {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.layout main {
-    flex: 1;
-}
-

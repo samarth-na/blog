@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
+import "../globals.css";
 
 type BlogPost = {
   slug: string;
@@ -12,7 +13,7 @@ type BlogPost = {
 function getBlogPosts(): BlogPost[] {
   const postsDir = path.join(process.cwd(), "content/blog");
   const files = fs.readdirSync(postsDir);
-  
+
   return files
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => {
@@ -32,7 +33,7 @@ function getBlogPosts(): BlogPost[] {
 function parseFrontmatter(content: string) {
   const match = content.match(/^---\n([\s\S]*?)\n---\n/);
   if (!match) return {};
-  
+
   const frontmatter: Record<string, string> = {};
   match[1].split("\n").forEach((line) => {
     const [key, ...value] = line.split(":");
@@ -40,7 +41,7 @@ function parseFrontmatter(content: string) {
       frontmatter[key.trim()] = value.join(":").trim();
     }
   });
-  
+
   return frontmatter;
 }
 
@@ -56,7 +57,9 @@ export default function BlogPage() {
             <Link href={`/blog/${post.slug}`} className="mdx-a">
               {post.title}
             </Link>
-            <span className="text-muted-foreground text-sm ml-2">{post.date}</span>
+            <span className="text-muted-foreground text-sm ml-2">
+              {post.date}
+            </span>
           </li>
         ))}
       </ul>

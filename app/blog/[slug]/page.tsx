@@ -57,7 +57,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { title, date, excerpt, content: mdxContent } = parseFrontmatter(content);
 
   return (
-    <article className="prose prose-sm max-w-none">
+    <article>
       <h1 className="mdx-h1">{title}</h1>
       <p className="text-muted-foreground">{date}</p>
       <MDXRemote
