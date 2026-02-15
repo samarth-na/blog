@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Search, Tag, List } from "lucide-react";
 import type { BlogPostMeta } from "@/lib/blog";
+import posthog from "posthog-js";
 
 type BlogListProps = {
   posts: BlogPostMeta[];
@@ -20,6 +21,18 @@ export function BlogList({ posts }: BlogListProps) {
     return Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
   }, [posts]);
 
+  useEffect(() => {
+    if (!searchQuery) return;
+
+    const timeout = setTimeout(() => {
+      posthog.capture("blog_search_used", {
+        query: searchQuery,
+        results: filteredPosts.length,
+      });
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
   // Filter posts based on search query and selected tags
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -40,10 +53,21 @@ export function BlogList({ posts }: BlogListProps) {
   }, [searchQuery, selectedTags, posts]);
 
   // Toggle tag selection
+
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setSelectedTags((prev) => {
+      const updated = prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag];
+
+      posthog.capture("blog_tag_toggled", {
+        tag,
+        selected: !prev.includes(tag),
+        active_tags: updated,
+      });
+
+      return updated;
+    });
   };
 
   return (
@@ -77,9 +101,14 @@ export function BlogList({ posts }: BlogListProps) {
 
           {/* View Mode Toggle */}
           <button
-            onClick={() =>
-              setViewMode(viewMode === "full" ? "minimal" : "full")
-            }
+            onClick={() => {
+              const newMode = viewMode === "full" ? "minimal" : "full";
+              setViewMode(newMode);
+
+              posthog.capture("blog_view_mode_changed", {
+                mode: newMode,
+              });
+            }}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
             <List className="w-4 h-4" />
@@ -119,7 +148,16 @@ export function BlogList({ posts }: BlogListProps) {
           // Full View - Title, tags, date, read time, description
           filteredPosts.map((post) => (
             <article key={post.slug} className="group">
-              <Link href={`/blog/${post.slug}`} className="block space-y-2">
+              <Link
+                href={`/blog/${post.slug}`}
+                onClick={() =>
+                  posthog.capture("blog_post_clicked", {
+                    slug: post.slug,
+                    title: post.title,
+                  })
+                }
+                className="block space-y-2"
+              >
                 {/* Title */}
                 <h2 className="text-lg font-medium group-hover:text-primary transition-colors">
                   {post.title}
