@@ -1,23 +1,3 @@
-# Alex Dev Blog
-
-A minimal, text-only developer blog built with Next.js.
-
-## Design System
-
-### Theme
-
-- **Teal accent** color scheme (teal-600 light, teal-500 dark)
-- Clean, minimal aesthetic with small fonts and line borders
-- No images, cards, or fancy UI elements
-- Focus on typography and content
-
-### Design Principles
-
-- Text-only design with line borders connecting elements
-- Small fonts (text-xs, text-sm)
-- Consistent side margins
-- Monospace for dates and code
-
 ## Pages
 
 1. home page
@@ -57,12 +37,6 @@ A minimal, text-only developer blog built with Next.js.
 
 ## Development
 
-### Layouts Reference
-
-Reference layouts available at:
-
-- `/ui`
-
 ### Tech Stack
 
 - Next.js 16 (App Router)
@@ -86,21 +60,8 @@ npm run start
 npm run lint
 ```
 
-## Content
-
-### Adding Blog Posts
-
-Create MDX files in `content/blog/` with frontmatter:
-
-```markdown
----
-title: "Post Title"
-date: "2024-01-01"
-tags: [tag1, tag2, tag3]
-excerpt: "Brief description of the post"
----
-
 Your content here...
+
 ```
 
 ## Features
@@ -112,8 +73,8 @@ Your content here...
 - [x] MDX blog posts with syntax highlighting
 - [x] Blog search and tag filtering
 - [x] Automatic read time calculation
-- [ ] RSS feed
 
 ## License
 
 MIT
+```
