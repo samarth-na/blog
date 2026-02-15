@@ -1,41 +1,16 @@
-import fs from "fs";
-import path from "path";
 import Link from "next/link";
+import { contentConfig } from "@/lib/contentConfig";
 
 export type Interest = {
   slug: string;
   title: string;
 };
 
-function getInterests(): Interest[] {
-  const interestsDir = path.join(process.cwd(), "content/interests");
-  
-  if (!fs.existsSync(interestsDir)) {
-    return [];
-  }
-  
-  const files = fs.readdirSync(interestsDir);
-
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const filePath = path.join(interestsDir, file);
-      const content = fs.readFileSync(filePath, "utf8");
-      const frontmatter = parseFrontmatter(content);
-
-      return {
-        slug: file.replace(".mdx", ""),
-        title: frontmatter.title || file.replace(".mdx", ""),
-      };
-    })
-    .sort((a, b) => a.title.localeCompare(b.title));
-}
-
-function parseFrontmatter(content: string): Record<string, any> {
+function parseFrontmatter(content: string): Record<string, string> {
   const match = content.match(/^---\n([\s\S]*?)\n---\n/);
   if (!match) return {};
 
-  const frontmatter: Record<string, any> = {};
+  const frontmatter: Record<string, string> = {};
   const lines = match[1].split("\n");
 
   for (const line of lines) {
@@ -43,25 +18,66 @@ function parseFrontmatter(content: string): Record<string, any> {
     if (colonIndex === -1) continue;
 
     const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
+    const value = line.slice(colonIndex + 1).trim();
 
     if ((value.startsWith('"') && value.endsWith('"')) || 
         (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
+      frontmatter[key] = value.slice(1, -1);
+    } else {
+      frontmatter[key] = value;
     }
-
-    frontmatter[key] = value;
   }
 
   return frontmatter;
 }
 
-export default function InterestsPage() {
-  const interests = getInterests();
+async function getInterests(): Promise<Interest[]> {
+  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/interests`;
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const data = await response.json();
+  const slugs = data
+    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
+    .map((file: { name: string }) => file.name.replace(".mdx", ""));
+
+  const interests = await Promise.all(
+    slugs.map(async (slug: string) => {
+      const contentUrl = `${contentConfig.baseUrl}/interests/${slug}.mdx`;
+      const contentResponse = await fetch(contentUrl);
+      
+      if (!contentResponse.ok) {
+        return null;
+      }
+
+      const content = await contentResponse.text();
+      const frontmatter = parseFrontmatter(content);
+
+      return {
+        slug,
+        title: frontmatter.title || slug,
+      };
+    })
+  );
+
+  return interests
+    .filter((i): i is Interest => i !== null)
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export default async function InterestsPage() {
+  const interests = await getInterests();
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-medium" style={{ fontFamily: "'IBM Plex Serif', serif" }}>Interests</h1>
+      <h1 className="text-2xl font-medium font-serif">Interests</h1>
       
       <div className="space-y-2 border-t border-border pt-8">
         {interests.length === 0 ? (

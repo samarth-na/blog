@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -15,15 +15,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const ibmPlexSerif = IBM_Plex_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-serif",
+});
+
 export const metadata: Metadata = {
   title: "samarth nagar ",
   description: "blog/personal website/portfolio of samarth nagar ",
 };
-
-interface ContainerProps {
-  children: React.ReactNode;
-  maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl";
-}
 
 const MAX_WIDTH_CLASSES = {
   sm: "max-w-md",
@@ -40,16 +41,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased min-h-screen flex flex-col bg-background`}
       >
         <ThemeProvider>
           <div className="flex-1">

@@ -6,7 +6,7 @@ interface BlockquoteProps {
 export function BlogBlockquote({ text, cite }: BlockquoteProps) {
   return (
     <blockquote className="pl-4 border-l-2 border-primary py-1">
-      <p className="text-sm italic">"{text}"</p>
+      <p className="text-sm italic">&ldquo;{text}&rdquo;</p>
       {cite && <p className="text-xs text-muted-foreground mt-2">— {cite}</p>}
     </blockquote>
   );

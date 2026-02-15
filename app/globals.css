@@ -105,7 +105,6 @@
     --sidebar-border: oklch(0 0 0);
     --sidebar-ring: oklch(0.55 0.12 180);
     --font-sans: DM Sans, sans-serif;
-    --font-serif: DM Sans, sans-serif;
     --font-mono: Space Mono, monospace;
     --shadow-color: #1a1a1a;
     --shadow-opacity: 0.05;
@@ -173,7 +172,6 @@
     --sidebar-border: oklch(1 0 0);
     --sidebar-ring: oklch(0.65 0.13 180);
     --font-sans: DM Sans, sans-serif;
-    --font-serif: DM Sans, sans-serif;
     --font-mono: Space Mono, monospace;
     --shadow-color: #1a1a1a;
     --shadow-opacity: 0.05;

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 interface ArticleViewProps {
   title: string;
   date?: string;

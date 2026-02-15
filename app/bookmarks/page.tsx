@@ -1,44 +1,19 @@
-import fs from "fs";
-import path from "path";
 import { BookmarkList } from "@/components/bookmarks/BookmarkList";
+import { contentConfig } from "@/lib/contentConfig";
 
 export type Bookmark = {
   slug: string;
   title: string;
   image: string;
+  tags: string[];
   description?: string;
 };
 
-function getBookmarks(): Bookmark[] {
-  const bookmarksDir = path.join(process.cwd(), "content/bookmarks");
-  
-  if (!fs.existsSync(bookmarksDir)) {
-    return [];
-  }
-  
-  const files = fs.readdirSync(bookmarksDir);
-
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const filePath = path.join(bookmarksDir, file);
-      const content = fs.readFileSync(filePath, "utf8");
-      const frontmatter = parseFrontmatter(content);
-
-      return {
-        slug: file.replace(".mdx", ""),
-        title: frontmatter.title || "",
-        image: frontmatter.image || "",
-        description: frontmatter.description,
-      };
-    });
-}
-
-function parseFrontmatter(content: string): Record<string, any> {
+function parseFrontmatter(content: string): Record<string, string | string[]> {
   const match = content.match(/^---\n([\s\S]*?)\n---\n/);
   if (!match) return {};
 
-  const frontmatter: Record<string, any> = {};
+  const frontmatter: Record<string, string | string[]> = {};
   const lines = match[1].split("\n");
 
   for (const line of lines) {
@@ -46,7 +21,7 @@ function parseFrontmatter(content: string): Record<string, any> {
     if (colonIndex === -1) continue;
 
     const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
+    const value = line.slice(colonIndex + 1).trim();
 
     if (value.startsWith("[") && value.endsWith("]")) {
       frontmatter[key] = value
@@ -62,12 +37,58 @@ function parseFrontmatter(content: string): Record<string, any> {
   return frontmatter;
 }
 
-export default function BookmarksPage() {
-  const bookmarks = getBookmarks();
+async function getBookmarks(): Promise<Bookmark[]> {
+  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/bookmarks`;
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const data = await response.json();
+  const slugs = data
+    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
+    .map((file: { name: string }) => file.name.replace(".mdx", ""));
+
+  const bookmarks = await Promise.all(
+    slugs.map(async (slug: string) => {
+      const contentUrl = `${contentConfig.baseUrl}/bookmarks/${slug}.mdx`;
+      const contentResponse = await fetch(contentUrl);
+      
+      if (!contentResponse.ok) {
+        return null;
+      }
+
+      const content = await contentResponse.text();
+      const frontmatter = parseFrontmatter(content);
+
+      const title = Array.isArray(frontmatter.title) ? frontmatter.title[0] : frontmatter.title;
+      const image = Array.isArray(frontmatter.image) ? frontmatter.image[0] : frontmatter.image;
+      const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
+
+      return {
+        slug,
+        title: title || "",
+        image: image || "",
+        tags: tags,
+        description: frontmatter.description as string | undefined,
+      };
+    })
+  );
+
+  return bookmarks.filter((b): b is Bookmark => b !== null);
+}
+
+export default async function BookmarksPage() {
+  const bookmarks = await getBookmarks();
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-medium" style={{ fontFamily: "'IBM Plex Serif', serif" }}>Bookmarks</h1>
+      <h1 className="text-2xl font-medium font-serif">Bookmarks</h1>
       <BookmarkList bookmarks={bookmarks} />
     </div>
   );

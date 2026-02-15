@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+import { contentConfig } from "./contentConfig";
 
 export type BlogPostMeta = {
   slug: string;
@@ -17,11 +16,11 @@ function calculateReadTime(content: string): string {
   return `${minutes} min read`;
 }
 
-function parseFrontmatter(content: string): Record<string, any> {
+function parseFrontmatter(content: string): Record<string, string | string[]> {
   const match = content.match(/^---\n([\s\S]*?)\n---\n/);
   if (!match) return {};
 
-  const frontmatter: Record<string, any> = {};
+  const frontmatter: Record<string, string | string[]> = {};
   const lines = match[1].split("\n");
 
   for (const line of lines) {
@@ -29,9 +28,8 @@ function parseFrontmatter(content: string): Record<string, any> {
     if (colonIndex === -1) continue;
 
     const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
+    const value = line.slice(colonIndex + 1).trim();
 
-    // Handle arrays like tags: [item1, item2]
     if (value.startsWith("[") && value.endsWith("]")) {
       frontmatter[key] = value
         .slice(1, -1)
@@ -46,46 +44,81 @@ function parseFrontmatter(content: string): Record<string, any> {
   return frontmatter;
 }
 
-export function getBlogPosts(): BlogPostMeta[] {
-  const postsDir = path.join(process.cwd(), "content/blog");
-  
-  if (!fs.existsSync(postsDir)) {
+async function getBlogFileList(): Promise<string[]> {
+  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/blog`;
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+
+  if (!response.ok) {
     return [];
   }
-  
-  const files = fs.readdirSync(postsDir);
 
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const filePath = path.join(postsDir, file);
-      const content = fs.readFileSync(filePath, "utf8");
-      const frontmatter = parseFrontmatter(content);
-      const bodyContent = content.replace(/^---\n[\s\S]*?\n---\n/, "");
-
-      return {
-        slug: file.replace(".mdx", ""),
-        title: frontmatter.title || "",
-        date: frontmatter.date || "",
-        tags: frontmatter.tags || [],
-        excerpt: frontmatter.excerpt,
-        readTime: calculateReadTime(bodyContent),
-      };
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const data = await response.json();
+  return data
+    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
+    .map((file: { name: string }) => file.name.replace(".mdx", ""));
 }
 
-export function getBlogPost(slug: string): {
-  slug: string;
-  content: string;
-} | null {
-  const filePath = path.join(process.cwd(), "content/blog", `${slug}.mdx`);
+async function fetchBlogContent(slug: string): Promise<string | null> {
+  const url = `${contentConfig.baseUrl}/blog/${slug}.mdx`;
+  const response = await fetch(url, {
+    next: { revalidate: 86400 },
+  });
 
-  if (!fs.existsSync(filePath)) {
+  if (!response.ok) {
     return null;
   }
 
-  const content = fs.readFileSync(filePath, "utf8");
+  return response.text();
+}
+
+export async function getBlogPosts(): Promise<BlogPostMeta[]> {
+  const slugs = await getBlogFileList();
+
+  const posts = await Promise.all(
+    slugs.map(async (slug) => {
+      const content = await fetchBlogContent(slug);
+      if (!content) {
+        return null;
+      }
+
+      const frontmatter = parseFrontmatter(content);
+      const bodyContent = content.replace(/^---[\s\S]*?\n---\n/, "");
+
+      const title = Array.isArray(frontmatter.title) ? frontmatter.title[0] : frontmatter.title;
+      const date = Array.isArray(frontmatter.date) ? frontmatter.date[0] : frontmatter.date;
+      const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
+      const excerpt = Array.isArray(frontmatter.excerpt) ? frontmatter.excerpt[0] : frontmatter.excerpt;
+
+      return {
+        slug,
+        title: title || "",
+        date: date || "",
+        tags: tags,
+        excerpt: excerpt || "",
+        readTime: calculateReadTime(bodyContent),
+      } as BlogPostMeta;
+    })
+  );
+
+  return posts
+    .filter((post): post is BlogPostMeta => post !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function getBlogPost(slug: string): Promise<{
+  slug: string;
+  content: string;
+} | null> {
+  const content = await fetchBlogContent(slug);
+
+  if (!content) {
+    return null;
+  }
+
   const bodyContent = content.replace(/^---[\s\S]*?---\n/, "");
 
   return {

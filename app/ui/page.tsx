@@ -1,21 +1,12 @@
-import { Footer } from "../../components/layout/Footer";
-import { BlogContainer } from "../../components/layout/Container";
+import { Container } from "../../components/layout/Container";
 import { BlogArticleView } from "../../components/content/ArticleView";
 import { BlogPostList, type PostItem } from "../../components/content/PostList";
-import { BlogCodeBlock } from "../../components/content/CodeBlock";
-import { BlogBlockquote } from "../../components/content/Blockquote";
-import {
-  BlogUnorderedList,
-  BlogOrderedList,
-} from "../../components/content/Lists";
 import { BlogAboutSection } from "../../components/content/AboutSection";
 import { BlogNewsletterSignup } from "../../components/interactive/NewsletterSignup";
 import { BlogSocialLinks } from "../../components/interactive/SocialLinks";
 import { BlogCategories } from "../../components/interactive/Categories";
 import { BlogTags } from "../../components/interactive/Tags";
 import { BlogPagination } from "../../components/interactive/Pagination";
-import { BlogTextElements } from "../../components/demo/TextElements";
-import { BlogDemoLinks } from "../../components/demo/Links";
 
 const POSTS: PostItem[] = [
   { id: 1, title: "sample post one", date: "feb 12, 2026", words: 500 },
@@ -31,17 +22,11 @@ const CATEGORIES = [
   "personal",
 ];
 const TAGS = ["javascript", "typescript", "react", "css", "design"];
-const LIST_ITEMS = [
-  { content: "first item in the list" },
-  { content: "second item with more text" },
-  { content: "third item" },
-  { content: "fourth item" },
-];
 
 export default function UiPage() {
   return (
     <div className="">
-      <BlogContainer>
+      <Container>
         <main className="space-y-16">
           <section>
             <p className="text-xs text-muted-foreground mb-6">article view</p>
@@ -94,7 +79,7 @@ export default function UiPage() {
             <BlogAboutSection bio="developer based in sf. i build things and write about code, design, and everything in between." />
           </section>
         </main>
-      </BlogContainer>
+      </Container>
     </div>
   );
 }

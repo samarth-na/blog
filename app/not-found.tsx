@@ -4,8 +4,7 @@ export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
       <h1
-        className="text-4xl font-medium"
-        style={{ fontFamily: "'IBM Plex Serif', serif" }}
+        className="text-4xl font-medium font-serif"
       >
         404
       </h1>
