@@ -1,4 +1,4 @@
-import { contentConfig } from "./contentConfig";
+import { fetchContent, getContentFileList } from "./contentConfig";
 
 export type ContentItem = {
   slug: string;
@@ -43,37 +43,6 @@ function parseFrontmatter(content: string): Record<string, string | string[]> {
   }
 
   return frontmatter;
-}
-
-async function getContentFileList(contentType: string): Promise<string[]> {
-  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/${contentType}`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const data = await response.json();
-  return data
-    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
-    .map((file: { name: string }) => file.name.replace(".mdx", ""));
-}
-
-async function fetchContent(contentType: string, slug: string): Promise<string | null> {
-  const url = `${contentConfig.baseUrl}/${contentType}/${slug}.mdx`;
-  const response = await fetch(url, {
-    next: { revalidate: 86400 },
-  });
-
-  if (!response.ok) {
-    return null;
-  }
-
-  return response.text();
 }
 
 export async function getContentItems(

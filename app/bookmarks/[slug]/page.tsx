@@ -4,19 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { contentConfig } from "@/lib/contentConfig";
+import { fetchContent } from "@/lib/contentConfig";
 
 async function getBookmark(slug: string): Promise<{ slug: string; content: string; title: string; image?: string } | null> {
-  const url = `${contentConfig.baseUrl}/bookmarks/${slug}.mdx`;
-  const response = await fetch(url, {
-    next: { revalidate: 86400 },
-  });
-
-  if (!response.ok) {
+  const fileContent = await fetchContent("bookmarks", slug);
+  
+  if (!fileContent) {
     return null;
   }
-
-  const fileContent = await response.text();
   
   const titleMatch = fileContent.match(/^title:\s*([^\n]+)/m);
   const imageMatch = fileContent.match(/^image:\s*([^\n]+)/m);

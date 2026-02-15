@@ -250,7 +250,7 @@
 }
 
 .mdx-h3 {
-    @apply underline text-sm font-medium mb-3 mt-6;
+    @apply underline text-sm font-medium mb-4 mt-8;
 }
 
 .mdx-h4 {

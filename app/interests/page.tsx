@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { contentConfig } from "@/lib/contentConfig";
+import { fetchContent, getContentFileList } from "@/lib/contentConfig";
 
 export type Interest = {
   slug: string;
@@ -32,32 +32,15 @@ function parseFrontmatter(content: string): Record<string, string> {
 }
 
 async function getInterests(): Promise<Interest[]> {
-  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/interests`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const data = await response.json();
-  const slugs = data
-    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
-    .map((file: { name: string }) => file.name.replace(".mdx", ""));
+  const slugs = await getContentFileList("interests");
 
   const interests = await Promise.all(
-    slugs.map(async (slug: string) => {
-      const contentUrl = `${contentConfig.baseUrl}/interests/${slug}.mdx`;
-      const contentResponse = await fetch(contentUrl);
-      
-      if (!contentResponse.ok) {
+    slugs.map(async (slug) => {
+      const content = await fetchContent("interests", slug);
+      if (!content) {
         return null;
       }
 
-      const content = await contentResponse.text();
       const frontmatter = parseFrontmatter(content);
 
       return {

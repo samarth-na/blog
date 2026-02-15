@@ -1,5 +1,5 @@
 import { BookmarkList } from "@/components/bookmarks/BookmarkList";
-import { contentConfig } from "@/lib/contentConfig";
+import { fetchContent, getContentFileList } from "@/lib/contentConfig";
 
 export type Bookmark = {
   slug: string;
@@ -37,33 +37,16 @@ function parseFrontmatter(content: string): Record<string, string | string[]> {
   return frontmatter;
 }
 
-async function getBookmarks(): Promise<Bookmark[]> {
-  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/bookmarks`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const data = await response.json();
-  const slugs = data
-    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
-    .map((file: { name: string }) => file.name.replace(".mdx", ""));
+export async function getBookmarks(): Promise<Bookmark[]> {
+  const slugs = await getContentFileList("bookmarks");
 
   const bookmarks = await Promise.all(
-    slugs.map(async (slug: string) => {
-      const contentUrl = `${contentConfig.baseUrl}/bookmarks/${slug}.mdx`;
-      const contentResponse = await fetch(contentUrl);
-      
-      if (!contentResponse.ok) {
+    slugs.map(async (slug) => {
+      const content = await fetchContent("bookmarks", slug);
+      if (!content) {
         return null;
       }
 
-      const content = await contentResponse.text();
       const frontmatter = parseFrontmatter(content);
 
       const title = Array.isArray(frontmatter.title) ? frontmatter.title[0] : frontmatter.title;
@@ -76,7 +59,7 @@ async function getBookmarks(): Promise<Bookmark[]> {
         image: image || "",
         tags: tags,
         description: frontmatter.description as string | undefined,
-      };
+      } as Bookmark;
     })
   );
 

@@ -3,23 +3,20 @@ import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { contentConfig } from "@/lib/contentConfig";
+import { fetchContent } from "@/lib/contentConfig";
 
-async function getInterest(slug: string): Promise<{ slug: string; content: string; title: string } | null> {
-  const url = `${contentConfig.baseUrl}/interests/${slug}.mdx`;
-  const response = await fetch(url, {
-    next: { revalidate: 86400 },
-  });
+async function getInterest(
+  slug: string
+): Promise<{ slug: string; content: string; title: string } | null> {
+  const content = await fetchContent("interests", slug);
 
-  if (!response.ok) {
+  if (!content) {
     return null;
   }
 
-  const content = await response.text();
-  
   const titleMatch = content.match(/^title:\s*"?([^"\n]+)"?/m);
   const title = titleMatch ? titleMatch[1] : slug;
-  
+
   const bodyContent = content.replace(/^---[\s\S]*?---\n/, "");
 
   return {
@@ -44,9 +41,9 @@ export default async function InterestPage({
   return (
     <article>
       <div className="mb-4">
-        <Link 
-          href="/interests" 
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        <Link
+          href="/interests"
+          className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors"
         >
           ← back to interests
         </Link>

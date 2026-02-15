@@ -1,4 +1,4 @@
-import { contentConfig } from "./contentConfig";
+import { fetchContent, getContentFileList } from "./contentConfig";
 
 export type BlogPostMeta = {
   slug: string;
@@ -44,43 +44,12 @@ function parseFrontmatter(content: string): Record<string, string | string[]> {
   return frontmatter;
 }
 
-async function getBlogFileList(): Promise<string[]> {
-  const url = `https://api.github.com/repos/${contentConfig.repo}/contents/blog`;
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const data = await response.json();
-  return data
-    .filter((file: { name: string }) => file.name.endsWith(".mdx"))
-    .map((file: { name: string }) => file.name.replace(".mdx", ""));
-}
-
-async function fetchBlogContent(slug: string): Promise<string | null> {
-  const url = `${contentConfig.baseUrl}/blog/${slug}.mdx`;
-  const response = await fetch(url, {
-    next: { revalidate: 86400 },
-  });
-
-  if (!response.ok) {
-    return null;
-  }
-
-  return response.text();
-}
-
 export async function getBlogPosts(): Promise<BlogPostMeta[]> {
-  const slugs = await getBlogFileList();
+  const slugs = await getContentFileList("blog");
 
   const posts = await Promise.all(
     slugs.map(async (slug) => {
-      const content = await fetchBlogContent(slug);
+      const content = await fetchContent("blog", slug);
       if (!content) {
         return null;
       }
@@ -113,7 +82,7 @@ export async function getBlogPost(slug: string): Promise<{
   slug: string;
   content: string;
 } | null> {
-  const content = await fetchBlogContent(slug);
+  const content = await fetchContent("blog", slug);
 
   if (!content) {
     return null;
