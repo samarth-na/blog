@@ -21,18 +21,6 @@ export function BlogList({ posts }: BlogListProps) {
     return Array.from(new Set(posts.flatMap((post) => post.tags))).sort();
   }, [posts]);
 
-  useEffect(() => {
-    if (!searchQuery) return;
-
-    const timeout = setTimeout(() => {
-      posthog.capture("blog_search_used", {
-        query: searchQuery,
-        results: filteredPosts.length,
-      });
-    }, 800);
-
-    return () => clearTimeout(timeout);
-  }, [searchQuery]);
   // Filter posts based on search query and selected tags
   const filteredPosts = useMemo(() => {
     return posts.filter((post) => {
@@ -51,6 +39,19 @@ export function BlogList({ posts }: BlogListProps) {
       return matchesSearch && matchesTags;
     });
   }, [searchQuery, selectedTags, posts]);
+
+  useEffect(() => {
+    if (!searchQuery) return;
+
+    const timeout = setTimeout(() => {
+      posthog.capture("blog_search_used", {
+        query: searchQuery,
+        results: filteredPosts.length,
+      });
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery, filteredPosts.length]);
 
   // Toggle tag selection
 

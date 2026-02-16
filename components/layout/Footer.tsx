@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import posthog from "posthog-js";
 
 interface FooterProps {
   copyright?: string;
@@ -15,6 +18,13 @@ export function Footer({
   copyright = "© 2026",
   links = DEFAULT_LINKS,
 }: FooterProps) {
+  const handleSocialLinkClick = (link: { label: string; href: string }) => {
+    posthog.capture("social_link_clicked", {
+      label: link.label,
+      href: link.href,
+    });
+  };
+
   return (
     <footer className="mt-16 pt-6 border-t border-border">
       <div className="flex justify-between text-xs text-muted-foreground">
@@ -24,6 +34,7 @@ export function Footer({
             <Link
               key={link.label}
               href={link.href}
+              onClick={() => handleSocialLinkClick(link)}
               className="hover:text-foreground"
             >
               {link.label}

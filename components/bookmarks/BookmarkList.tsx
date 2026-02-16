@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Tag } from "lucide-react";
 import type { Bookmark } from "@/app/bookmarks/page";
+import posthog from "posthog-js";
 
 type BookmarkListProps = {
   bookmarks: Bookmark[];
@@ -39,10 +40,40 @@ export function BookmarkList({ bookmarks }: BookmarkListProps) {
     });
   }, [searchQuery, selectedTags, bookmarks]);
 
+  useEffect(() => {
+    if (!searchQuery) return;
+
+    const timeout = setTimeout(() => {
+      posthog.capture("bookmark_search_used", {
+        query: searchQuery,
+        results: filteredBookmarks.length,
+      });
+    }, 800);
+
+    return () => clearTimeout(timeout);
+  }, [searchQuery, filteredBookmarks.length]);
+
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setSelectedTags((prev) => {
+      const updated = prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag];
+
+      posthog.capture("bookmark_tag_toggled", {
+        tag,
+        selected: !prev.includes(tag),
+        active_tags: updated,
+      });
+
+      return updated;
+    });
+  };
+
+  const handleBookmarkClick = (bookmark: Bookmark) => {
+    posthog.capture("bookmark_clicked", {
+      slug: bookmark.slug,
+      title: bookmark.title,
+    });
   };
 
   return (
@@ -100,6 +131,7 @@ export function BookmarkList({ bookmarks }: BookmarkListProps) {
             <Link
               key={bookmark.slug}
               href={`/bookmarks/${bookmark.slug}`}
+              onClick={() => handleBookmarkClick(bookmark)}
               className="rounded-[3px] group p-4 block border border-border hover:border-foreground transition-colors"
             >
               <div className="space-y-3">

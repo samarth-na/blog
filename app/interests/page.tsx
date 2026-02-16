@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { fetchContent, getContentFileList } from "@/lib/contentConfig";
+import { InterestList } from "@/components/interests/InterestList";
 
 export type Interest = {
   slug: string;
@@ -61,24 +61,7 @@ export default async function InterestsPage() {
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-medium font-serif">Interests</h1>
-      
-      <div className="space-y-2 border-t border-border pt-8">
-        {interests.length === 0 ? (
-          <p className="text-muted-foreground text-center py-8">
-            No interests found.
-          </p>
-        ) : (
-          interests.map((interest) => (
-            <article key={interest.slug} className="group">
-              <Link href={`/interests/${interest.slug}`} className="block">
-                <h2 className="text-sm font-medium group-hover:text-primary transition-colors">
-                  {interest.title}
-                </h2>
-              </Link>
-            </article>
-          ))
-        )}
-      </div>
+      <InterestList interests={interests} />
     </div>
   );
 }

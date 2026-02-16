@@ -22,8 +22,8 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "samarth nagar ",
-  description: "blog/personal website/portfolio of samarth nagar ",
+  title: "samarth nagar",
+  description: "my blog/portfolio/personal website ",
 };
 
 const MAX_WIDTH_CLASSES = {

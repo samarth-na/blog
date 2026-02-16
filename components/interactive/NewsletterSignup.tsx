@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 
 interface NewsletterSignupProps {
   placeholder?: string;
@@ -8,15 +9,20 @@ interface NewsletterSignupProps {
   onSubscribe?: (email: string) => void;
 }
 
-export function BlogNewsletterSignup({ 
-  placeholder = "your email", 
+export function BlogNewsletterSignup({
+  placeholder = "your email",
   buttonText = "subscribe",
-  onSubscribe 
+  onSubscribe
 }: NewsletterSignupProps) {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    posthog.capture("newsletter_signup_submitted", {
+      email_provided: !!email,
+    });
+
     if (onSubscribe) {
       onSubscribe(email);
     }

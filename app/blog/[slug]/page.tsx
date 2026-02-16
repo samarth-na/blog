@@ -1,9 +1,9 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import Link from "next/link";
 import { getBlogPost, getBlogPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
+import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
 
 export default async function BlogPost({
   params,
@@ -24,12 +24,7 @@ export default async function BlogPost({
   return (
     <article>
       <div className="mb-4">
-        <Link
-          href="/blog"
-          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-        >
-          ← back to blogs
-        </Link>
+        <BackToBlogLink slug={slug} />
       </div>
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8 border-b border-muted-foreground pb-4">
         {meta?.date && <span>{meta.date}</span>}

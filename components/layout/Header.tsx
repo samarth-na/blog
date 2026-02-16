@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import React from "react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import posthog from "posthog-js";
 
 interface HeaderProps {
   logo?: string;
@@ -15,11 +18,19 @@ const NAV_ITEMS = [
 ];
 
 export function Header({ logo = "Samarth", currentPath = "/" }: HeaderProps) {
+  const handleNavClick = (item: { label: string; href: string }) => {
+    posthog.capture("navigation_clicked", {
+      label: item.label,
+      href: item.href,
+    });
+  };
+
   return (
     <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
       <div>
         <Link
           href="/"
+          onClick={() => handleNavClick({ label: "home", href: "/" })}
           className="text-2xl font-medium underline hover:text-teal-600 font-serif"
         >
           {logo}
@@ -31,6 +42,7 @@ export function Header({ logo = "Samarth", currentPath = "/" }: HeaderProps) {
             <React.Fragment key={item.href}>
               <Link
                 href={item.href}
+                onClick={() => handleNavClick(item)}
                 className={currentPath === item.href ? "text-foreground" : ""}
               >
                 {item.label}
