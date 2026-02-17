@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { SOCIAL_LINKS, SITE_CONFIG } from "@/data/config";
 import posthog from "posthog-js";
 
 interface FooterProps {
@@ -8,15 +9,9 @@ interface FooterProps {
   links?: { label: string; href: string }[];
 }
 
-const DEFAULT_LINKS = [
-  { label: "rss", href: "#" },
-  { label: "twitter", href: "#" },
-  { label: "github", href: "#" },
-];
-
 export function Footer({
-  copyright = "© 2026",
-  links = DEFAULT_LINKS,
+  copyright = SITE_CONFIG.copyright,
+  links = [...SOCIAL_LINKS],
 }: FooterProps) {
   const handleSocialLinkClick = (link: { label: string; href: string }) => {
     posthog.capture("social_link_clicked", {

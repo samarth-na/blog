@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { NAV_ITEMS, SITE_CONFIG } from "@/data/config";
 import posthog from "posthog-js";
 
 interface HeaderProps {
@@ -10,14 +11,7 @@ interface HeaderProps {
   currentPath?: string;
 }
 
-const NAV_ITEMS = [
-  { label: "blog", href: "/blog" },
-  { label: "bookmarks", href: "/bookmarks" },
-  { label: "interests", href: "/interests" },
-  { label: "now", href: "/now" },
-];
-
-export function Header({ logo = "Samarth", currentPath = "/" }: HeaderProps) {
+export function Header({ logo = SITE_CONFIG.logo, currentPath = "/" }: HeaderProps) {
   const handleNavClick = (item: { label: string; href: string }) => {
     posthog.capture("navigation_clicked", {
       label: item.label,

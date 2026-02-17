@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import posthog from "posthog-js";
-
-export type Interest = {
-  slug: string;
-  title: string;
-};
+import type { Interest } from "@/types/interest";
 
 type InterestListProps = {
   interests: Interest[];

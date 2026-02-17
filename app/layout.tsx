@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { LAYOUT_CONFIG } from "@/data/config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,14 +28,6 @@ export const metadata: Metadata = {
   description: "my blog/portfolio/personal website ",
 };
 
-const MAX_WIDTH_CLASSES = {
-  sm: "max-w-md",
-  md: "max-w-lg",
-  lg: "max-w-xl",
-  xl: "max-w-3xl",
-  "2xl": "max-w-3xl",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,14 +40,14 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <div className="flex-1">
-            <div className={`${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 py-12`}>
+            <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}>
               <Header />
               <main>{children}</main>
             </div>
           </div>
 
           <div
-            className={`w-full ${MAX_WIDTH_CLASSES["2xl"]} mx-auto px-6 pb-12`}
+            className={`w-full ${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 pb-12`}
           >
             <Footer />
           </div>

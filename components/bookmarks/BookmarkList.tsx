@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Tag } from "lucide-react";
-import type { Bookmark } from "@/app/bookmarks/page";
+import type { Bookmark } from "@/types/bookmark";
 import posthog from "posthog-js";
 
 type BookmarkListProps = {

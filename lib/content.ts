@@ -1,49 +1,21 @@
 import { fetchContent, getContentFileList } from "./contentConfig";
+import {
+  parseFrontmatter,
+  extractBody,
+  getStringValue,
+  type ParsedFrontmatter,
+} from "./frontmatter";
 
 export type ContentItem = {
   slug: string;
   title: string;
   date?: string;
-  [key: string]: string | string[] | undefined;
-};
+} & ParsedFrontmatter;
 
 export type ContentConfigType = {
   directory: string;
   fields?: string[];
 };
-
-function parseFrontmatter(content: string): Record<string, string | string[]> {
-  const match = content.match(/^---\n([\s\S]*?)\n---\n/);
-  if (!match) return {};
-
-  const frontmatter: Record<string, string | string[]> = {};
-  const lines = match[1].split("\n");
-
-  for (const line of lines) {
-    const colonIndex = line.indexOf(":");
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    if ((value.startsWith('"') && value.endsWith('"')) || 
-        (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
-    }
-
-    if (value.startsWith("[") && value.endsWith("]")) {
-      frontmatter[key] = value
-        .slice(1, -1)
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean);
-    } else {
-      frontmatter[key] = value;
-    }
-  }
-
-  return frontmatter;
-}
 
 export async function getContentItems(
   contentType: string,
@@ -63,34 +35,36 @@ export async function getContentItems(
 
       return {
         slug,
-        title: (frontmatter.title as string) || slug,
+        title: getStringValue(frontmatter, "title", slug),
         ...frontmatter,
       } as ContentItem;
     })
   );
 
-  const filteredItems = items.filter((item): item is ContentItem => item !== null);
+  const filteredItems = items.filter(
+    (item): item is NonNullable<typeof item> => item !== null
+  );
 
   if (sortBy) {
     filteredItems.sort((a, b) => {
       let aVal = a[sortBy];
       let bVal = b[sortBy];
-      
+
       aVal = Array.isArray(aVal) ? aVal[0] : aVal;
       bVal = Array.isArray(bVal) ? bVal[0] : bVal;
-      
+
       aVal = aVal || "";
       bVal = bVal || "";
-      
+
       const aDate = new Date(aVal);
       const bDate = new Date(bVal);
-      
+
       if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
-        return sortOrder === "desc" 
+        return sortOrder === "desc"
           ? bDate.getTime() - aDate.getTime()
           : aDate.getTime() - bDate.getTime();
       }
-      
+
       return sortOrder === "desc"
         ? String(bVal).localeCompare(String(aVal))
         : String(aVal).localeCompare(String(bVal));
@@ -103,7 +77,7 @@ export async function getContentItems(
 export async function getContentItem(
   contentType: string,
   slug: string
-): Promise<{ slug: string; content: string; [key: string]: string | string[] } | null> {
+): Promise<{ slug: string; content: string } & ParsedFrontmatter | null> {
   const content = await fetchContent(contentType, slug);
 
   if (!content) {
@@ -111,7 +85,7 @@ export async function getContentItem(
   }
 
   const frontmatter = parseFrontmatter(content);
-  const bodyContent = content.replace(/^---[\s\S]*?---\n/, "");
+  const bodyContent = extractBody(content);
 
   return {
     slug,
