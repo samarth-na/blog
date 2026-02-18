@@ -43,7 +43,7 @@ export async function getBlogPosts(): Promise<BlogPostMeta[]> {
         date: getStringValue(frontmatter, "date"),
         tags: getArrayValue(frontmatter, "tags"),
         excerpt: excerptValue || undefined,
-        readTime: calculateReadTime(bodyContent),
+        readTime: getStringValue(frontmatter, "read") || calculateReadTime(bodyContent),
       };
     })
   );

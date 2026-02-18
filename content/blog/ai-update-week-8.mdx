@@ -1,0 +1,62 @@
+---
+title: AI week 8 feb 2026
+date: 15-2-2026
+tags: [ai, thoughts, review]
+excerpt: qwen3.5 while being 1/3 and 1/2 the size of best open-weight models it still managed to be in top 3 of open-weight models just behind glm-5
+read: 100 min
+---
+
+**Qwen 3.5** (Alibaba) is a native multimodal MoE model with an innovative hybrid architecture (Gated DeltaNet + sparse MoE). Its open-weight version (Qwen3.5-397B-A17B) activates only 17B of 397B parameters per token, delivering strong reasoning, coding, and visual capabilities. The hosted "Plus" variant supports up to **1M context tokens**, making it ideal for long-document and video analysis. It excels in multilingual support (201 languages) and agentic workflows, with competitive benchmark scores across MMLU, GPQA, and SWE-Bench [[1]][[4]].
+
+**GLM-5** (Zhipu AI) is a massive 744B-parameter MoE model (40B active) designed for complex coding and long-horizon agent tasks. It leads in the Artificial Analysis Intelligence Index (score: 50) and supports a 200K context window. While highly capable in reasoning and STEM tasks, its API pricing is on the higher end ($1.00/$3.20 per 1M tokens for the reasoning variant) [[11]][[14]].
+
+**MiniMax M2.5** prioritizes real-world productivity and cost efficiency. It achieves SOTA results on coding benchmarks like SWE-Bench Verified (80.2%) while being dramatically cheaper—running continuously for ~$1/hour at 100 tokens/sec. Offered in two variants (standard and "Lightning"), it emphasizes fast agentic task completion with optimized token usage [[22]][[24]].
+
+**Kimi K2.5** (Moonshot AI) is optimized for mathematical reasoning, OCR, and document understanding. With a 262K context window and ~1T parameters (32B active), it scores exceptionally high on AIME 2025 (96%) and HMMT 2025 (95%). Its pricing ($0.60/$2.50 per 1M tokens) positions it as a premium but capable option for technical and visual reasoning tasks [[29]][[36]].
+
+**DeepSeek V3.2** stands out for extreme cost efficiency ($0.28/$0.42 per 1M tokens) while maintaining strong performance. Its 685B-parameter MoE architecture (37B active) and 128K context window deliver solid results across coding, math, and general knowledge benchmarks. It's particularly attractive for high-volume, budget-conscious deployments [[40]][[42]].
+
+---
+
+## 📊 Specification Comparison Table
+
+| Feature | Qwen 3.5 (397B-A17B) | GLM-5 (Reasoning) | MiniMax M2.5 | Kimi K2.5 | DeepSeek V3.2 |
+|---------|---------------------|-------------------|--------------|-----------|---------------|
+| **Total Parameters** | 397B | 744B | Not disclosed* | ~1T | 685B |
+| **Active Parameters** | 17B | 40B | Not disclosed* | ~32B | 37B |
+| **Architecture** | Hybrid MoE (Gated DeltaNet + Attention) | Sparse MoE | MoE (undisclosed) | MoE | Sparse MoE |
+| **Context Window** | 256K (open) / **1M** (hosted Plus) | 200K | ~256K (estimated) | **262K** | 128K–130K |
+| **Input Price** (/1M tokens) | ~$0.50–$1.00† | **$1.00** | $0.15–$0.30 | $0.60 | **$0.28** |
+| **Output Price** (/1M tokens) | ~$1.50–$3.00† | **$3.20** | $1.20–$2.40 | $2.50 | **$0.42** |
+| **Speed (Output)** | ~85–190 t/s‡ | 77.5 t/s | 50–**100 t/s** | ~209 t/s (throughput) | 48.6 t/s |
+| **Latency (TTFT)** | Not disclosed | 1.46s | Not disclosed | 10.45s | 1.21s |
+| **MMLU-Pro** | **87.8** | ~65–70 | Not disclosed | Not disclosed | ~62.8 |
+| **GSM8K** | **93.7** | ~89 | Not disclosed | Not disclosed | 89.1 |
+| **GPQA** | **88.4** | Not disclosed | Not disclosed | Not disclosed | ~44 |
+| **SWE-Bench Verified** | 76.4 | Not disclosed | **80.2** | Not disclosed | ~34.7 |
+| **AIME 2025** | 91.3 | Not disclosed | Not disclosed | **96.0** | Not disclosed |
+| **Primary Strengths** | Multimodal, long-context, multilingual | Reasoning, coding, agent tasks | Coding agents, cost efficiency | Math, OCR, document QA | Cost efficiency, balanced performance |
+| **Best For** | Enterprise multimodal apps, long docs | Complex reasoning, R&D agents | Budget agentic coding workflows | STEM/technical analysis | High-volume, cost-sensitive deployments |
+
+\* MiniMax has not publicly disclosed exact parameter counts for M2.5.  
+† Qwen pricing varies by Alibaba Cloud tier; estimates based on Model Studio pricing patterns.  
+‡ Qwen throughput varies by context length (8.6x–19x Qwen3-Max baseline) [[1]].
+
+---
+
+## 💡 Key Takeaways
+
+- **Most Cost-Effective**: **DeepSeek V3.2** offers the lowest API pricing with solid all-around performance—ideal for scaling applications.
+- **Best for Coding Agents**: **MiniMax M2.5** leads on SWE-Bench Verified (80.2%) with aggressive pricing and fast inference.
+- **Strongest Reasoning/Math**: **Kimi K2.5** dominates Olympiad-level math benchmarks (AIME: 96%, HMMT: 95%).
+- **Most Versatile Multimodal**: **Qwen 3.5** uniquely combines native vision-language understanding with 1M-token context and broad language support.
+- **Highest Raw Intelligence Score**: **GLM-5** tops the Artificial Analysis Intelligence Index (50) but at a premium price.
+
+> ⚠️ **Note**: Benchmark scores are not always directly comparable due to differing evaluation protocols, temperature settings, and scaffolding. Always validate models against your specific use case. Pricing and specs are subject to change—check official provider documentation for the latest details.
+
+For the most current pricing and access options:
+- Qwen: [Alibaba Cloud Model Studio](https://bailian.console.aliyun.com)
+- GLM-5: [Zhipu AI Platform](https://bigmodel.cn)
+- MiniMax: [MiniMax Developer Portal](https://www.minimax.io)
+- Kimi: [Moonshot AI Console](https://platform.moonshot.ai)
+- DeepSeek: [DeepSeek API](https://platform.deepseek.com)
