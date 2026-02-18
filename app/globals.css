@@ -133,8 +133,8 @@
         0px 8px 10px -1px hsl(0 0% 10.1961% / 0.05);
     --shadow-2xl: 0px 0px 0px 0px hsl(0 0% 10.1961% / 0.13);
     --tracking-normal: normal;
-    /* --background: oklch(0.9789 0.0082 121.6272); */
-    --background: oklch(97.1% 0.013 17.38);
+
+    --background: oklch(0.9789 0.0082 121.6272);
 
     --foreground: oklch(0 0 0);
 }
