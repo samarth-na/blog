@@ -1,0 +1,246 @@
+---
+title: how agentic coding effects LLMs
+date: 2026-02-23
+tags: [ai, research]
+excerpt:  A comprehensive analysis of agentic capabilities across eight leading models from different labs
+read: 1 min
+---
+# Tool-Augmented Large Language Models: A Comprehensive Analysis of Agentic Capabilities Across Eight Leading Models
+
+## Executive Summary
+
+The integration of external tools and agentic processes has emerged as a transformative approach to enhancing large language model capabilities beyond traditional text generation. This research examines how eight leading AI models—GLM-5, MiniMax-2.5, Claude-4.6, Opus-4.6, Gemini-3.1, GPT-5.3-Codex, Kimi-2.5, and Qwen3.5—leverage tool calling, autonomous agents, and iterative reasoning to achieve superior performance across complex tasks. The findings reveal substantial performance improvements when models are augmented with tools, with benchmark scores increasing by 20 to 66 percentage points depending on the task category. Claude Opus 4.6 and GPT-5.3-Codex demonstrate leading capabilities in agentic coding, while Kimi-2.5's innovative agent swarm architecture enables parallel execution across up to 100 sub-agents. The research identifies key architectural differences in tool calling implementation, including native function calling support, Model Context Protocol integration, and specialized agent frameworks that distinguish each model's approach to autonomous task execution.
+
+## 1. Introduction
+
+The evolution of large language models has reached a critical inflection point where the integration of external tools and autonomous agent capabilities represents the next major frontier in artificial intelligence development. While foundational language models demonstrate impressive text generation and reasoning capabilities, their inherent limitations in accessing real-time information, executing code, and interacting with external systems have driven the emergence of tool-augmented architectures. This research investigates how leading AI laboratories have implemented tool calling and agentic processes across eight prominent models, examining the technical mechanisms, performance improvements, and architectural innovations that define the current state of the field.
+
+The importance of tool augmentation extends beyond mere feature enhancement. Modern AI applications increasingly require models that can autonomously plan and execute multi-step workflows, access external databases, manipulate filesystems, and coordinate with other agents to accomplish complex objectives. The ability to effectively utilize tools distinguishes merely capable language models from truly productive AI systems that can function as autonomous agents in professional and development contexts. This investigation provides a systematic examination of how each model addresses these requirements, offering insights into the technical foundations that enable effective tool-augmented operation.
+
+The research encompasses five primary dimensions: the mechanisms through which models interact with external tools, the implementation of autonomous agent processes, documented performance improvements across standardized benchmarks, model-specific examples of tool and agent usage, and the architectural differences that distinguish each implementation. By synthesizing information from official documentation, research publications, and benchmark results, this report offers a comprehensive analysis of the current landscape of tool-augmented large language models.
+
+## 2. Tool-Augmented Large Language Models: Foundations and Mechanisms
+
+### 2.1 The Evolution from Pure Language Models to Tool-Integrated Systems
+
+The transition from pure language models to tool-integrated systems represents a fundamental shift in how artificial intelligence approaches complex tasks. Traditional language models generate text based on patterns learned during training, but they cannot directly interact with external systems or access information beyond their training data. Tool augmentation addresses this limitation by enabling models to invoke external functions, execute code, search the web, and manipulate filesystems as part of their problem-solving process. This capability transforms models from passive text generators into active participants in workflow execution[73].
+
+Anthropic's research on building effective AI agents distinguishes between two primary paradigms: workflows and agents. Workflows are systems where large language models and tools are orchestrated through predefined code paths, offering predictability and structure for well-defined tasks. Agents, conversely, are systems where large language models dynamically direct their own processes, adapting to feedback and pursuing goals through iterative loops of action and evaluation. This distinction proves crucial for understanding how different models implement tool integration, as some prioritize structured workflow execution while others embrace full autonomy[73].
+
+The technical implementation of tool calling typically involves several key components. First, models must be able to parse user requests and determine when external tools are necessary. Second, they must generate properly formatted tool invocations that specify the correct function name, parameters, and arguments. Third, they must process tool results and incorporate them into subsequent reasoning. Finally, they must determine when task completion has been achieved and generate appropriate final responses. Each model implements these components differently, with variations in training approaches, inference mechanisms, and supporting infrastructure that affect overall capability and reliability.
+
+### 2.2 Categories of Tool Integration
+
+Tool integration in modern large language models encompasses several distinct categories, each addressing different capability requirements. Function calling, sometimes called tool calling, enables models to invoke predefined external functions with specified parameters. This capability forms the foundation for more complex agentic behaviors and is typically implemented through structured output formats that specify function names and arguments in a machine-readable manner[130].
+
+Computer use represents a more advanced category where models directly control computer interfaces, including graphical user interfaces, terminals, and web browsers. This capability requires sophisticated visual understanding and precise action planning, as models must interpret screen content, determine appropriate actions, and execute them reliably across diverse environments. The OSWorld benchmark evaluates this capability across 369 computer tasks spanning Ubuntu, Windows, and macOS operating systems, establishing human-level performance at approximately 72.36% accuracy[120].
+
+Web search and browsing capabilities enable models to access current information beyond their training data, conduct research, and verify facts in real-time. The BrowseComp benchmark specifically tests this capability by presenting models with challenging queries requiring persistent web navigation to locate hard-to-find information, with leading models achieving significant improvements over base models without browsing capabilities[111].
+
+Code execution capabilities allow models to run code, typically Python or other programming languages, to perform calculations, process data, and generate outputs. This capability proves particularly valuable for mathematical reasoning, data analysis, and software development tasks where direct computation exceeds what can be reasonably accomplished through text generation alone.
+
+## 3. Analysis of Individual Model Capabilities
+
+### 3.1 GLM-5: Zhipu AI's Agentic Engineering Platform
+
+GLM-5 represents Zhipu AI's flagship foundation model designed specifically for agentic engineering applications, achieving state-of-the-art performance among open-source models for coding and agent capabilities. The model contains 744 billion parameters with 40 billion activated during each forward pass, trained on 28.5 trillion tokens and supporting a 200,000 token context window with maximum output capabilities of 128,000 tokens[21].
+
+The model's agent capabilities center on powerful function calling that enables integration with diverse external toolsets. GLM-5 implements streaming tool output for real-time response handling, intelligent context caching for long conversations, and structured output support for JSON format generation. The model offers multiple thinking modes that can be selected based on task requirements, providing flexibility in how reasoning is applied to different scenarios[21].
+
+Benchmark performance demonstrates GLM-5's strong agentic capabilities across multiple evaluations. On SWE-bench Verified, the model achieves 77.8%, placing it highest among open-weight models. Terminal Bench 2.0 shows the model reaching 56.2%, representing a leading score among open models. The model ranks first among open models on BrowseComp for web-scale retrieval and synthesis, MCP-Atlas for tool invocation and multi-step execution, and τ²-Bench for complex multi-tool planning[21].
+
+The technical implementation incorporates several innovative features. The "Slime" framework enables asynchronous reinforcement learning for complex agent tasks, while DeepSeek Sparse Attention improves token efficiency during extended reasoning. These architectural choices support long-horizon execution with autonomous planning, debugging, and tool coordination capabilities that enable complex workflow automation[21].
+
+### 3.2 MiniMax-2.5: Efficiency-Optimized Agent Performance
+
+MiniMax-2.5 has emerged as a particularly efficient model for agentic applications, achieving competitive performance while maintaining significant cost and speed advantages over competing models. The model achieves 80.2% on SWE-bench Verified and 51.3% on Multi-SWE-Bench, with BrowseComp performance reaching 76.3% using advanced context management techniques[31].
+
+The Forge framework represents MiniMax's proprietary agent-native reinforcement learning approach. This framework implements an intermediary layer that decouples the training-inference engine from agent-specific functionality, enabling support for arbitrary agent integrations while optimizing model generalization across different agent scaffolds and tools. The asynchronous scheduling mechanism provides throughput optimization, while tree-structured merging strategy delivers approximately 40 times training speedup[31].
+
+Efficiency metrics demonstrate MiniMax-2.5's practical advantages. The model processes at 100 tokens per second for the Lightning variant and 50 tokens per second for the standard version, approximately twice as fast as other frontier models. Average SWE-bench runtime is 22.8 minutes, representing a 37% improvement over the previous M2.1 model's 31.3 minute average. Token consumption averages 3.52 million tokens per task compared to 3.72 million for M2.1, with overall costs representing approximately 10% of Claude Opus 4.6 per equivalent task[31].
+
+The MiniMax Agent integration provides deep office skills for Word, PowerPoint, and Excel manipulation, with MAX mode automatically loading appropriate skills based on file type. Internal statistics indicate that 30% of MiniMax company tasks are autonomously completed by M2.5, while 80% of newly committed code is generated by the model[31].
+
+### 3.3 Claude-4.6 and Opus-4.6: Anthropic's Agentic Excellence
+
+Anthropic's Claude family represents the current frontier in agentic capabilities, with both Sonnet 4.6 and Opus 4.6 variants demonstrating exceptional performance across tool use and autonomous task execution. Claude Opus 4.6 specifically improves upon its predecessor through more careful planning, sustained agentic task execution over extended periods, and enhanced judgment when confronting ambiguous problems[1].
+
+The model's agent capabilities include the ability to break complex tasks into independent subtasks, running tools and subagents in parallel while precisely identifying blockers and dependencies. Claude Code enables the model to spin up multiple agents working in parallel, coordinating autonomously to accomplish complex objectives. The Cowork feature allows Claude to operate autonomously on the user's behalf, while integrations with Excel and PowerPoint enable handling of long-running tasks that require planning before action[1].
+
+Computer use capabilities in Claude 4.6 have reached significant milestones. The model demonstrates strong performance on OSWorld benchmarks for visual desktop automation, with Context Compaction automatically summarizing older context to maintain productivity during longer sessions. Adaptive Thinking enables the model to determine when deeper reasoning provides value, while Effort Controls offer four levels of intelligence, speed, and cost tradeoffs[1].
+
+Performance benchmarks show substantial improvements. On Terminal-Bench 2.0, Claude Opus 4.6 achieves the highest scores among agentic coding evaluations. The model leads all frontier models on Humanity's Last Exam, with GDPval-AA showing 144 Elo improvement over GPT-5.2 and 190 Elo improvement over Opus 4.5. BrowseComp demonstrates superior capability at locating hard-to-find information online, while MRCR v2 with 1M context and 8-needle retrieval achieves 76% accuracy compared to Sonnet 4.5's 18.5%[1].
+
+The Berkeley Function Calling Leaderboard shows Claude models performing strongly, with Claude-Opus-4-1-20250805 achieving 71.21% overall accuracy, second only to GLM-4.5 at 72.01%[64]. Claude-Sonnet-4-5-20250929 achieves 68.68%, demonstrating the family's consistent performance across tool calling tasks.
+
+### 3.4 Gemini-3.1: Google's Deep Research and Agent Architecture
+
+Gemini-3.1 represents Google's comprehensive approach to agentic AI, featuring the Deep Research agent as a dedicated system for multi-step research tasks. This agent operates autonomously, planning, executing, and synthesizing information across extended timeframes, powered by Gemini 3 Pro and utilizing web search and custom data sources to produce detailed, cited reports[11].
+
+The Deep Research agent operates in asynchronous mode, requiring background execution with typical completion within 20 minutes and maximum research time of 60 minutes. The agent has default access to google_search and url_context tools, with optional file_search capability for custom data via File Search stores. The planning and execution process follows a structured flow of Plan, Search, Read, Iterate, and Output stages[11].
+
+Comparison between standard Gemini models and the Deep Research agent reveals significant capability differences. While standard models provide conversational responses in seconds, Deep Research produces detailed reports requiring minutes to complete. This trade-off makes standard models more suitable for chatbots and extraction tasks while Deep Research excels at market analysis, due diligence, and literature reviews[11].
+
+Gemini 3.1 Pro demonstrates strong performance across general agent benchmarks, achieving 74.2% on SWE-bench Verified according to recent leaderboard data[143]. The model's agentic tool use capabilities are evaluated across reasoning, multimodal processing, and agentic functionality as documented in the official model card[17].
+
+### 3.5 GPT-5.3-Codex: OpenAI's Coding Agent Architecture
+
+GPT-5.3-Codex represents OpenAI's most capable agentic coding model, combining frontier coding performance with reasoning and professional knowledge capabilities while operating 25% faster than predecessors. The model's development involved a notable achievement: it became the first model instrumental in creating itself, debugging its own training processes, managing deployment, and diagnosing evaluations[51].
+
+The agent features enable GPT-5.3-Codex to perform nearly any task developers or professionals accomplish on a computer. Interactive collaboration provides frequent updates and responds to steering in real-time, supporting the full software lifecycle including debugging, deploying, monitoring, writing product requirements, editing copy, conducting user research, creating tests, and establishing metrics. Long-running autonomous tasks can process millions of tokens while maintaining coherent execution[51].
+
+Tool use and computer use benchmarks demonstrate exceptional capability. OSWorld-Verified shows 64.7% accuracy compared to GPT-5.2-Codex's 38.2%, representing a 26.5 percentage point improvement. Terminal skills reach 77.3% on Terminal-Bench 2.0 compared to the previous 64.0%, while SWE-Bench Pro achieves 56.8% with minimal degradation from the base GPT-5.2. Cybersecurity CTF reaches 77.6%, and SWE-Lancer IC Diamond achieves 81.4%[51].
+
+The Terminal-Bench 2.0 leaderboard confirms GPT-5.3-Codex's leading position, with Simple Codex achieving 75.1% accuracy, Terminus 2 achieving 64.7%, and multiple agent frameworks utilizing the model achieving scores above 60%[101]. The model represents the first classification of "High capability" for cybersecurity tasks and the first model trained to identify software vulnerabilities[51].
+
+### 3.6 Kimi-2.5: Moonshot AI's Agent Swarm Architecture
+
+Kimi K2.5 from Moonshot AI introduces an innovative agent swarm architecture that fundamentally differs from traditional single-agent approaches. The self-directed swarm can coordinate up to 100 sub-agents executing parallel workflows across as many as 1,500 tool calls, reducing execution time by up to 4.5 times compared to single-agent approaches[92].
+
+The agent swarm operates through Parallel-Agent Reinforcement Learning, utilizing a trainable orchestrator agent with frozen subagents. This architecture achieves an 80% reduction in end-to-end runtime on complex tasks compared to traditional sequential execution. The system automatically creates and orchestrates agents without predefined subagent configurations or workflow specifications, enabling dynamic adaptation to task requirements[92].
+
+Tool use capabilities include integrated search, code-interpreter, and web-browsing functionality. The model supports advanced tasks including Word annotations, pivot tables, and LaTeX formatting in PDFs, scaling to handle 10,000-word papers or 100-page documents. Autonomous visual debugging enables the model to identify and resolve issues in visual interfaces[92].
+
+Performance benchmarks demonstrate significant improvements with tool augmentation. HLE-Full without tools shows Kimi K2.5 at 30.1%, but with tools the score increases to 50.2%, a 20.1 percentage point improvement. BrowseComp shows similar gains, rising from baseline to 78.4% with Agent Swarm mode. The model achieves SWE-bench Verified at 76.8% and DeepSearchQA at 77.1%, the latter being the highest score among compared models[92].
+
+Internal benchmarks show 59.3% improvement on the AI Office Benchmark and 24.3% improvement on the General Agent Benchmark when comparing K2.5 agent mode to K2 Thinking mode[92]. This data strongly supports the effectiveness of tool and agent augmentation for practical task completion.
+
+### 3.7 Qwen3.5: Alibaba's Native Multimodal Agent Platform
+
+Qwen3.5-397B-A17B represents Alibaba's entry into the native multimodal agent space, featuring a hybrid architecture combining Gated Delta Networks with sparse MoE. The model activates 17 billion parameters per forward pass while maintaining 397 billion total parameters, supporting a 1 million token context window through the Qwen3.5-Plus hosted offering[83].
+
+Agent capabilities span multiple domains with strong benchmark performance. On general agent benchmarks, the model achieves 72.9% on BFCL-V4, 86.7% on TAU2-Bench, and 49.7% on VITA-Bench. Search agent performance shows 48.3% on HLE with tools, 69.0% on BrowseComp single-query, and 78.6% with enhanced configuration. Coding agent performance reaches 76.4% on SWE-bench Verified, 68.3% on SecCodeBench, and 52.5% on Terminal Bench 2. Visual agent capabilities achieve 65.6% on ScreenSpot Pro, 62.2% on OSWorld-Verified, and 66.8% on AndroidWorld[88].
+
+Tool calling features include official built-in tools and adaptive tool use through the Qwen3.5-Plus offering. The model supports web search and Code Interpreter via the enable_search parameter, with MCP (Model Context Protocol) support achieving 46.1% on MCP-Mark. Native support for agentic workflows enables multi-turn interactions, with the model supporting million-scale agent scaffolds and environments[88].
+
+The model operates in multiple modes: Auto for adaptive thinking with tools, Thinking for deep reasoning on complex problems, and Fast for instant responses without reasoning tokens. Support for 201 languages and dialects (up from 119 in previous versions) combined with a 250,000 vocabulary improves encoding efficiency for multilingual applications[88].
+
+## 4. Performance Improvements Through Tool Augmentation
+
+### 4.1 Quantitative Benchmark Analysis
+
+The performance differences between base models and tool-augmented implementations demonstrate substantial improvements across all evaluated categories. The Berkeley Function Calling Leaderboard provides standardized metrics for tool calling accuracy, with GLM-4.5 achieving 72.01% overall accuracy and Claude-Opus-4-1 reaching 71.21%, indicating that approximately 70% of tool invocations can be executed correctly across diverse scenarios[64].
+
+Terminal-Bench 2.0 results reveal significant differences between model- agent combinations. The leading entry, Simple Codex with GPT-5.3-Codex, achieves 75.1% accuracy, demonstrating the synergy between capable base models and optimized agent frameworks. Claude Opus 4.6-based agents occupy positions 2 through 5, with Terminus-KIRA achieving 74.7% and other frameworks showing strong performance across the leaderboard[101].
+
+SWE-bench Verified shows top performers achieving resolving rates between 74% and 80%. Claude 4.5 Opus medium achieves 74.40%, Gemini 3 Pro Preview achieves 74.20%, and Claude 4.5 Sonnet achieves 70.60%. This benchmark evaluates models on realistic software engineering tasks derived from actual GitHub issues and pull requests, making high scores indicative of practical coding capability[143].
+
+BrowseComp benchmark results illustrate the dramatic impact of tool augmentation. GPT-4o achieves only 0.6% accuracy without browsing, but this improves to 1.9% with browsing capabilities. More dramatically, OpenAI's Deep Research agent achieves 51.5% accuracy, representing a 50 percentage point improvement over base model performance. This demonstrates that specialized agent training combined with tool access can unlock capabilities impossible for non-augmented models[111].
+
+### 4.2 Qualitative Capability Enhancements
+
+Beyond standardized benchmarks, tool augmentation enables qualitative capability improvements that extend the practical utility of large language models. Real-time information access through web search and browsing allows models to answer questions about current events, recent research, and evolving knowledge domains that exceed their training data. This capability proves essential for applications requiring up-to-date information, such as news analysis, market research, and academic literature reviews.
+
+Code execution capabilities enable models to perform calculations and data processing that would be impractical or impossible through text generation alone. Mathematical reasoning benefits particularly from this capability, as models can execute code to verify answers, perform complex operations, and generate accurate results rather than relying solely on pattern matching from training data.
+
+File system and computer control capabilities extend models into operational domains previously reserved for human operators. The ability to navigate graphical user interfaces, execute terminal commands, and manipulate files enables automation of routine tasks, software testing workflows, and system administration activities. The OSWorld benchmark specifically evaluates this capability, with top models achieving success rates approaching human performance on standardized computer tasks[120].
+
+Multi-agent coordination capabilities, exemplified by Kimi K2.5's agent swarm architecture, enable parallel execution of complex workflows that would require sequential processing in traditional single-agent systems. This approach can dramatically reduce task completion time while maintaining quality through intelligent orchestration and result synthesis.
+
+### 4.3 Efficiency and Cost Considerations
+
+Tool augmentation introduces efficiency considerations that affect practical deployment decisions. While tool-augmented models typically achieve superior outcomes, they also consume more tokens through iterative tool calls and result processing. The balance between capability improvement and efficiency costs varies by application, with some tasks benefiting significantly from extensive tool use while others achieve adequate results through simpler approaches.
+
+MiniMax-2.5 demonstrates that efficiency optimization can maintain competitive performance at reduced cost. The model achieves approximately 10% of Claude Opus 4.6's per-task cost while delivering strong benchmark results. With pricing at $0.3 per million input tokens and $2.4 per million output tokens for the Lightning variant, MiniMax offers significant cost advantages for high-volume applications[31].
+
+Token consumption patterns differ significantly between models. MiniMax-2.5 averages 3.52 million tokens per SWE-bench task, while earlier versions consumed 3.72 million tokens. These efficiency improvements reduce operational costs while maintaining capability, making tool-augmented approaches more practical for production deployments.
+
+## 5. Architecture Differences in Tool Implementation
+
+### 5.1 Native Function Calling vs. Text-Based Tool Invocation
+
+Models implement tool calling through fundamentally different architectural approaches that affect capability and reliability. Native function calling integrates tool invocation directly into the model's output space, training models to generate structured tool calls as part of their standard response format. This approach typically achieves higher accuracy and lower latency but requires specific training data and architectural modifications.
+
+The Berkeley Function Calling Leaderboard specifically distinguishes between models with native function calling support (designated "FC") and those using text generation for tool invocation ("Prompt"). Analysis shows that native function calling generally achieves superior performance, with GLM-4.5 (FC) at 72.01% outperforming prompt-based approaches at equivalent model tiers[64].
+
+Text-based tool invocation treats tool calls as part of the conversational response, requiring post-processing to extract and execute specified actions. While more flexible, this approach introduces additional latency and potential error points. However, it can be applied to models without specific function calling training, enabling broader applicability.
+
+### 5.2 Agent Frameworks and Infrastructure
+
+Each AI laboratory has developed proprietary frameworks to support agentic operations. Anthropic's approach emphasizes simplicity and composability, recommending that developers start with the simplest solution and add complexity only when necessary. Their framework distinguishes between prompt chaining for sequential operations, routing for classification-based delegation, parallelization for simultaneous subtasks, orchestrator-workers for complex delegation, and evaluator-optimizer loops for iterative refinement[73].
+
+MiniMax's Forge framework provides an agent-native reinforcement learning infrastructure with an intermediary layer decoupling training-inference from agent functionality. This design supports arbitrary agent integrations and optimizes generalization across different scaffolds and tools. The tree-structured merging strategy delivers approximately 40 times training speedup compared to naive approaches[31].
+
+OpenAI's agent infrastructure, exemplified by GPT-5.3-Codex, focuses on tight integration between coding capabilities and agentic operation. The model was notably involved in its own development, demonstrating the practical application of agent capabilities to the model development process itself. This self-referential capability illustrates the practical utility of agentic operation for complex, multi-step workflows[51].
+
+### 5.3 Model Context Protocol and Tool Integration Standards
+
+The Model Context Protocol (MCP) has emerged as an important standard for tool integration, originally developed by Anthropic and now supported across multiple platforms. MCP provides a standardized mechanism for models to interact with external tools and services, enabling interoperability between different agent frameworks and tool providers.
+
+Qwen3.5 demonstrates MCP support through its MCP-Mark benchmark score of 46.1%, indicating capability for standardized tool integration. Claude's platform documentation emphasizes MCP as the recommended approach for third-party tool integration, enabling models to interact with external services through consistent interfaces[73].
+
+The standardization of tool integration through protocols like MCP addresses practical deployment challenges by enabling tool reuse across different models and frameworks. This interoperability reduces development effort for tool-augmented applications while improving reliability through standardized interfaces.
+
+### 5.4 Multi-Agent Architectures
+
+The emergence of multi-agent architectures represents a significant architectural evolution beyond single-model tool use. Kimi K2.5's agent swarm architecture exemplifies this approach, coordinating up to 100 sub-agents for parallel task execution. This architecture requires different implementation considerations than single-agent systems, including mechanisms for task decomposition, result synthesis, and conflict resolution.
+
+Claude Code demonstrates multi-agent coordination within Anthropic's ecosystem, enabling multiple agents to work in parallel on complex tasks with appropriate coordination mechanisms. This approach balances the autonomy of individual agents with the need for coherent overall task execution.
+
+The architectural diversity in multi-agent systems reflects different tradeoffs between capability, complexity, and reliability. Some approaches use frozen subagents with learned orchestrators (as in Kimi K2.5), while others employ fully dynamic agent creation and coordination. These architectural choices significantly affect the types of tasks that can be effectively addressed.
+
+## 6. Benchmarks and Evaluation Frameworks
+
+### 6.1 Agent-Specific Benchmark Categories
+
+Modern agent evaluation requires specialized benchmarks that assess capabilities beyond traditional language model testing. Several distinct benchmark categories have emerged to evaluate different aspects of agentic performance.
+
+The Berkeley Function Calling Leaderboard (BFCL) evaluates tool calling accuracy across multiple categories including single-turn and multi-turn scenarios, agentic tasks involving web search and memory operations, and hallucination detection. The benchmark tests both simple function calls and complex multi-step workflows requiring coordinated tool usage[64].
+
+Terminal-Bench 2.0 specifically evaluates coding agents on terminal-based software engineering tasks, presenting 89 distinct task categories ranging from model training to system administration. The benchmark measures both task completion accuracy and efficiency, with leading agents achieving over 75% accuracy[101].
+
+SWE-bench evaluates software engineering capabilities using real GitHub issues and pull requests, requiring models to navigate large codebases and implement fixes. The verified subset provides high-quality evaluations with human-validated ground truth, making results directly indicative of practical codingOSWorld benchmarks multimodal capability[143].
+
+ agents in real computer environments, with 369 tasks across Ubuntu, Windows, and macOS. The benchmark requires visual understanding for GUI interpretation, precise action planning for interface manipulation, and operational knowledge for task execution[120].
+
+BrowseComp evaluates web browsing agents on challenging queries requiring persistent navigation to locate hard-to-find information. The benchmark specifically tests capabilities beyond simple search, requiring multi-step reasoning and information synthesis across multiple sources[111].
+
+### 6.2 Benchmark Performance Summary
+
+Analysis across multiple benchmarks reveals consistent patterns in model capabilities. GPT-5.3-Codex and Claude Opus 4.6 consistently achieve top positions on coding and agent benchmarks, with specialized agent frameworks built on these models dominating leaderboards. Gemini 3 Pro demonstrates competitive performance, particularly on multimodal tasks requiring visual understanding.
+
+For function calling specifically, GLM-4.5 and Claude models lead the Berkeley Function Calling Leaderboard, achieving over 70% accuracy. These results indicate reliable tool invocation capability sufficient for production deployment, though significant room for improvement remains[64].
+
+BrowseComp results demonstrate that tool augmentation provides dramatic improvements over base models. While GPT-4o achieves only 0.6% without browsing tools, specialized agents like Deep Research achieve 51.5%, representing an 85-fold improvement. This dramatic difference underscores the fundamental capability difference between tool-augmented and non-augmented approaches[111].
+
+## 7. Conclusions and Future Directions
+
+This comprehensive analysis of eight leading large language models reveals several key findings about the current state and future direction of tool-augmented AI systems. Tool integration has evolved from a useful extension to a fundamental capability requirement for production AI systems, with all major laboratories investing significantly in agentic architectures and tool calling infrastructure.
+
+Performance improvements from tool augmentation are substantial and well-documented across standardized benchmarks. The Kimi K2.5 model demonstrates that tool integration can improve benchmark scores by 20 to 66 percentage points depending on task category, with similar patterns observed across other models. This consistent improvement pattern confirms that tool augmentation addresses genuine limitations in base model capabilities rather than providing marginal enhancements.
+
+Architectural differences between models reflect different design philosophies and optimization targets. Native function calling implementations generally achieve superior accuracy compared to text-based approaches, while multi-agent architectures like Kimi K2.5's agent swarm demonstrate that parallel execution can dramatically reduce task completion time. These architectural innovations suggest continued evolution toward more sophisticated agentic systems.
+
+The emergence of standardized protocols like Model Context Protocol indicates maturation of the tool integration ecosystem. Standardization enables tool reuse across different models and frameworks, reducing development effort while improving reliability. Continued development of such standards will likely accelerate adoption of tool-augmented approaches in production applications.
+
+Looking forward, continued improvement in agentic capabilities appears likely as laboratories invest in reinforcement learning frameworks specifically designed for agent training, more sophisticated multi-agent coordination mechanisms, and tighter integration between reasoning and tool execution. The trajectory of benchmark improvements over the past year suggests that human-level performance on many agentic tasks may be achievable in the near term, fundamentally transforming how AI systems are applied to complex, real-world problems.
+
+## Sources
+
+[1] [Introducing Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6) - High Reliability - Official Anthropic announcement with detailed capability descriptions
+
+[11] [Gemini Deep Research Agent](https://ai.google.dev/gemini-api/docs/deep-research) - High Reliability - Official Google AI documentation
+
+[21] [GLM-5 Overview](https://docs.z.ai/guides/llm/glm-5) - High Reliability - Official Zhipu AI developer documentation
+
+[31] [MiniMax M2.5](https://www.minimax.io/news/minimax-m25) - High Reliability - Official MiniMax announcement with benchmark data
+
+[51] [Introducing GPT-5.3-Codex](https://openai.com/index/introducing-gpt-5-3-codex/) - High Reliability - Official OpenAI announcement
+
+[64] [Berkeley Function Calling Leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) - High Reliability - Academic benchmark from UC Berkeley
+
+[73] [Building Effective AI Agents](https://www.anthropic.com/research/building-effective-agents) - High Reliability - Anthropic research publication
+
+[83] [Qwen3.5 Blog](https://qwen.ai/blog?id=qwen3.5) - High Reliability - Official Alibaba Qwen announcement
+
+[88] [Qwen3.5 Towards Native Multimodal Agents](https://www.alibabacloud.com/blog/qwen3-5-towards-native-multimodal-agents_602894) - High Reliability - Official Alibaba Cloud blog
+
+[92] [Kimi K2.5 Tech Blog](https://www.kimi.com/blog/kimi-k2-5.html) - High Reliability - Official Moonshot AI technical announcement
+
+[101] [Terminal-Bench 2.0 Leaderboard](https://www.tbench.ai/leaderboard/terminal-bench/2.0) - High Reliability - Official benchmark leaderboard
+
+[111] [BrowseComp Benchmark](https://openai.com/index/browsecomp/) - High Reliability - Official OpenAI benchmark documentation
+
+[120] [OSWorld Benchmark](https://os-world.github.io/) - High Reliability - Academic benchmark with comprehensive documentation
+
+[143] [SWE-bench Leaderboards](https://www.swebench.com/) - High Reliability - Official SWE-bench benchmark results
