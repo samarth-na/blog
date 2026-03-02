@@ -150,7 +150,7 @@ export function BlogList({ posts }: BlogListProps) {
           filteredPosts.map((post) => (
             <article key={post.slug} className="group">
               <Link
-                href={`/blog/${post.slug}`}
+                href={`/thoughts/${post.slug}`}
                 onClick={() =>
                   posthog.capture("blog_post_clicked", {
                     slug: post.slug,
@@ -192,7 +192,7 @@ export function BlogList({ posts }: BlogListProps) {
           // Minimal View - Title on left, date on right
           filteredPosts.map((post) => (
             <article key={post.slug} className="group">
-              <Link href={`/blog/${post.slug}`} className="block">
+              <Link href={`/thoughts/${post.slug}`} className="block">
                 <div className="flex items-baseline justify-between">
                   <h2 className="text-sm font-medium group-hover:text-primary transition-colors">
                     {post.title}

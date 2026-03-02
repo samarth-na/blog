@@ -130,7 +130,7 @@ export function BookmarkList({ bookmarks }: BookmarkListProps) {
           filteredBookmarks.map((bookmark) => (
             <Link
               key={bookmark.slug}
-              href={`/bookmarks/${bookmark.slug}`}
+              href={`/blog/${bookmark.slug}`}
               onClick={() => handleBookmarkClick(bookmark)}
               className="rounded-[3px] group p-4 block border border-border hover:border-foreground transition-colors"
             >

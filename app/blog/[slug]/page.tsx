@@ -1,42 +1,76 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { getBlogPost, getBlogPosts } from "@/lib/blog";
+import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
+import { fetchContent } from "@/lib/contentConfig";
 
-export default async function BlogPost({
+async function getBookmark(slug: string): Promise<{
+  slug: string;
+  content: string;
+  title: string;
+  image?: string;
+} | null> {
+  const fileContent = await fetchContent("blog", slug);
+
+  if (!fileContent) {
+    return null;
+  }
+
+  const titleMatch = fileContent.match(/^title:\s*([^\n]+)/m);
+  const imageMatch = fileContent.match(/^image:\s*([^\n]+)/m);
+
+  const title = titleMatch ? titleMatch[1].trim() : slug;
+  const image = imageMatch ? imageMatch[1].trim() : undefined;
+
+  const bodyContent = fileContent.replace(/^---[\s\S]*?---\n/, "");
+
+  return {
+    slug,
+    title,
+    image,
+    content: bodyContent,
+  };
+}
+
+export default async function BookmarkPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const bookmark = await getBookmark(slug);
 
-  if (!post) {
+  if (!bookmark) {
     notFound();
   }
-
-  // Get post metadata from the full list
-  const posts = await getBlogPosts();
-  const meta = posts.find((p) => p.slug === slug);
 
   return (
     <article>
       <div className="mb-4">
-        <BackToBlogLink slug={slug} />
+        <Link
+          href="/blog"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ← back to blog
+        </Link>
       </div>
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8 border-b border-muted-foreground pb-4">
-        {meta?.date && <span>{meta.date}</span>}
-        {meta?.readTime && (
-          <>
-            <span>·</span>
-            <span>{meta.readTime}</span>
-          </>
-        )}
-      </div>
+
+      {bookmark.image && (
+        <div className="aspect-video overflow-hidden bg-muted mb-6">
+          <Image
+            src={bookmark.image}
+            alt={bookmark.title}
+            width={800}
+            height={450}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
       <MDXRemote
-        source={post.content}
+        source={bookmark.content}
         components={mdxComponents}
         options={{
           mdxOptions: {

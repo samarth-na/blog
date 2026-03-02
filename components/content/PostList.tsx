@@ -18,7 +18,7 @@ export function BlogPostList({ posts, showWords = false }: PostListProps) {
       {posts.map((post) => (
         <li key={post.id}>
           <Link
-            href={`/blog/${post.id}`}
+            href={`/thoughts/${post.id}`}
             className="group flex justify-between"
           >
             <span className="text-xs group-hover:text-primary">

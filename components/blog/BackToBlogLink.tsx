@@ -16,11 +16,11 @@ export function BackToBlogLink({ slug }: BackToBlogLinkProps) {
 
   return (
     <Link
-      href="/blog"
+      href="/thoughts"
       onClick={handleClick}
       className="text-sm text-muted-foreground hover:text-foreground transition-colors"
     >
-      ← back to blogs
+      ← back to thoughts
     </Link>
   );
 }
