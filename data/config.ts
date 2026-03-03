@@ -4,7 +4,7 @@
  */
 
 export const SITE_CONFIG = {
-    name: "Samarth Nagar",
+    name: "Samarth",
     logo: "Samarth",
     copyright: "© 2026",
 } as const;
@@ -17,17 +17,8 @@ export const NAV_ITEMS = [
 ] as const;
 
 export const SOCIAL_LINKS = [
-    { label: "rss", href: "#" },
-    { label: "twitter", href: "#" },
-    { label: "github", href: "#" },
-] as const;
-
-export const DEFAULT_SOCIALS = [
-    { label: "twitter", href: "#twitter" },
-    { label: "github", href: "#github" },
-    { label: "linkedin", href: "#linkedin" },
-    { label: "email", href: "#email" },
-    { label: "rss", href: "#rss" },
+    { label: "twitter", href: "https://x.com/samarth7na" },
+    { label: "github", href: "https://github.com/samarth-nagar" },
 ] as const;
 
 export const LAYOUT_CONFIG = {

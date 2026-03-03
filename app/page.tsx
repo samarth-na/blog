@@ -3,17 +3,26 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="space-y-4 animate-fade-in-down">
-      <p className="text-yellow-500 text-lg text-center align-middle font-serif">
+      <div className="text-amber-500 text-xl text-center align-middle font-serif ">
         under construction
-      </p>
+      </div>
       <h3 className="text-2xl font-medium font-serif">
         software Architect and art enthusiast
       </h3>
+      <p className="text-sm text-muted-foreground">
+        Helllo im samarth a tech enthusiast. with a keen interest in linux and
+        software architecutre.
+      </p>
+      <p className="text-sm text-muted-foreground">
+        I am full stack software engineer with experience in frontend using
+        react and nextjs backend using typescript, bun and node, CI/CD with
+        github actions and gitlabs, databases with sql no sql solutioins and
+        system admin with ubuntu and fedora.{" "}
+      </p>
 
       <p className="text-sm text-muted-foreground">
-        Hello I&apos;m Samarth Nagar an undergraduate from India. This is a
-        little corner I&apos;ve carved for my thoughts and works. I&apos;m
-        currently in
+        I am currently an undergraduate student in India. this is my little
+        corner ive carved for my works and thoughts. im currently in
         <Link
           href="https://www.google.com/search?q=indore"
           className="text-primary "
@@ -23,7 +32,6 @@ export default function HomePage() {
         </Link>
         studying to graduate as a software engineer in 2027.
       </p>
-
       <p className="text-sm text-muted-foreground">
         this is a combination of blog, portfolio and personal website. right now
         things are everywhere.

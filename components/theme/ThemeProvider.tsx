@@ -12,41 +12,24 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  const savedTheme = localStorage.getItem("theme") as Theme;
-  if (savedTheme) return savedTheme;
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
-  return "light";
-}
-
-function initializeTheme() {
-  if (typeof window === "undefined") return "light";
-  const initialTheme = getInitialTheme();
-  const root = window.document.documentElement;
-  if (initialTheme === "dark") {
-    root.classList.add("dark");
-  } else {
-    root.classList.remove("dark");
-  }
-  localStorage.setItem("theme", initialTheme);
-  return initialTheme;
+function applyThemeToDOM(theme: Theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  localStorage.setItem("theme", theme);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(initializeTheme);
+  // On the server, default to "light". On the client, read the actual state
+  // from the DOM — the inline <script> in layout.tsx already set the correct
+  // "dark" class before React hydrates, so this avoids a post-hydration
+  // re-render (which would restart CSS animations).
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "light";
+    return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  });
 
   const setTheme = useCallback((newTheme: Theme) => {
-    if (typeof window === "undefined") return;
-    const root = window.document.documentElement;
-    if (newTheme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", newTheme);
+    applyThemeToDOM(newTheme);
     setThemeState(newTheme);
-    
     window.dispatchEvent(new CustomEvent("theme-change", { detail: { theme: newTheme } }));
   }, []);
 

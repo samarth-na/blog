@@ -5,7 +5,6 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
-import { ThemeTransition } from "@/components/theme/ThemeTransition";
 import { LAYOUT_CONFIG } from "@/data/config";
 
 const geistSans = Geist({
@@ -36,11 +35,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased min-h-screen flex flex-col bg-background`}
       >
         <ThemeProvider>
-          <ThemeTransition />
           <div className="flex-1">
             <div
               className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}

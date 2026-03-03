@@ -1,80 +1,19 @@
-## Pages
+# Samarth Nagar — Personal Site
 
-1. home page
-    - summary of myself
-    - aim/goals
-    - list of fav blogs
-    - bookmarks
-    - footer
-2. projects
-3. prject page
-4. articles list
-    - weeklogs
-    - thoughts
-    - critical
-    - review
-5. article page
-6. my story
-    - story of mine
-7. Contact
-    - twitter/linkedin/email
-8. Uses/Tools
-    - nvim
-    - fedora
-    - ts/next
-    - etc......
-9. Now
-    - devops,backend
-10. Archive
-    - unfiltered collection of all articles
-11. Snippets
-    - idk
-12. Bookmarks
-    - books
-    - movies
-    - shows
-13. 404
+Welcome! This is my little corner of the internet — a place where I write about software, share my thoughts, and document things I find interesting.
 
-## Development
+I'm an undergraduate software engineering student based in Indore, India, graduating in 2027.
 
-### Tech Stack
+## What's here
 
-- Next.js 16 (App Router)
-- Tailwind CSS 4
-- TypeScript
-- MDX for blog posts
-
-### Commands
-
-```bash
-# Run development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm run start
-
-# Lint
-npm run lint
-```
-
-Your content here...
-
-```
-
-## Features
-
-- [x] Minimal text-only design
-- [x] Teal accent color scheme
-- [x] Dark mode support with toggle
-- [x] Responsive layout
-- [x] MDX blog posts with syntax highlighting
-- [x] Blog search and tag filtering
-- [x] Automatic read time calculation
+| Page | What you'll find |
+|---|---|
+| [Home](/) | A bit about me |
+| [Blog](/blog) | Long-form writing on software and ideas |
+| [Thoughts](/thoughts) | Short, unpolished notes |
+| [Interests](/interests) | Things I care about |
+| [Now](/now) | What I'm currently focused on |
 
 ## License
 
 MIT
-```

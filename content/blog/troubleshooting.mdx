@@ -1,0 +1,71 @@
+---
+title: Troubleshooting
+image: https://www.nightwolf.in/img/TroubleShooting.jpg
+tags: [article]
+description: My approach to solving every problem
+---
+
+In my few years of coding and daily-driving Linux, I've come across many situations where I either messed something up or something broke on its own — due to a pre-existing bug I wasn't aware of, or a dependency I hadn't accounted for. This set me back many times, leaving my development environment unstable and unusable. Over time I've learned techniques that help me avoid these problems and fix them quickly when they do occur. Here they are, step by step.
+
+1. Have backups
+2. Search for a solution online
+3. Find the point of failure
+4. Try recreating the error
+5. Read the docs / check logs
+6. Try a fresh install
+
+---
+
+### 1. Have Backups
+
+If there's any chance something could go wrong, have a backup. Whether it's your childhood photos or your code, backups are invaluable — they can save you even from problems that have no other fix. You can back up to the cloud or simply use Git consistently. I like to take a backup before any risky action. But for problems that appear without warning, having a remote Git repo is always a good safety net.
+
+### 2. Search for a Solution Online
+
+A quick Google search or a prompt to an LLM can save you tens, if not hundreds, of hours. There's a good chance you'll find a [Reddit](https://reddit.com) or [Stack Overflow](https://stackoverflow.com) thread with exactly your answer. But just copying the solution isn't enough — I'd strongly recommend reading the entire thread to understand what's actually going on, so you don't run into the same problem again. It's genuinely astonishing how many times I've been on the verge of despair, deep in a rabbit hole, only to realize I could have avoided the whole thing by reading instead of just copying.
+
+### 3. Find the Point of Failure
+
+This sounds simple, but it's often the most important step — and the most overlooked. Even when searching for solutions online, you need to know what's actually broken. In my experience, the culprit can be anywhere in your stack. In one case, an issue in my terminal environment could have been in any one of: Alacritty (my terminal), Zsh (my shell), Neovim (my editor), or my multiplexer. Searching blindly online was useless because I didn't know what was wrong in the first place.
+
+Remove components one by one until the problem disappears, or test each part of your stack in isolation to identify which one is causing the trouble.
+
+### 4. Try Recreating the Error
+
+If you haven't found a solution online, the next step is to reproduce the bug on demand. Being able to trigger it consistently confirms you've correctly identified the point of failure and gives you a controlled environment to test fixes.
+
+### 5. Read the Docs / Check Logs
+
+Nine times out of ten, the problem you're facing is documented somewhere in the official docs. Checking them is never a waste of time. Logs are equally important — they often point directly at the issue in a way that no amount of guessing will.
+
+### 6. Try a Fresh Install
+
+If everything has failed and you can't see light at the end of the tunnel — leave the tunnel. Try a clean install. Maybe something got misconfigured along the way, maybe the initial installation was broken, or maybe you're on an older version with a known bug. Starting fresh is a legitimate and often underrated strategy.
+
+---
+## Bonus
+
+### AI — But Last
+
+There's a chance an LLM can solve your problem in one shot, especially in agentic mode. But using it as a first resort is a mistake. The core problem is that you end up unfamiliar with what actually went wrong — and AI has a tendency to overcomplicate, hallucinate solutions, or go down entirely wrong paths.
+
+The better approach: explain your problem clearly, ask if it recognizes it, and if not, ask what could be causing it. Treat it as a knowledgeable peer whose opinion is worth hearing but shouldn't be followed blindly. Its nature is to be confident even when it's wrong.
+
+AI can genuinely help you work through steps 2, 3, 4, and 5 — just keep yourself in the driver's seat.
+### Stop — The Day Is Over
+
+Many times you'll find yourself up late at night, way past your bedtime, still grinding away at a problem. Your ADHD or OCD might chain you to the desk, convinced that the solution is just one more attempt away. But our brains are imperfect engines — they get tunnel vision, they get stuck in thought loops, and past a certain point they stop generating new ideas and just repeat the same ones. Sometimes the best move is to leave the problem alone and come back to it the next day with fresh eyes. You'd be surprised how often the answer is obvious in the morning.
+
+### Real People Are Out There
+
+There was a time I had an issue with my GNOME environment and everything online was useless. I had no backups — it was my OS, so there was nothing to fall back on. I couldn't even operate my PC properly, which ruled out most other approaches. I looked everywhere and found nothing.
+
+Then I reached out on Discord. Someone replied, asked a few questions, and told me to clear all the GNOME cache and reset it. That fixed it. The interesting part is that this person hadn't faced the exact same issue — they just knew that clearing the cache is a broad solution that resolves a wide class of GNOME bugs. It's the kind of knowledge that doesn't show up in a Stack Overflow thread but lives in people's heads from years of experience.
+
+It was a one-time story, but it stuck with me. Real people have their own journeys, and those journeys often overlap with yours in ways you can't predict. Someone out there might have the answer — not because they Googled it, but because they lived it. Don't underestimate the value of just asking.
+
+---
+
+If nothing works, don't lose hope. Learning to use software correctly often means doing everything wrong first. Be glad you're going through this now, not at a more critical moment. And remember: even if nothing is fixed, no day is a loss. You now know everything that doesn't work — and that makes you wiser than you were this morning.
+
+I want to share a story of mine where...

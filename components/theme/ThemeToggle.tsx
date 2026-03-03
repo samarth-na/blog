@@ -21,6 +21,7 @@ export function ThemeToggle() {
       onClick={handleToggle}
       className="p-2 text-muted-foreground hover:text-foreground transition-colors"
       aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+      suppressHydrationWarning
     >
       {theme === "light" ? (
         <Moon className="w-4 h-4" />
