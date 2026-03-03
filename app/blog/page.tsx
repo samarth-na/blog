@@ -11,7 +11,7 @@ export default async function BlogPage() {
   const bookmarks = await getBlogPosts();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in-down">
       <h1 className="text-2xl font-medium font-serif">Blog</h1>
       <BookmarkList bookmarks={bookmarks} />
     </div>

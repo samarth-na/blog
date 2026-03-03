@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { ThemeTransition } from "@/components/theme/ThemeTransition";
 import { LAYOUT_CONFIG } from "@/data/config";
 
 const geistSans = Geist({
@@ -24,7 +25,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "samarth nagar",
+  title: "Samarth",
   description: "my blog/portfolio/personal website ",
 };
 
@@ -39,8 +40,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${ibmPlexSerif.variable} antialiased min-h-screen flex flex-col bg-background`}
       >
         <ThemeProvider>
+          <ThemeTransition />
           <div className="flex-1">
-            <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}>
+            <div
+              className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}
+            >
               <Header />
               <main>{children}</main>
             </div>

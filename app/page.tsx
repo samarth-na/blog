@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in-down">
       <p className="text-yellow-500 text-lg text-center align-middle font-serif">
-        under contruction
+        under construction
       </p>
       <h3 className="text-2xl font-medium font-serif">
         software Architect and art enthusiast
@@ -25,7 +25,8 @@ export default function HomePage() {
       </p>
 
       <p className="text-sm text-muted-foreground">
-        this is a combination of blog, portfolio and personal website.
+        this is a combination of blog, portfolio and personal website. right now
+        things are everywhere.
       </p>
     </div>
   );

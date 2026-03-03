@@ -20,7 +20,7 @@ export function Header({ logo = SITE_CONFIG.logo, currentPath = "/" }: HeaderPro
   };
 
   return (
-    <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+    <header className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 animate-slide-in-left">
       <div>
         <Link
           href="/"

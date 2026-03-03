@@ -135,7 +135,8 @@
     --tracking-normal: normal;
 
     /* --background: oklch(0.9789 0.0082 121.6272); */
-    --background: hex(eee);
+    --background: oklch(0.9466 0.0121 67.68);
+    /* --background: hex(eee); */
 }
 
 .dark {
@@ -378,4 +379,52 @@
 
 .mdx-tr:last-child {
     @apply border-b-0;
+}
+
+/* Fade In Down Animation */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.6s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in-left {
+    animation: slideInFromLeft 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Theme Toggle Circle Animation */
+.theme-transition-circle {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background: var(--background);
+    clip-path: circle(0% at var(--x) var(--y));
+    transition: clip-path 0.5s ease-in-out;
+}
+
+.theme-transition-circle.active {
+    clip-path: circle(150% at var(--x) var(--y));
 }
