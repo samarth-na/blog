@@ -1,22 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useEffect, useRef } from "react";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { NAV_ITEMS, SITE_CONFIG } from "@/data/config";
 import posthog from "posthog-js";
+import React, { useEffect, useRef, useState } from "react";
+import { TypeTabs } from "@/components/blog/TypeTabs";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import { SITE_CONFIG } from "@/data/config";
 
 interface HeaderProps {
   logo?: string;
   currentPath?: string;
+  contentTypes?: string[];
 }
 
-export function Header({ logo = SITE_CONFIG.logo, currentPath = "/" }: HeaderProps) {
-  // Ref persists across React StrictMode's simulated unmount/remount,
-  // preventing the reveal animation from firing twice in development.
+export function Header({
+  logo = SITE_CONFIG.logo,
+  currentPath = "/",
+  contentTypes = [],
+}: HeaderProps) {
   const hasAnimated = useRef(false);
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     if (!hasAnimated.current) {
       hasAnimated.current = true;
@@ -32,7 +36,9 @@ export function Header({ logo = SITE_CONFIG.logo, currentPath = "/" }: HeaderPro
   };
 
   return (
-    <header className={`mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 ${mounted ? 'animate-header-reveal' : 'opacity-0'}`}>
+    <header
+      className={`mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 ${mounted ? "animate-header-reveal" : "opacity-0"}`}
+    >
       <div>
         <Link
           href="/"
@@ -43,20 +49,7 @@ export function Header({ logo = SITE_CONFIG.logo, currentPath = "/" }: HeaderPro
         </Link>
       </div>
       <div className="flex items-center gap-4">
-        <nav className="flex gap-2 font-medium underline text-muted-foreground flex-wrap">
-          {NAV_ITEMS.map((item, i) => (
-            <React.Fragment key={item.href}>
-              <Link
-                href={item.href}
-                onClick={() => handleNavClick(item)}
-                className={currentPath === item.href ? "text-foreground" : ""}
-              >
-                {item.label}
-              </Link>
-              {i < NAV_ITEMS.length - 1 && <span>/</span>}
-            </React.Fragment>
-          ))}
-        </nav>
+        <TypeTabs types={contentTypes} />
         <ThemeToggle />
       </div>
     </header>

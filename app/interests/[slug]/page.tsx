@@ -1,14 +1,14 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { fetchContent } from "@/lib/contentConfig";
 
 async function getInterest(
-  slug: string
+  slug: string,
 ): Promise<{ slug: string; content: string; title: string } | null> {
-  const content = await fetchContent("interests", slug);
+  const content = await fetchContent(slug);
 
   if (!content) {
     return null;
@@ -26,11 +26,7 @@ async function getInterest(
   };
 }
 
-export default async function InterestPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function InterestPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const interest = await getInterest(slug);
 

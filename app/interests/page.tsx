@@ -1,10 +1,10 @@
 import { InterestList } from "@/components/interests/InterestList";
-import { getContentItems } from "@/lib/content";
+import { getContentItemsFromDir } from "@/lib/contentConfig";
 import type { Interest } from "@/types/interest";
 
 async function getInterests(): Promise<Interest[]> {
-  const items = await getContentItems("interests", "title", "asc");
-  return items.map((item) => ({
+  const items = await getContentItemsFromDir("interests", "title", "asc");
+  return items.map((item: any) => ({
     slug: item.slug,
     title: item.title,
   }));

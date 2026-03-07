@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { LAYOUT_CONFIG } from "@/data/config";
+import { getAllContentTypes } from "@/lib/getContentTypes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,11 +29,13 @@ export const metadata: Metadata = {
   description: "my blog/portfolio/personal website ",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const contentTypes = await getAllContentTypes();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -47,17 +50,13 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <div className="flex-1">
-            <div
-              className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}
-            >
-              <Header />
+            <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}>
+              <Header contentTypes={contentTypes} />
               <main>{children}</main>
             </div>
           </div>
 
-          <div
-            className={`w-full ${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 pb-12`}
-          >
+          <div className={`w-full ${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 pb-12`}>
             <Footer />
           </div>
         </ThemeProvider>
