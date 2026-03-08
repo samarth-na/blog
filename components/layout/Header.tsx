@@ -5,18 +5,18 @@ import posthog from "posthog-js";
 import React, { useEffect, useRef, useState } from "react";
 import { TypeTabs } from "@/components/blog/TypeTabs";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { SITE_CONFIG } from "@/data/config";
+import { SITE_CONFIG, STATIC_NAV_ITEMS } from "@/data/config";
 
 interface HeaderProps {
   logo?: string;
   currentPath?: string;
-  contentTypes?: string[];
+  categories?: string[];
 }
 
 export function Header({
   logo = SITE_CONFIG.logo,
   currentPath = "/",
-  contentTypes = [],
+  categories = [],
 }: HeaderProps) {
   const hasAnimated = useRef(false);
   const [mounted, setMounted] = useState(false);
@@ -48,8 +48,24 @@ export function Header({
           {logo}
         </Link>
       </div>
-      <div className="flex items-center gap-4">
-        <TypeTabs types={contentTypes} />
+      <div className="flex items-center gap-2">
+        <TypeTabs categories={categories} />
+        <nav className="flex gap-2 font-medium underline text-muted-foreground flex-wrap">
+          {STATIC_NAV_ITEMS.map((item, i) => (
+            <React.Fragment key={item.href}>
+              <span>/</span>
+              <Link
+                href={item.href}
+                onClick={() => handleNavClick(item)}
+                className={currentPath === item.href ? "text-foreground" : ""}
+              >
+                {item.label}
+              </Link>
+
+              {i < STATIC_NAV_ITEMS.length - 1}
+            </React.Fragment>
+          ))}
+        </nav>
         <ThemeToggle />
       </div>
     </header>

@@ -8,7 +8,7 @@ import { getBlogPost, getBlogPosts } from "@/lib/blog";
 export async function generateStaticParams() {
   const posts = await getBlogPosts();
   return posts.map((post) => ({
-    type: post.type,
+    category: post.category,
     slug: post.slug,
   }));
 }
@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 export default async function BlogPost({
   params,
 }: {
-  params: Promise<{ type: string; slug: string }>;
+  params: Promise<{ category: string; slug: string }>;
 }) {
   const { slug } = await params;
   const post = await getBlogPost(slug);
@@ -31,7 +31,7 @@ export default async function BlogPost({
   return (
     <article>
       <div className="mb-4">
-        <BackToBlogLink type={meta?.type} />
+        <BackToBlogLink category={meta?.category} />
       </div>
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8 border-b border-muted-foreground pb-4">
         {meta?.date && <span>{meta.date}</span>}

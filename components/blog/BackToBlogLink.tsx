@@ -5,19 +5,19 @@ import posthog from "posthog-js";
 
 interface BackToBlogLinkProps {
   slug?: string;
-  type?: string;
+  category?: string;
 }
 
-export function BackToBlogLink({ slug, type }: BackToBlogLinkProps) {
+export function BackToBlogLink({ slug, category }: BackToBlogLinkProps) {
   const handleClick = () => {
     posthog.capture("back_to_blog_clicked", {
       from_slug: slug,
-      type,
+      category,
     });
   };
 
-  const backPath = type ? `/${type}` : "/thoughts";
-  const backLabel = type ? `back to ${type}` : "← back to thoughts";
+  const backPath = category ? `/${category}` : "/thoughts";
+  const backLabel = category ? `← back to ${category}` : "← back to thoughts";
 
   return (
     <Link

@@ -7,35 +7,35 @@ import React from "react";
 import { typeToLabel } from "@/lib/typeConfig";
 
 interface TypeTabsProps {
-  types?: string[];
+  categories?: string[];
 }
 
-export function TypeTabs({ types = [] }: TypeTabsProps) {
+export function TypeTabs({ categories = [] }: TypeTabsProps) {
   const pathname = usePathname();
 
-  const handleTypeClick = (type: string) => {
-    posthog.capture("type_tab_clicked", {
-      type,
+  const handleCategoryClick = (category: string) => {
+    posthog.capture("category_tab_clicked", {
+      category,
       from_path: pathname,
     });
   };
 
-  if (types.length === 0) {
+  if (categories.length === 0) {
     return null;
   }
 
   return (
     <nav className="flex gap-2 font-medium underline text-muted-foreground flex-wrap">
-      {types.map((type, index) => (
-        <React.Fragment key={type}>
+      {categories.map((category, index) => (
+        <React.Fragment key={category}>
           <Link
-            href={`/${type}`}
-            onClick={() => handleTypeClick(type)}
-            className={pathname === `/${type}` ? "text-foreground" : ""}
+            href={`/${category}`}
+            onClick={() => handleCategoryClick(category)}
+            className={pathname === `/${category}` ? "text-foreground" : ""}
           >
-            {typeToLabel(type)}
+            {typeToLabel(category)}
           </Link>
-          {index < types.length - 1 && <span>/</span>}
+          {index < categories.length - 1 && <span>/</span>}
         </React.Fragment>
       ))}
     </nav>

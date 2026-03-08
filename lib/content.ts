@@ -10,7 +10,7 @@ import {
 export type ContentItem = {
   slug: string;
   title: string;
-  type: string;
+  category: string;
   date?: string;
   tags: string[];
   excerpt?: string;
@@ -38,13 +38,13 @@ export async function getContentItems(
       }
 
       const frontmatter = parseFrontmatter(content);
-      const type = getStringValue(frontmatter, "type", "blog");
+      const category = getStringValue(frontmatter, "category", "blog");
       const bodyContent = extractBody(content);
 
       return {
         slug,
         title: getStringValue(frontmatter, "title", slug),
-        type,
+        category,
         date: getStringValue(frontmatter, "date"),
         tags: getArrayValue(frontmatter, "tags"),
         excerpt: getStringValue(frontmatter, "excerpt") || undefined,
@@ -85,13 +85,13 @@ export async function getContentItems(
   return filteredItems;
 }
 
-export async function getArticlesByType(
-  type: string,
+export async function getArticlesByCategory(
+  category: string,
   sortBy: string = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
   const items = await getContentItems(sortBy, sortOrder);
-  return items.filter((item) => item.type === type);
+  return items.filter((item) => item.category === category);
 }
 
 export async function getContentItem(

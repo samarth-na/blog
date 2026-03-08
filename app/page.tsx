@@ -2,13 +2,13 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="space-y-4 animate-fade-in-down w-[600px]">
+    <div className="space-y-4 animate-fade-in-down ">
       <div className="text-amber-500 text-xl text-center align-middle font-serif ">
         under construction
       </div>
-      <h3 className="text-2xl font-medium font-serif">software Architect and art enthusiast</h3>
+      <h3 className="text-2xl font-medium font-serif">software Architect</h3>
       <p className="text-sm text-muted-foreground">
-        Helllo im samarth a tech enthusiast. with a keen interest in linux and software
+        Hello I'm samarth a tech enthusiast. with a keen interest in linux and software
         architecutre.
       </p>
       <p className="text-sm text-muted-foreground">

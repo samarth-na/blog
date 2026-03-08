@@ -6,7 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { LAYOUT_CONFIG } from "@/data/config";
-import { getAllContentTypes } from "@/lib/getContentTypes";
+import { getAllCategories } from "@/lib/getCategories";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +34,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const contentTypes = await getAllContentTypes();
+  const categories = await getAllCategories();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -51,8 +51,8 @@ export default async function RootLayout({
         <ThemeProvider>
           <div className="flex-1">
             <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}>
-              <Header contentTypes={contentTypes} />
-              <main>{children}</main>
+              <Header categories={categories} />
+              <main className="mx-2">{children}</main>
             </div>
           </div>
 

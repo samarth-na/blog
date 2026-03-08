@@ -8,7 +8,7 @@ export type BlogPostMeta = {
   tags: string[];
   excerpt?: string;
   readTime: string;
-  type: string;
+  category: string;
 };
 
 function calculateReadTime(content: string): string {
@@ -40,7 +40,7 @@ export async function getBlogPosts(): Promise<BlogPostMeta[]> {
         tags: getArrayValue(frontmatter, "tags"),
         excerpt: excerptValue || undefined,
         readTime: getStringValue(frontmatter, "read") || calculateReadTime(bodyContent),
-        type: getStringValue(frontmatter, "type", "blog"),
+        category: getStringValue(frontmatter, "category", "blog"),
       };
     }),
   );
