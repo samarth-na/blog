@@ -25,14 +25,15 @@ function calculateReadTime(content: string): string {
 }
 
 export async function getContentItems(
+  contentType: string,
   sortBy: string = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
-  const slugs = await getContentFileList();
+  const slugs = await getContentFileList(contentType);
 
   const items = await Promise.all(
     slugs.map(async (slug) => {
-      const content = await fetchContent(slug);
+      const content = await fetchContent(contentType, slug);
       if (!content) {
         return null;
       }
@@ -90,14 +91,15 @@ export async function getArticlesByCategory(
   sortBy: string = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
-  const items = await getContentItems(sortBy, sortOrder);
-  return items.filter((item) => item.category === category);
+  const items = await getContentItems(category, sortBy, sortOrder);
+  return items;
 }
 
 export async function getContentItem(
+  contentType: string,
   slug: string,
 ): Promise<({ slug: string; content: string } & ParsedFrontmatter) | null> {
-  const content = await fetchContent(slug);
+  const content = await fetchContent(contentType, slug);
 
   if (!content) {
     return null;

@@ -8,7 +8,7 @@ import { fetchContent } from "@/lib/contentConfig";
 async function getInterest(
   slug: string,
 ): Promise<{ slug: string; content: string; title: string } | null> {
-  const content = await fetchContent(slug);
+  const content = await fetchContent("interests", slug);
 
   if (!content) {
     return null;

@@ -7,22 +7,20 @@ const CONTENT_BASE_DIR = "content";
 export const contentConfig = {
   isLocal: isDev,
   localPath: path.join(process.cwd(), CONTENT_BASE_DIR),
-  blogsLocalPath: path.join(process.cwd(), CONTENT_BASE_DIR, "blogs"),
   repo: "samarth-na/content",
   branch: "main",
   baseUrl: "https://raw.githubusercontent.com/samarth-na/content/main",
-  blogsBaseUrl: "https://raw.githubusercontent.com/samarth-na/content/main/blogs",
 };
 
-export async function fetchContent(slug: string): Promise<string | null> {
+export async function fetchContent(contentType: string, slug: string): Promise<string | null> {
   if (contentConfig.isLocal) {
-    const filePath = path.join(contentConfig.blogsLocalPath, `${slug}.mdx`);
+    const filePath = path.join(contentConfig.localPath, contentType, `${slug}.mdx`);
     if (!fs.existsSync(filePath)) {
       return null;
     }
     return fs.readFileSync(filePath, "utf8");
   } else {
-    const url = `${contentConfig.blogsBaseUrl}/${slug}.mdx`;
+    const url = `${contentConfig.baseUrl}/${contentType}/${slug}.mdx`;
     const response = await fetch(url, {
       next: { revalidate: 86400 },
     });
@@ -33,15 +31,16 @@ export async function fetchContent(slug: string): Promise<string | null> {
   }
 }
 
-export async function getContentFileList(): Promise<string[]> {
+export async function getContentFileList(contentType: string): Promise<string[]> {
   if (contentConfig.isLocal) {
-    if (!fs.existsSync(contentConfig.blogsLocalPath)) {
+    const contentDir = path.join(contentConfig.localPath, contentType);
+    if (!fs.existsSync(contentDir)) {
       return [];
     }
-    const files = fs.readdirSync(contentConfig.blogsLocalPath);
+    const files = fs.readdirSync(contentDir);
     return files.filter((file) => file.endsWith(".mdx")).map((file) => file.replace(".mdx", ""));
   } else {
-    const url = `https://api.github.com/repos/${contentConfig.repo}/contents/blogs`;
+    const url = `https://api.github.com/repos/${contentConfig.repo}/contents/${contentType}`;
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",

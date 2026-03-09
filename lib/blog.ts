@@ -19,11 +19,11 @@ function calculateReadTime(content: string): string {
 }
 
 export async function getBlogPosts(): Promise<BlogPostMeta[]> {
-  const slugs = await getContentFileList();
+  const slugs = await getContentFileList("blog");
 
   const posts = await Promise.all(
     slugs.map(async (slug) => {
-      const content = await fetchContent(slug);
+      const content = await fetchContent("blog", slug);
       if (!content) {
         return null;
       }
@@ -54,7 +54,7 @@ export async function getBlogPost(slug: string): Promise<{
   slug: string;
   content: string;
 } | null> {
-  const content = await fetchContent(slug);
+  const content = await fetchContent("blog", slug);
 
   if (!content) {
     return null;
