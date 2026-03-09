@@ -1,11 +1,5 @@
-import { fetchContent, getContentFileList } from "./contentConfig";
-import {
-  extractBody,
-  getArrayValue,
-  getStringValue,
-  type ParsedFrontmatter,
-  parseFrontmatter,
-} from "./frontmatter";
+import { getContentEntries } from "./contentConfig";
+import { extractBody, getArrayValue, getStringValue, type ParsedFrontmatter } from "./frontmatter";
 
 export type ContentItem = {
   slug: string;
@@ -29,36 +23,25 @@ export async function getContentItems(
   sortBy: string = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
-  const slugs = await getContentFileList(contentType);
+  const items = (await getContentEntries(contentType)).map((entry) => {
+    const { frontmatter, slug, content } = entry;
+    const category = getStringValue(frontmatter, "category", contentType);
+    const bodyContent = extractBody(content);
 
-  const items = await Promise.all(
-    slugs.map(async (slug) => {
-      const content = await fetchContent(contentType, slug);
-      if (!content) {
-        return null;
-      }
-
-      const frontmatter = parseFrontmatter(content);
-      const category = getStringValue(frontmatter, "category", "blog");
-      const bodyContent = extractBody(content);
-
-      return {
-        slug,
-        title: getStringValue(frontmatter, "title", slug),
-        category,
-        date: getStringValue(frontmatter, "date"),
-        tags: getArrayValue(frontmatter, "tags"),
-        excerpt: getStringValue(frontmatter, "excerpt") || undefined,
-        readTime: getStringValue(frontmatter, "read") || calculateReadTime(bodyContent),
-        ...frontmatter,
-      } as ContentItem;
-    }),
-  );
-
-  const filteredItems = items.filter((item): item is NonNullable<typeof item> => item !== null);
+    return {
+      slug,
+      title: getStringValue(frontmatter, "title", slug),
+      category,
+      date: getStringValue(frontmatter, "date"),
+      tags: getArrayValue(frontmatter, "tags"),
+      excerpt: getStringValue(frontmatter, "excerpt") || undefined,
+      readTime: getStringValue(frontmatter, "read") || calculateReadTime(bodyContent),
+      ...frontmatter,
+    } as ContentItem;
+  });
 
   if (sortBy) {
-    filteredItems.sort((a, b) => {
+    items.sort((a, b) => {
       let aVal = a[sortBy];
       let bVal = b[sortBy];
 
@@ -71,7 +54,7 @@ export async function getContentItems(
       const aDate = new Date(aVal);
       const bDate = new Date(bVal);
 
-      if (!isNaN(aDate.getTime()) && !isNaN(bDate.getTime())) {
+      if (!Number.isNaN(aDate.getTime()) && !Number.isNaN(bDate.getTime())) {
         return sortOrder === "desc"
           ? bDate.getTime() - aDate.getTime()
           : aDate.getTime() - bDate.getTime();
@@ -83,7 +66,7 @@ export async function getContentItems(
     });
   }
 
-  return filteredItems;
+  return items;
 }
 
 export async function getArticlesByCategory(
@@ -91,26 +74,22 @@ export async function getArticlesByCategory(
   sortBy: string = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
-  const items = await getContentItems(category, sortBy, sortOrder);
-  return items;
+  return getContentItems(category, sortBy, sortOrder);
 }
 
 export async function getContentItem(
   contentType: string,
   slug: string,
 ): Promise<({ slug: string; content: string } & ParsedFrontmatter) | null> {
-  const content = await fetchContent(contentType, slug);
+  const entry = (await getContentEntries(contentType)).find((item) => item.slug === slug);
 
-  if (!content) {
+  if (!entry) {
     return null;
   }
 
-  const frontmatter = parseFrontmatter(content);
-  const bodyContent = extractBody(content);
-
   return {
     slug,
-    content: bodyContent,
-    ...frontmatter,
+    content: extractBody(entry.content),
+    ...entry.frontmatter,
   };
 }

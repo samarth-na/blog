@@ -1,5 +1,4 @@
-import { fetchContent, getContentFileList } from "./contentConfig";
-import { extractBody, getArrayValue, getStringValue, parseFrontmatter } from "./frontmatter";
+import { getArticlesByCategory, getContentItem } from "./content";
 
 export type BlogPostMeta = {
   slug: string;
@@ -11,42 +10,22 @@ export type BlogPostMeta = {
   category: string;
 };
 
-function calculateReadTime(content: string): string {
-  const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return `${minutes} min read`;
-}
-
 export async function getBlogPosts(): Promise<BlogPostMeta[]> {
-  const slugs = await getContentFileList("blog");
+  const [blogPosts, thoughtPosts] = await Promise.all([
+    getArticlesByCategory("blog"),
+    getArticlesByCategory("thoughts"),
+  ]);
 
-  const posts = await Promise.all(
-    slugs.map(async (slug) => {
-      const content = await fetchContent("blog", slug);
-      if (!content) {
-        return null;
-      }
-
-      const frontmatter = parseFrontmatter(content);
-      const bodyContent = extractBody(content);
-
-      const excerptValue = getStringValue(frontmatter, "excerpt");
-
-      return {
-        slug,
-        title: getStringValue(frontmatter, "title"),
-        date: getStringValue(frontmatter, "date"),
-        tags: getArrayValue(frontmatter, "tags"),
-        excerpt: excerptValue || undefined,
-        readTime: getStringValue(frontmatter, "read") || calculateReadTime(bodyContent),
-        category: getStringValue(frontmatter, "category", "blog"),
-      };
-    }),
-  );
-
-  return posts
-    .filter((post): post is NonNullable<typeof post> => post !== null)
+  return [...blogPosts, ...thoughtPosts]
+    .map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      date: post.date || "",
+      tags: post.tags,
+      excerpt: post.excerpt,
+      readTime: post.readTime,
+      category: post.category,
+    }))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
@@ -54,14 +33,23 @@ export async function getBlogPost(slug: string): Promise<{
   slug: string;
   content: string;
 } | null> {
-  const content = await fetchContent("blog", slug);
+  const blogPost = await getContentItem("blog", slug);
 
-  if (!content) {
+  if (blogPost) {
+    return {
+      slug,
+      content: blogPost.content,
+    };
+  }
+
+  const thoughtPost = await getContentItem("thoughts", slug);
+
+  if (!thoughtPost) {
     return null;
   }
 
   return {
     slug,
-    content: extractBody(content),
+    content: thoughtPost.content,
   };
 }

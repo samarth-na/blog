@@ -3,27 +3,28 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { fetchContent } from "@/lib/contentConfig";
+import { getContentItem } from "@/lib/content";
+import { getContentFileList } from "@/lib/contentConfig";
 
 async function getInterest(
   slug: string,
 ): Promise<{ slug: string; content: string; title: string } | null> {
-  const content = await fetchContent("interests", slug);
+  const interest = await getContentItem("interests", slug);
 
-  if (!content) {
+  if (!interest) {
     return null;
   }
 
-  const titleMatch = content.match(/^title:\s*"?([^"\n]+)"?/m);
-  const title = titleMatch ? titleMatch[1] : slug;
-
-  const bodyContent = content.replace(/^---[\s\S]*?---\n/, "");
-
   return {
     slug,
-    title,
-    content: bodyContent,
+    title: Array.isArray(interest.title) ? interest.title[0] : interest.title || slug,
+    content: interest.content,
   };
+}
+
+export async function generateStaticParams() {
+  const slugs = await getContentFileList("interests");
+  return slugs.map((slug) => ({ slug }));
 }
 
 export default async function InterestPage({ params }: { params: Promise<{ slug: string }> }) {

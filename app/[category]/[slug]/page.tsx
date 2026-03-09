@@ -3,11 +3,15 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { getBlogPost, getBlogPosts } from "@/lib/blog";
+import { getArticlesByCategory, getContentItem } from "@/lib/content";
 
 export async function generateStaticParams() {
-  const posts = await getBlogPosts();
-  return posts.map((post) => ({
+  const [blogPosts, thoughtPosts] = await Promise.all([
+    getArticlesByCategory("blog"),
+    getArticlesByCategory("thoughts"),
+  ]);
+
+  return [...blogPosts, ...thoughtPosts].map((post) => ({
     category: post.category,
     slug: post.slug,
   }));
@@ -18,24 +22,28 @@ export default async function BlogPost({
 }: {
   params: Promise<{ category: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const post = await getBlogPost(slug);
+  const { category, slug } = await params;
+  const post = await getContentItem(category, slug);
 
   if (!post) {
     notFound();
   }
 
-  const posts = await getBlogPosts();
-  const meta = posts.find((p) => p.slug === slug);
+  const posts = await getArticlesByCategory(category, "date", "desc");
+  const meta = posts.find((item) => item.slug === slug);
+
+  if (!meta) {
+    notFound();
+  }
 
   return (
     <article>
       <div className="mb-4">
-        <BackToBlogLink category={meta?.category} />
+        <BackToBlogLink category={meta.category} />
       </div>
       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8 border-b border-muted-foreground pb-4">
-        {meta?.date && <span>{meta.date}</span>}
-        {meta?.readTime && (
+        {meta.date && <span>{meta.date}</span>}
+        {meta.readTime && (
           <>
             <span>·</span>
             <span>{meta.readTime}</span>
