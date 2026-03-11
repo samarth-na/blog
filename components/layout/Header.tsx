@@ -37,9 +37,9 @@ export function Header({
 
   return (
     <header
-      className={`sticky top-0 z-50 mb-14 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-5 bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/70 ${mounted ? "animate-header-reveal" : "opacity-0"}`}
+      className={`sticky top-0 z-50 mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 bg-background/95 py-3 backdrop-blur supports-[backdrop-filter]:bg-background/70 ${mounted ? "animate-header-reveal" : "opacity-0"}`}
     >
-      <div>
+      <div className="flex w-full items-center justify-between sm:w-auto">
         <Link
           href="/"
           onClick={() => handleNavClick({ label: "home", href: "/" })}
@@ -47,6 +47,9 @@ export function Header({
         >
           {logo}
         </Link>
+        <div className="sm:hidden">
+          <ThemeToggle />
+        </div>
       </div>
       <div className="flex items-center gap-3">
         <TypeTabs categories={categories} />
@@ -66,7 +69,9 @@ export function Header({
             </React.Fragment>
           ))}
         </nav>
-        <ThemeToggle />
+        <div className="hidden sm:block">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

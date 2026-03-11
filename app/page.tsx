@@ -3,10 +3,10 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <div className="space-y-6 animate-fade-in-down max-w-3xl">
-      <div className="text-amber-600 text-[11px] tracking-[0.24em] uppercase font-mono text-center sm:text-left">
-        under construction
+      <div className="text-amber-500 text-[11px] tracking-[0.24em] uppercase font-mono  sm:text-left">
+        under-construction
       </div>
-      <h3 className="text-4xl md:text-6xl leading-[0.95] tracking-[-0.012em] font-medium font-serif text-foreground text-balance">
+      <h3 className="text-2xl md:text-4xl leading-[0.95] tracking-[-0.012em] font-medium font-serif text-foreground text-balance">
         Software Architect
       </h3>
       <p className="text-base leading-[1.55] text-muted-foreground max-w-2xl">

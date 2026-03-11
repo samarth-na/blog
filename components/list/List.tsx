@@ -178,11 +178,9 @@ export function List({
                   </div>
                 )}
 
-                {item.excerpt && (
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
-                    {item.excerpt}
-                  </p>
-                )}
+                <p className="h-[3rem] overflow-hidden text-sm leading-relaxed text-muted-foreground">
+                  {item.excerpt ?? ""}
+                </p>
               </Link>
             </article>
           ))

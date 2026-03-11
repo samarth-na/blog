@@ -18,7 +18,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="h-9 px-3 border border-border/70 text-[11px] tracking-[0.2em] uppercase font-mono text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
+      className="h-8 px-2 border border-border/70 text-[11px] tracking-[0.2em] uppercase font-mono text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
       aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
       suppressHydrationWarning
     >

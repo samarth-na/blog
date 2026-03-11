@@ -207,25 +207,41 @@ export function ScrollRail() {
     headings.length > 0
       ? headings.map((heading) => ({
           key: heading.id,
+          targetId: heading.id,
           level: Math.min(Math.max(heading.level, 1), 3),
           active: activeHeadingId === heading.id,
           label: heading.text,
         }))
       : FALLBACK_LEVELS.map((level, index) => ({
           key: `fallback-${index}`,
+          targetId: null,
           level,
           active: index === activeFallbackIndex,
           label: null,
         }));
 
-  const hoveredMarker =
-    hoveredMarkerIndex === null ? null : (railMarkers[hoveredMarkerIndex] ?? null);
-  const markerPosition =
-    hoveredMarkerIndex === null
-      ? 50
-      : railMarkers.length <= 1
-        ? 50
-        : (hoveredMarkerIndex / (railMarkers.length - 1)) * 100;
+  const jumpToHeading = (targetId: string | null) => {
+    if (!targetId) {
+      return;
+    }
+
+    const target = document.getElementById(targetId);
+    if (!target) {
+      return;
+    }
+
+    const y = target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
+    window.scrollTo({
+      top: Math.max(y, 0),
+      behavior: "smooth",
+    });
+    window.history.replaceState(null, "", `#${targetId}`);
+  };
+
+  const markerGapPx =
+    railMarkers.length <= 1
+      ? 0
+      : Math.min(20, Math.max(12, Math.floor(140 / (railMarkers.length - 1))));
 
   return (
     <aside
@@ -233,35 +249,38 @@ export function ScrollRail() {
       onMouseLeave={() => setHoveredMarkerIndex(null)}
     >
       <div className="relative flex h-[46vh] min-h-[170px] w-6 items-center justify-end">
-        {hoveredMarker?.label ? (
-          <div
-            style={{ top: `${markerPosition}%` }}
-            className="pointer-events-none absolute right-full mr-2 -translate-y-1/2"
-          >
-            <div className="max-w-[15rem] truncate whitespace-nowrap rounded-[3px]   px-2 py-1 text-[12px] leading-none text-foreground shadow-xl  bg-background backdrop-blur">
-              {hoveredMarker.label}
-            </div>
+        <div className="relative z-10 flex h-full w-full items-center justify-center py-1.5">
+          <div className="flex flex-col items-end" style={{ rowGap: `${markerGapPx}px` }}>
+            {railMarkers.map((marker, index) => (
+              <button
+                key={marker.key}
+                type="button"
+                onMouseEnter={() => setHoveredMarkerIndex(index)}
+                onFocus={() => setHoveredMarkerIndex(index)}
+                onBlur={() =>
+                  setHoveredMarkerIndex((current) => (current === index ? null : current))
+                }
+                aria-label={marker.label ?? "Section marker"}
+                className={`relative ${markerWidthClass(marker.level)} h-[2px] rounded-full transition-all duration-150 ${
+                  marker.active || hoveredMarkerIndex === index
+                    ? "bg-gray-900 dark:bg-white shadow-[0_0_8px_color-mix(in_oklch,var(--foreground)_45%,transparent)]"
+                    : "bg-muted-foreground/45"
+                }`}
+              >
+                {hoveredMarkerIndex === index && marker.label ? (
+                  <span
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      jumpToHeading(marker.targetId);
+                    }}
+                    className="absolute right-full top-1/2 mr-2 max-w-[15rem] -translate-y-1/2 cursor-pointer truncate whitespace-nowrap rounded-[6px] bg-background/75 px-2 py-1 text-[12px] leading-none text-foreground shadow-lg backdrop-blur-md supports-[backdrop-filter]:bg-background/55"
+                  >
+                    {marker.label}
+                  </span>
+                ) : null}
+              </button>
+            ))}
           </div>
-        ) : null}
-
-        <div className="relative z-10 flex h-full w-full flex-col items-end justify-between py-1.5">
-          {railMarkers.map((marker, index) => (
-            <button
-              key={marker.key}
-              type="button"
-              onMouseEnter={() => setHoveredMarkerIndex(index)}
-              onFocus={() => setHoveredMarkerIndex(index)}
-              onBlur={() =>
-                setHoveredMarkerIndex((current) => (current === index ? null : current))
-              }
-              aria-label={marker.label ?? "Section marker"}
-              className={`${markerWidthClass(marker.level)} h-[2px] rounded-full transition-all duration-150 ${
-                marker.active || hoveredMarkerIndex === index
-                  ? "bg-black shadow-[0_0_8px_color-mix(in_oklch,var(--foreground)_45%,transparent)]"
-                  : "bg-muted-foreground/45"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </aside>

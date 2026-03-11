@@ -423,15 +423,7 @@
 }
 
 .editorial-card {
-  background:
-    linear-gradient(180deg, color-mix(in oklch, var(--background) 78%, white), var(--background)),
-    repeating-linear-gradient(
-      -45deg,
-      transparent 0,
-      transparent 10px,
-      color-mix(in oklch, var(--border) 4%, transparent) 10px,
-      color-mix(in oklch, var(--border) 4%, transparent) 11px
-    );
+  background: transparent;
 }
 
 .editorial-card:hover {

@@ -185,11 +185,9 @@ export function CardList({
                   );
                 })()}
 
-                {item.description && (
-                  <p className="text-[13px] text-muted-foreground line-clamp-3 leading-[1.45]">
-                    {item.description}
-                  </p>
-                )}
+                <p className="h-[2.3rem] overflow-hidden text-[13px] leading-[1.45] text-muted-foreground">
+                  {item.description ?? ""}
+                </p>
 
                 {showCardTags && item.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-1">
