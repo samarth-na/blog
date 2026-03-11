@@ -4,6 +4,8 @@ export type CardItem = {
   image?: string;
   tags: string[];
   description?: string;
+  date?: string;
+  readTime?: string;
 };
 
 export type ListItem = {

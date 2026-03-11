@@ -4,15 +4,17 @@ import remarkGfm from "remark-gfm";
 import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { getArticlesByCategory, getContentItem } from "@/lib/content";
+import { urlSegmentToType } from "@/lib/typeConfig";
 
 export async function generateStaticParams() {
-  const [blogPosts, thoughtPosts] = await Promise.all([
+  const [blogPosts, thoughtPosts, weeklogPosts] = await Promise.all([
     getArticlesByCategory("blog"),
     getArticlesByCategory("thoughts"),
+    getArticlesByCategory("weeklog"),
   ]);
 
-  return [...blogPosts, ...thoughtPosts].map((post) => ({
-    category: post.category,
+  return [...blogPosts, ...thoughtPosts, ...weeklogPosts].map((post) => ({
+    category: post.category === "weeklog" ? "weeklogs" : post.category,
     slug: post.slug,
   }));
 }
@@ -23,13 +25,14 @@ export default async function BlogPost({
   params: Promise<{ category: string; slug: string }>;
 }) {
   const { category, slug } = await params;
-  const post = await getContentItem(category, slug);
+  const normalizedCategory = urlSegmentToType(category);
+  const post = await getContentItem(normalizedCategory, slug);
 
   if (!post) {
     notFound();
   }
 
-  const posts = await getArticlesByCategory(category, "date", "desc");
+  const posts = await getArticlesByCategory(normalizedCategory, "date", "desc");
   const meta = posts.find((item) => item.slug === slug);
 
   if (!meta) {

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
+  "$schema": "~/dotfiles/env-configs/biome.schema.json",
 
   "files": {
     "ignoreUnknown": true

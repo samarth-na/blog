@@ -12,6 +12,11 @@ type CardListProps = {
   type: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
+  showImage?: boolean;
+  showCardTags?: boolean;
+  showCardDate?: boolean;
+  showCardReadTime?: boolean;
+  metaInlineWithTitle?: boolean;
 };
 
 export function CardList({
@@ -19,6 +24,11 @@ export function CardList({
   type,
   searchPlaceholder = "Search...",
   emptyMessage = "No items found matching your criteria.",
+  showImage = false,
+  showCardTags = true,
+  showCardDate = true,
+  showCardReadTime = true,
+  metaInlineWithTitle = false,
 }: CardListProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -133,18 +143,70 @@ export function CardList({
               key={item.slug}
               href={`/${type}/${item.slug}`}
               onClick={() => handleItemClick(item)}
-              className="rounded-[3px] group p-4 block border border-border hover:border-foreground transition-colors"
+              className="editorial-card rounded-[3px] group p-5 block border border-border transition-colors"
             >
-              <div className="space-y-3">
-                <h2 className="font-medium text-primary transition-colors">{item.title}</h2>
+              <div className="space-y-4">
+                {(() => {
+                  const readTimeText = showCardReadTime ? item.readTime : undefined;
+                  const dateText = showCardDate ? item.date : undefined;
+                  const inlineMetaText = [dateText, readTimeText].filter(Boolean).join(" · ");
+
+                  if (metaInlineWithTitle && inlineMetaText) {
+                    return (
+                      <div className="flex items-start justify-between gap-3">
+                        <h2 className="font-medium text-foreground transition-colors font-serif text-xl leading-tight group-hover:text-primary">
+                          {item.title}
+                        </h2>
+                        <span className="text-xs text-muted-foreground whitespace-nowrap mt-1">
+                          {inlineMetaText}
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <>
+                      <div className="flex items-start justify-between gap-3">
+                        <h2 className="font-medium text-foreground transition-colors font-serif text-2xl leading-[0.95] tracking-[-0.012em] group-hover:text-primary text-balance">
+                          {item.title}
+                        </h2>
+                        {readTimeText && (
+                          <span className="pt-1 text-[10px] tracking-[0.2em] uppercase font-mono text-muted-foreground whitespace-nowrap">
+                            {readTimeText}
+                          </span>
+                        )}
+                      </div>
+                      {dateText && (
+                        <div className="text-[11px] tracking-[0.18em] uppercase font-mono text-muted-foreground">
+                          {dateText}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
 
                 {item.description && (
-                  <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
+                  <p className="text-[13px] text-muted-foreground line-clamp-3 leading-[1.45]">
+                    {item.description}
+                  </p>
+                )}
+
+                {showCardTags && item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {item.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={`${item.slug}-${tag}`}
+                        className="px-2 py-1 text-[11px] tracking-wide rounded-[2px] border border-border text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 )}
               </div>
 
-              {item.image && (
-                <div className="mt-3 aspect-video rounded-[3px] overflow-hidden bg-muted relative">
+              {showImage && item.image && (
+                <div className="mt-4 aspect-video rounded-[3px] overflow-hidden bg-muted relative">
                   <Image
                     src={item.image}
                     alt={item.title}

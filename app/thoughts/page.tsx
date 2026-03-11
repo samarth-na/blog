@@ -1,4 +1,4 @@
-import { List } from "@/components/list/List";
+import { EditorialList } from "@/components/list/EditorialList";
 import type { ListItem } from "@/components/list/types";
 import { getArticlesByCategory } from "@/lib/content";
 
@@ -19,8 +19,13 @@ export default async function ThoughtsPage() {
 
   return (
     <div className="space-y-8 animate-fade-in-down">
-      <h1 className="text-2xl font-medium font-serif">Thoughts</h1>
-      <List items={listItems} type="thoughts" searchPlaceholder="Search thoughts..." />
+      <p className="text-[11px] tracking-[0.24em] uppercase font-mono text-muted-foreground">
+        Notes / Reflections
+      </p>
+      <h1 className="text-3xl md:text-4xl font-medium font-serif leading-[0.92] tracking-[-0.012em] text-balance">
+        Thoughts
+      </h1>
+      <EditorialList items={listItems} type="thoughts" searchPlaceholder="Search thoughts..." />
     </div>
   );
 }

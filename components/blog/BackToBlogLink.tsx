@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import posthog from "posthog-js";
+import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 
 interface BackToBlogLinkProps {
   slug?: string;
@@ -16,8 +17,10 @@ export function BackToBlogLink({ slug, category }: BackToBlogLinkProps) {
     });
   };
 
-  const backPath = category ? `/${category}` : "/thoughts";
-  const backLabel = category ? `← back to ${category}` : "← back to thoughts";
+  const backPath = category ? typeToUrl(category) : "/thoughts";
+  const backLabel = category
+    ? `← back to ${typeToLabel(category).toLowerCase()}`
+    : "← back to thoughts";
 
   return (
     <Link

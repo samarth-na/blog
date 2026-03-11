@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
 import React from "react";
-import { typeToLabel } from "@/lib/typeConfig";
+import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 
 interface TypeTabsProps {
   categories?: string[];
@@ -25,13 +25,13 @@ export function TypeTabs({ categories = [] }: TypeTabsProps) {
   }
 
   return (
-    <nav className="flex gap-2 font-medium underline text-muted-foreground flex-wrap">
+    <nav className="flex gap-2 text-[11px] tracking-[0.2em] uppercase font-mono text-muted-foreground flex-wrap">
       {categories.map((category, index) => (
         <React.Fragment key={category}>
           <Link
-            href={`/${category}`}
+            href={typeToUrl(category)}
             onClick={() => handleCategoryClick(category)}
-            className={pathname === `/${category}` ? "text-foreground" : ""}
+            className={`${pathname === typeToUrl(category) ? "text-foreground" : ""} hover:text-foreground transition-colors`}
           >
             {typeToLabel(category)}
           </Link>

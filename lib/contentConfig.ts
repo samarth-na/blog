@@ -30,8 +30,9 @@ const CONTENT_TYPE_CONFIG: Record<string, ContentTypeConfig> = {
     sourceDir: "blogs",
     category: "thoughts",
   },
-  interests: {
-    sourceDir: "interests",
+  weeklog: {
+    sourceDir: "blogs",
+    category: "weeklog",
   },
 };
 

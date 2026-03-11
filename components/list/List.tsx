@@ -144,9 +144,7 @@ export function List({
         )}
       </div>
 
-      <div
-        className={`border-t border-border pt-8 ${viewMode === "full" ? "space-y-8" : "space-y-2"}`}
-      >
+      <div className={viewMode === "full" ? "space-y-4" : "space-y-2"}>
         {filteredItems.length === 0 ? (
           <p className="text-muted-foreground text-center py-8">{emptyMessage}</p>
         ) : viewMode === "full" ? (
@@ -155,25 +153,36 @@ export function List({
               <Link
                 href={`/${type}/${item.slug}`}
                 onClick={() => handleItemClick(item)}
-                className="block space-y-2"
+                className="editorial-card block border border-border rounded-[3px] p-5 space-y-3"
               >
-                <h2 className="text-lg font-medium group-hover:text-primary transition-colors">
+                {(item.date || item.readTime) && (
+                  <div className="text-xs text-muted-foreground">
+                    {[item.date, item.readTime].filter(Boolean).join(" · ")}
+                  </div>
+                )}
+
+                <h2 className="text-lg leading-tight font-medium font-serif group-hover:text-primary transition-colors">
                   {item.title}
                 </h2>
 
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  {item.tags.length > 0 && (
-                    <>
-                      <span className="text-primary">[{item.tags.join(", ")}]</span>
-                      <span>·</span>
-                    </>
-                  )}
-                  <span>{item.date}</span>
-                  <span>·</span>
-                  <span>{item.readTime}</span>
-                </div>
+                {item.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.slice(0, 4).map((tag) => (
+                      <span
+                        key={`${item.slug}-${tag}`}
+                        className="px-2 py-1 text-[11px] tracking-wide rounded-[2px] border border-border text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
-                {item.excerpt && <p className="text-sm text-muted-foreground">{item.excerpt}</p>}
+                {item.excerpt && (
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                    {item.excerpt}
+                  </p>
+                )}
               </Link>
             </article>
           ))
@@ -183,13 +192,15 @@ export function List({
               <Link
                 href={`/${type}/${item.slug}`}
                 onClick={() => handleItemClick(item)}
-                className="block"
+                className="block border-b border-border py-3"
               >
                 <div className="flex items-baseline justify-between">
                   <h2 className="text-sm font-medium group-hover:text-primary transition-colors">
                     {item.title}
                   </h2>
-                  <span className="text-xs text-muted-foreground">{item.date}</span>
+                  <span className="text-xs text-muted-foreground text-right">
+                    {[item.date, item.readTime].filter(Boolean).join(" · ")}
+                  </span>
                 </div>
               </Link>
             </article>

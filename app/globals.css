@@ -7,9 +7,9 @@
 @theme inline {
     --color-background: var(--background);
     --color-foreground: var(--foreground);
-    --font-sans: DM Sans, sans-serif;
-    --font-mono: Space Mono, monospace;
-    --font-serif: Georgia, Times New Roman, serif;
+    --font-sans: var(--font-app-sans);
+    --font-mono: var(--font-app-mono);
+    --font-serif: var(--font-app-serif);
     --radius: 1rem;
     --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
     --tracking-tight: calc(var(--tracking-normal) - 0.025em);
@@ -104,8 +104,6 @@
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-border: oklch(0 0 0);
   --sidebar-ring: oklch(0.55 0.12 180);
-  --font-sans: DM Sans, sans-serif;
-  --font-mono: Space Mono, monospace;
   --shadow-color: #1a1a1a;
   --shadow-opacity: 0.05;
   --shadow-blur: 0px;
@@ -167,8 +165,6 @@
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-border: oklch(1 0 0);
   --sidebar-ring: oklch(0.65 0.13 180);
-  --font-sans: DM Sans, sans-serif;
-  --font-mono: Space Mono, monospace;
   --shadow-color: #1a1a1a;
   --shadow-opacity: 0.05;
   --shadow-blur: 0px;
@@ -192,12 +188,16 @@
 }
 .mdx {
   letter-spacing: var(--tracking-normal);
-  @apply bg-background text-foreground text-sm;
+  @apply bg-background text-foreground text-base leading-[1.55];
 }
 
 @layer base {
   body {
-    letter-spacing: var(--tracking-normal);
+    letter-spacing: 0.003em;
+    font-feature-settings:
+      "liga" 1,
+      "kern" 1;
+    text-rendering: optimizeLegibility;
     @apply bg-background text-foreground;
   }
   * {
@@ -212,9 +212,20 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* All h1 except MDX h1 - IBM Plex Serif */
+  /* All h1 except MDX h1 */
   h1:not(.mdx-h1) {
-    font-family: "IBM Plex Serif", serif;
+    font-family: var(--font-serif);
+    line-height: 0.95;
+    letter-spacing: -0.012em;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-serif);
+    letter-spacing: -0.01em;
   }
 }
 
@@ -232,15 +243,21 @@
 
 /* Headings */
 .mdx-h1 {
-  @apply underline text-xl font-medium mb-6 mt-8;
+  @apply text-3xl md:text-4xl font-medium mb-7 mt-10;
+  line-height: 0.96;
+  letter-spacing: -0.012em;
 }
 
 .mdx-h2 {
-  @apply underline font-medium mb-6 mt-8;
+  @apply text-2xl font-medium mb-6 mt-9;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 .mdx-h3 {
-  @apply underline text-sm font-medium mb-6 mt-8;
+  @apply text-xl font-medium mb-5 mt-8;
+  line-height: 1.05;
+  letter-spacing: -0.008em;
 }
 
 .mdx-h4 {
@@ -257,7 +274,7 @@
 
 /* Paragraphs - matching TextElements (text-sm) */
 .mdx-p {
-  @apply text-sm mb-4;
+  @apply text-base leading-[1.55] mb-5;
 }
 
 /* Links - matching BlogDemoLinks component */
@@ -281,7 +298,8 @@
 
 /* Inline code - matching code in TextElements (text-xs) */
 .mdx-code {
-  @apply text-xs;
+  @apply text-xs font-mono;
+  letter-spacing: 0.12em;
 }
 
 /* Code blocks - matching BlogCodeBlock component */
@@ -290,27 +308,28 @@
 }
 
 .mdx-pre code {
-  @apply text-xs  p-0;
+  @apply text-xs p-0 font-mono;
+  letter-spacing: 0.08em;
 }
 
 /* Unordered lists - matching BlogUnorderedList */
 .mdx-ul {
-  @apply list-disc list-inside text-sm space-y-1 text-muted-foreground mb-4;
+  @apply list-disc list-inside text-base leading-[1.55] space-y-1 text-muted-foreground mb-5;
 }
 
 /* Ordered lists - matching BlogOrderedList */
 .mdx-ol {
-  @apply list-decimal list-inside text-sm space-y-1 text-muted-foreground mb-4;
+  @apply list-decimal list-inside text-base leading-[1.55] space-y-1 text-muted-foreground mb-5;
 }
 
 /* List items */
 .mdx-li {
-  @apply text-sm text-muted-foreground;
+  @apply text-base leading-[1.55] text-muted-foreground;
 }
 
 /* Task list items (checkbox lists) - GFM uses task-list-item class */
 .task-list-item {
-  @apply text-sm text-muted-foreground;
+  @apply text-base leading-[1.55] text-muted-foreground;
 }
 
 .task-list-item input[type="checkbox"] {
@@ -323,7 +342,7 @@
 }
 
 .mdx-blockquote p {
-  @apply text-sm italic;
+  @apply text-base italic leading-[1.55];
 }
 
 /* Horizontal rule */
@@ -333,12 +352,12 @@
 
 /* Tables */
 .mdx-table {
-  @apply w-full text-sm text-muted-foreground border-collapse;
+  @apply w-full text-base text-muted-foreground border-collapse;
 }
 
 /* Table wrapper for scrollable tables */
 .mdx-table-wrapper {
-  @apply overflow-x-auto text-sm w-full;
+  @apply overflow-x-auto text-base w-full;
 }
 
 .mdx-thead {
@@ -346,7 +365,7 @@
 }
 
 .mdx-th {
-  @apply text-left py-2 px-4 font-medium text-foreground border-l border-border first:border-l-0;
+  @apply text-left py-2 px-4 font-mono text-[11px] tracking-[0.2em] uppercase text-foreground border-l border-border first:border-l-0;
 }
 
 .mdx-th:first-child {
@@ -401,6 +420,23 @@
 .animate-header-reveal {
   animation: headerReveal 0.6s ease-out forwards;
   opacity: 0;
+}
+
+.editorial-card {
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--background) 78%, white), var(--background)),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0,
+      transparent 10px,
+      color-mix(in oklch, var(--border) 4%, transparent) 10px,
+      color-mix(in oklch, var(--border) 4%, transparent) 11px
+    );
+}
+
+.editorial-card:hover {
+  border-color: color-mix(in oklch, var(--primary) 45%, var(--border));
+  transform: translateY(-2px);
 }
 
 /* Theme transition - smooth background color change */

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -12,20 +12,53 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+function getCurrentTheme(): Theme {
+  if (typeof window === "undefined") return "light";
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
 function applyThemeToDOM(theme: Theme) {
   document.documentElement.classList.toggle("dark", theme === "dark");
   localStorage.setItem("theme", theme);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // On the server, default to "light". On the client, read the actual state
-  // from the DOM — the inline <script> in layout.tsx already set the correct
-  // "dark" class before React hydrates, so this avoids a post-hydration
-  // re-render (which would restart CSS animations).
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "light";
-    return document.documentElement.classList.contains("dark") ? "dark" : "light";
-  });
+  const [theme, setThemeState] = useState<Theme>(getCurrentTheme);
+
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "theme" && e.newValue) {
+        const newTheme = e.newValue as Theme;
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
+        setThemeState(newTheme);
+      }
+    };
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemChange = (e: MediaQueryListEvent) => {
+      const storedTheme = localStorage.getItem("theme") as Theme | null;
+      if (!storedTheme) {
+        const newTheme = e.matches ? "dark" : "light";
+        document.documentElement.classList.toggle("dark", newTheme === "dark");
+        setThemeState(newTheme);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    mediaQuery.addEventListener("change", handleSystemChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      mediaQuery.removeEventListener("change", handleSystemChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const currentTheme = getCurrentTheme();
+    if (theme !== currentTheme) {
+      setThemeState(currentTheme);
+    }
+  }, []);
 
   const setTheme = useCallback((newTheme: Theme) => {
     applyThemeToDOM(newTheme);

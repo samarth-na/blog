@@ -1,4 +1,4 @@
-import { EditorialImageCard } from "@/components/list/EditorialImageCard";
+import { EditorialCard } from "@/components/list/EditorialCard";
 import type { CardItem } from "@/components/list/types";
 import { getArticlesByCategory } from "@/lib/content";
 
@@ -8,30 +8,32 @@ function toCardItem(item: any): CardItem {
     title: item.title,
     image: Array.isArray(item.image) ? item.image[0] : item.image,
     tags: Array.isArray(item.tags) ? item.tags : item.tags ? [item.tags] : [],
-    description: Array.isArray(item.description) ? item.description[0] : item.description,
+    description: Array.isArray(item.excerpt) ? item.excerpt[0] : item.excerpt,
     date: item.date || "",
     readTime: item.readTime || item.read || "",
   };
 }
 
-export default async function BlogPage() {
-  const articles = await getArticlesByCategory("blog", "date", "desc");
+export default async function WeeklogsPage() {
+  const articles = await getArticlesByCategory("weeklog", "date", "desc");
   const cardItems: CardItem[] = articles.map((article) => toCardItem(article));
 
   return (
     <div className="space-y-8 animate-fade-in-down">
       <p className="text-[11px] tracking-[0.24em] uppercase font-mono text-muted-foreground">
-        Issue 01 / Blog Chronicle
+        Dispatches / Weekly Notes
       </p>
-      <h1 className="text-4xl md:text-4xl font-medium font-serif leading-[0.92] tracking-[-0.012em] text-balance">
-        Blog
+      <h1 className="text-3xl md:text-4xl font-medium font-serif leading-[0.92] tracking-[-0.012em] text-balance">
+        Weeklogs
       </h1>
-      <EditorialImageCard
+      <EditorialCard
         items={cardItems}
-        type="blog"
-        searchPlaceholder="Search blog posts..."
-        showCardDate={false}
-        showCardReadTime
+        type="weeklogs"
+        searchPlaceholder="Search weeklogs..."
+        showCardTags={false}
+        showCardReadTime={false}
+        showCardDate
+        metaInlineWithTitle
       />
     </div>
   );

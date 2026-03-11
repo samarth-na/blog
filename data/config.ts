@@ -13,7 +13,7 @@ export const STATIC_NAV_ITEMS = [{ label: "now", href: "/now" }] as const;
 
 export const SOCIAL_LINKS = [
   { label: "twitter", href: "https://x.com/samarth7na" },
-  { label: "github", href: "https://github.com/samarth-nagar" },
+  { label: "github", href: "https://github.com/samarth-na" },
 ] as const;
 
 export const LAYOUT_CONFIG = {
