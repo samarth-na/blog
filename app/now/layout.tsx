@@ -1,6 +1,6 @@
+import { mdxComponents } from "@/components/mdx/MDXComponents";
 import type { MDXComponents } from "mdx/types";
 import type React from "react";
-import { mdxComponents } from "@/components/mdx/MDXComponents";
 
 export function useMDXComponents(componentsFromProps: MDXComponents): MDXComponents {
   return {

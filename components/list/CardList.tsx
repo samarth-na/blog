@@ -107,6 +107,7 @@ export function CardList({
 
         <div className="flex items-center gap-4">
           <button
+            type="button"
             onClick={() => setShowTags(!showTags)}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -119,6 +120,7 @@ export function CardList({
           <div className="flex flex-wrap gap-2">
             {allTags.map((tag) => (
               <button
+                type="button"
                 key={tag}
                 onClick={() => toggleTag(tag)}
                 className={`px-3 py-1.5 text-sm border rounded-xs transition-colors ${
@@ -185,7 +187,7 @@ export function CardList({
                   );
                 })()}
 
-                <p className="h-[2.3rem] overflow-hidden text-[13px] leading-[1.45] text-muted-foreground">
+                <p className="line-clamp-2 text-[13px] leading-[1.45] text-muted-foreground">
                   {item.description ?? ""}
                 </p>
 

@@ -24,7 +24,7 @@ export default function HomePage() {
         works and thoughts. im currently in
         <Link href="https://www.google.com/search?q=indore" className="text-primary ">
           <span className="sr-only">GitHub</span>
-          {` Indore `}
+          {" Indore "}
         </Link>
         studying to graduate as a software engineer in 2027.
       </p>

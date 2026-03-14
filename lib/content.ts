@@ -1,5 +1,5 @@
 import { getContentEntries } from "./contentConfig";
-import { extractBody, getArrayValue, getStringValue, type ParsedFrontmatter } from "./frontmatter";
+import { type ParsedFrontmatter, extractBody, getArrayValue, getStringValue } from "./frontmatter";
 
 export type ContentItem = {
   slug: string;
@@ -20,7 +20,7 @@ function calculateReadTime(content: string): string {
 
 export async function getContentItems(
   contentType: string,
-  sortBy: string = "date",
+  sortBy = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
   const items = (await getContentEntries(contentType)).map((entry) => {
@@ -71,7 +71,7 @@ export async function getContentItems(
 
 export async function getArticlesByCategory(
   category: string,
-  sortBy: string = "date",
+  sortBy = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<ContentItem[]> {
   return getContentItems(category, sortBy, sortOrder);

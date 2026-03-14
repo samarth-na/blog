@@ -53,6 +53,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: theme is intentionally excluded
   useEffect(() => {
     const currentTheme = getCurrentTheme();
     if (theme !== currentTheme) {

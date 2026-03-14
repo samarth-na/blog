@@ -1,10 +1,10 @@
-import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
 import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { getArticlesByCategory, getContentItem } from "@/lib/content";
 import { urlSegmentToType } from "@/lib/typeConfig";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { notFound } from "next/navigation";
+import remarkGfm from "remark-gfm";
 
 export async function generateStaticParams() {
   const [blogPosts, thoughtPosts, weeklogPosts] = await Promise.all([

@@ -1,8 +1,8 @@
 "use client";
 
+import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 import Link from "next/link";
 import posthog from "posthog-js";
-import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 
 interface BackToBlogLinkProps {
   slug?: string;

@@ -1,10 +1,10 @@
 "use client";
 
+import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
 import React from "react";
-import { typeToLabel, typeToUrl } from "@/lib/typeConfig";
 
 interface TypeTabsProps {
   categories?: string[];

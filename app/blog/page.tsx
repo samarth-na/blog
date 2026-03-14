@@ -1,8 +1,8 @@
 import { EditorialImageCard } from "@/components/list/EditorialImageCard";
 import type { CardItem } from "@/components/list/types";
-import { getArticlesByCategory } from "@/lib/content";
+import { type ContentItem, getArticlesByCategory } from "@/lib/content";
 
-function toCardItem(item: any): CardItem {
+function toCardItem(item: ContentItem): CardItem {
   return {
     slug: item.slug,
     title: item.title,
@@ -10,7 +10,7 @@ function toCardItem(item: any): CardItem {
     tags: Array.isArray(item.tags) ? item.tags : item.tags ? [item.tags] : [],
     description: Array.isArray(item.description) ? item.description[0] : item.description,
     date: item.date || "",
-    readTime: item.readTime || item.read || "",
+    readTime: typeof item.readTime === "string" ? item.readTime : "",
   };
 }
 

@@ -1,14 +1,14 @@
 import { EditorialList } from "@/components/list/EditorialList";
 import type { ListItem } from "@/components/list/types";
-import { getArticlesByCategory } from "@/lib/content";
+import { type ContentItem, getArticlesByCategory } from "@/lib/content";
 
-function toListItem(item: any): ListItem {
+function toListItem(item: ContentItem): ListItem {
   return {
     slug: item.slug,
     title: item.title,
     date: item.date || "",
     tags: Array.isArray(item.tags) ? item.tags : item.tags ? [item.tags] : [],
-    readTime: item.readTime || item.read || "",
+    readTime: typeof item.readTime === "string" ? item.readTime : "",
     excerpt: Array.isArray(item.excerpt) ? item.excerpt[0] : item.excerpt,
   };
 }

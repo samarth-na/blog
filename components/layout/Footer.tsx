@@ -1,8 +1,8 @@
 "use client";
 
+import { SITE_CONFIG, SOCIAL_LINKS } from "@/data/config";
 import Link from "next/link";
 import posthog from "posthog-js";
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/data/config";
 
 interface FooterProps {
   copyright?: string;
@@ -21,8 +21,8 @@ export function Footer({
   };
 
   return (
-    <footer className="mt-20 pt-6 border-t border-border/70">
-      <div className="flex justify-between text-[11px] tracking-[0.2em] uppercase font-mono text-muted-foreground">
+    <footer className="mt-12 sm:mt-20 pt-6 border-t border-border/70">
+      <div className="flex flex-col sm:flex-row justify-between gap-4 text-[11px] tracking-[0.2em] uppercase font-mono text-muted-foreground">
         <span>{copyright}</span>
         <div className="flex gap-4">
           {links.map((link) => (

@@ -1,7 +1,7 @@
 import fs from "fs";
-import path from "path";
+import path from "node:path";
 import { cache } from "react";
-import { getStringValue, type ParsedFrontmatter, parseFrontmatter } from "./frontmatter";
+import { type ParsedFrontmatter, getStringValue, parseFrontmatter } from "./frontmatter";
 
 const CONTENT_BASE_DIR = "content";
 const REMOTE_REVALIDATE_SECONDS = 3600;
@@ -180,7 +180,7 @@ export async function getContentFileList(contentType: string): Promise<string[]>
 
 export async function getContentItemsFromDir(
   contentDir: string,
-  sortBy: string = "date",
+  sortBy = "date",
   sortOrder: "asc" | "desc" = "desc",
 ): Promise<Array<{ slug: string; title: string; category?: string }>> {
   const items = await getDirectoryEntries(contentDir);

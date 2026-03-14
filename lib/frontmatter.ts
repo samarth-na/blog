@@ -61,7 +61,7 @@ export function extractBody(content: string): string {
 export function getStringValue(
   frontmatter: ParsedFrontmatter,
   key: string,
-  defaultValue = ""
+  defaultValue = "",
 ): string {
   const value = frontmatter[key];
   if (Array.isArray(value)) {
@@ -76,7 +76,7 @@ export function getStringValue(
 export function getArrayValue(
   frontmatter: ParsedFrontmatter,
   key: string,
-  defaultValue: string[] = []
+  defaultValue: string[] = [],
 ): string[] {
   const value = frontmatter[key];
   if (Array.isArray(value)) {

@@ -15,9 +15,7 @@ export function BlogSidebarLayout({
 }: SidebarLayoutProps) {
   return (
     <div className="grid md:grid-cols-[1fr_auto] gap-8 border-t border-b border-border py-6">
-      <div>
-        {mainContent}
-      </div>
+      <div>{mainContent}</div>
       <div style={{ width: sidebarWidth }}>
         <h3 className="text-xs text-muted-foreground mb-3">{sidebarTitle}</h3>
         <ul className="space-y-2 text-xs">

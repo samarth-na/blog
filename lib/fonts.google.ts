@@ -4,7 +4,7 @@ const sans = Instrument_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-app-sans",
-  display: "swap",
+  display: "optional",
   fallback: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
 });
 
@@ -12,7 +12,7 @@ const serif = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-app-serif",
-  display: "swap",
+  display: "optional",
   fallback: ["ui-serif", "Georgia", "Times New Roman", "serif"],
 });
 
@@ -20,7 +20,7 @@ const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-app-mono",
-  display: "swap",
+  display: "optional",
   fallback: [
     "ui-monospace",
     "SFMono-Regular",

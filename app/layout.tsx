@@ -36,13 +36,15 @@ export default async function RootLayout({
         <ThemeProvider>
           <ScrollRail />
           <div className="flex-1">
-            <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 py-12`}>
+            <div className={`${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-4 sm:px-6 py-8 sm:py-12`}>
               <Header categories={categories} />
-              <main className="mx-2">{children}</main>
+              <main className="sm:mx-2">{children}</main>
             </div>
           </div>
 
-          <div className={`w-full ${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-6 pb-12`}>
+          <div
+            className={`w-full ${LAYOUT_CONFIG.maxWidth["2xl"]} mx-auto px-4 sm:px-6 pb-8 sm:pb-12`}
+          >
             <Footer />
           </div>
         </ThemeProvider>

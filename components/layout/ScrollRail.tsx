@@ -273,6 +273,15 @@ export function ScrollRail() {
                       event.stopPropagation();
                       jumpToHeading(marker.targetId);
                     }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        jumpToHeading(marker.targetId);
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
                     className="absolute right-full top-1/2 mr-2 max-w-[15rem] -translate-y-1/2 cursor-pointer truncate whitespace-nowrap rounded-[6px] bg-background/75 px-2 py-1 text-[12px] leading-none text-foreground shadow-lg backdrop-blur-md supports-[backdrop-filter]:bg-background/55"
                   >
                     {marker.label}

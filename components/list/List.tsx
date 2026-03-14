@@ -109,6 +109,7 @@ export function List({
 
         <div className="flex items-center gap-4">
           <button
+            type="button"
             onClick={() => setShowTags(!showTags)}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -117,6 +118,7 @@ export function List({
           </button>
 
           <button
+            type="button"
             onClick={toggleViewMode}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
@@ -129,6 +131,7 @@ export function List({
           <div className="flex flex-wrap gap-2">
             {allTags.map((tag) => (
               <button
+                type="button"
                 key={tag}
                 onClick={() => toggleTag(tag)}
                 className={`px-3 py-1.5 text-sm border rounded-xs transition-colors ${
@@ -178,7 +181,7 @@ export function List({
                   </div>
                 )}
 
-                <p className="h-[3rem] overflow-hidden text-sm leading-relaxed text-muted-foreground">
+                <p className="h-[1rem] overflow-hidden text-sm leading-relaxed text-muted-foreground">
                   {item.excerpt ?? ""}
                 </p>
               </Link>
