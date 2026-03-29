@@ -180,6 +180,14 @@
     hsl(0 0% 10.1961% / 0.05);
   --shadow-2xl: 0px 0px 0px 0px hsl(0 0% 10.1961% / 0.13);
 }
+
+.dark.black {
+  --background: oklch(0 0 0);
+  --card: oklch(0 0 0);
+  --popover: oklch(0 0 0);
+  --sidebar: oklch(0 0 0);
+  --muted: oklch(0.1 0 0);
+}
 .mdx {
   letter-spacing: var(--tracking-normal);
   @apply bg-background text-foreground text-base leading-[1.55];

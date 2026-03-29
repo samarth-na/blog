@@ -2,22 +2,22 @@
 
 ## Current setup
 
-The app currently loads fonts in `app/layout.tsx` with `next/font/google`:
+The app loads fonts via `next/font/local` in `lib/fonts.ts`:
 
-- `Geist`
-- `Geist_Mono`
-- `IBM_Plex_Serif`
+- **Instrument Sans** (sans-serif) — Body text
+- **Cormorant Garamond** (serif) — Headings, titles
+- **IBM Plex Mono** (monospace) — Labels, metadata, tags
 
-Those font loaders generate CSS variables and classes, and the variables are attached on the `<body>` element.
+Font config lives in `config/fonts.ts` with a `FONT_SOURCE` env toggle between `google` and `local`. Font variables are attached on `<body>` in `app/layout.tsx`.
 
-This part is good because `next/font` is the correct Next.js approach for font loading and optimization.
+This setup is correct — `next/font/local` self-hosts the `.woff2` files and generates CSS variables for use with Tailwind tokens.
 
 ## What is not ideal right now
 
 The current implementation works, but the font system is split across multiple places and is harder to test quickly.
 
 - `app/layout.tsx` defines the font loaders.
-- `app/globals.css` still hardcodes font family names like `DM Sans`, `Space Mono`, `Georgia`, and `"IBM Plex Serif"`.
+- `app/globals.css` still hardcodes font family names in some places.
 - font-related CSS variables are repeated in `@theme inline`, `:root`, and `.dark`.
 - there is no single place to swap font families for fast testing.
 - production and experimentation use the same setup, which makes it less flexible.
@@ -136,17 +136,21 @@ Use a structure like this:
 
 ```text
 assets/fonts/
-  geist/
-    Geist-Regular.woff2
-    Geist-Medium.woff2
-    Geist-Bold.woff2
-  geist-mono/
-    GeistMono-Regular.woff2
-    GeistMono-Medium.woff2
-  ibm-plex-serif/
-    IBMPlexSerif-Regular.woff2
-    IBMPlexSerif-Medium.woff2
-    IBMPlexSerif-Bold.woff2
+  instrument-sans/
+    InstrumentSans-Regular.woff2
+    InstrumentSans-Medium.woff2
+    InstrumentSans-SemiBold.woff2
+    InstrumentSans-Bold.woff2
+  cormorant-garamond/
+    CormorantGaramond-Regular.woff2
+    CormorantGaramond-Medium.woff2
+    CormorantGaramond-SemiBold.woff2
+    CormorantGaramond-Bold.woff2
+  ibm-plex-mono/
+    IBMPlexMono-Regular.woff2
+    IBMPlexMono-Medium.woff2
+    IBMPlexMono-SemiBold.woff2
+    IBMPlexMono-Bold.woff2
 ```
 
 Rules:

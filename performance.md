@@ -584,7 +584,7 @@ After implementing changes, verify improvements:
 
 1. **Build Analysis**:
    ```bash
-   npm run build
+   bun run build
    # Check build output for route sizes and chunk breakdown
    ```
 
@@ -600,7 +600,7 @@ After implementing changes, verify improvements:
 4. **Bundle Analysis**:
    ```bash
    # Add @next/bundle-analyzer to inspect chunk sizes
-   ANALYZE=true npm run build
+   ANALYZE=true bun run build
    ```
 
 5. **PageSpeed Insights**:

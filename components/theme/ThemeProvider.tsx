@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+type Theme = "light" | "dark" | "black";
 
 interface ThemeContextType {
   theme: Theme;
@@ -14,12 +14,22 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 function getCurrentTheme(): Theme {
   if (typeof window === "undefined") return "light";
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+  const hasBlack = document.documentElement.classList.contains("black");
+  const hasDark = document.documentElement.classList.contains("dark");
+  if (hasBlack) return "black";
+  if (hasDark) return "dark";
+  return "light";
 }
 
 function applyThemeToDOM(theme: Theme) {
-  document.documentElement.classList.toggle("dark", theme === "dark");
+  const el = document.documentElement;
+  el.classList.toggle("dark", theme === "dark" || theme === "black");
+  el.classList.toggle("black", theme === "black");
   localStorage.setItem("theme", theme);
+}
+
+function isValidTheme(value: string): value is Theme {
+  return value === "light" || value === "dark" || value === "black";
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -27,19 +37,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "theme" && e.newValue) {
-        const newTheme = e.newValue as Theme;
-        document.documentElement.classList.toggle("dark", newTheme === "dark");
-        setThemeState(newTheme);
+      if (e.key === "theme" && e.newValue && isValidTheme(e.newValue)) {
+        applyThemeToDOM(e.newValue);
+        setThemeState(e.newValue);
       }
     };
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleSystemChange = (e: MediaQueryListEvent) => {
-      const storedTheme = localStorage.getItem("theme") as Theme | null;
-      if (!storedTheme) {
+      const stored = localStorage.getItem("theme");
+      if (!stored || !isValidTheme(stored)) {
         const newTheme = e.matches ? "dark" : "light";
-        document.documentElement.classList.toggle("dark", newTheme === "dark");
+        applyThemeToDOM(newTheme);
         setThemeState(newTheme);
       }
     };
@@ -68,7 +77,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    const cycle: Record<Theme, Theme> = {
+      light: "dark",
+      dark: "black",
+      black: "light",
+    };
+    const newTheme = cycle[theme];
     setTheme(newTheme);
   }, [theme, setTheme]);
 

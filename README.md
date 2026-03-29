@@ -11,7 +11,7 @@ I'm an undergraduate software engineering student based in Indore, India, gradua
 | [Home](/) | A bit about me |
 | [Blog](/blog) | Long-form writing on software and ideas |
 | [Thoughts](/thoughts) | Short, unpolished notes |
-| [Interests](/interests) | Things I care about |
+| [Weeklogs](/weeklogs) | Weekly progress logs |
 | [Now](/now) | What I'm currently focused on |
 
 ## License
