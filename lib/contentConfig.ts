@@ -45,6 +45,10 @@ export const contentConfig = {
   revalidate: REMOTE_REVALIDATE_SECONDS,
 };
 
+function logRemoteContentWarning(message: string): void {
+  console.warn(`[contentConfig] ${message}`);
+}
+
 function getTypeConfig(contentType: string): ContentTypeConfig {
   return (
     CONTENT_TYPE_CONFIG[contentType] ?? {
@@ -81,36 +85,58 @@ function sortItems<T extends Record<string, unknown>>(
 }
 
 const getRemoteTree = cache(async (): Promise<string[]> => {
-  const response = await fetch(contentConfig.treeApiUrl, {
-    headers: {
-      Accept: "application/vnd.github+json",
-    },
-    next: { revalidate: contentConfig.revalidate },
-  });
+  try {
+    const response = await fetch(contentConfig.treeApiUrl, {
+      headers: {
+        Accept: "application/vnd.github+json",
+      },
+      next: { revalidate: contentConfig.revalidate },
+    });
 
-  if (!response.ok) {
+    if (!response.ok) {
+      logRemoteContentWarning(
+        `Failed to fetch remote tree (${response.status} ${response.statusText}) from ${contentConfig.treeApiUrl}.`,
+      );
+      return [];
+    }
+
+    const data = (await response.json()) as {
+      tree?: Array<{ path: string; type: string }>;
+    };
+
+    return (data.tree ?? [])
+      .filter((entry) => entry.type === "blob" && entry.path.endsWith(".mdx"))
+      .map((entry) => entry.path);
+  } catch (error) {
+    logRemoteContentWarning(
+      `Error fetching remote tree from ${contentConfig.treeApiUrl}: ${error instanceof Error ? error.message : "Unknown error"}.`,
+    );
     return [];
   }
-
-  const data = (await response.json()) as {
-    tree?: Array<{ path: string; type: string }>;
-  };
-
-  return (data.tree ?? [])
-    .filter((entry) => entry.type === "blob" && entry.path.endsWith(".mdx"))
-    .map((entry) => entry.path);
 });
 
 const fetchRemoteFile = cache(async (filePath: string): Promise<string | null> => {
-  const response = await fetch(`${contentConfig.baseUrl}/${filePath}`, {
-    next: { revalidate: contentConfig.revalidate },
-  });
+  const targetUrl = `${contentConfig.baseUrl}/${filePath}`;
 
-  if (!response.ok) {
+  try {
+    const response = await fetch(targetUrl, {
+      next: { revalidate: contentConfig.revalidate },
+    });
+
+    if (!response.ok) {
+      logRemoteContentWarning(
+        `Failed to fetch remote content file (${response.status} ${response.statusText}) from ${targetUrl}.`,
+      );
+      return null;
+    }
+
+    return response.text();
+  } catch (error) {
+    logRemoteContentWarning(
+      `Error fetching remote content file from ${targetUrl}: ${error instanceof Error ? error.message : "Unknown error"}.`,
+    );
     return null;
   }
-
-  return response.text();
 });
 
 const getDirectoryEntries = cache(async (sourceDir: string): Promise<ContentEntry[]> => {

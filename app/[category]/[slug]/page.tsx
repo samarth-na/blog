@@ -1,7 +1,7 @@
 import { BackToBlogLink } from "@/components/blog/BackToBlogLink";
-import { mdxComponents } from "@/components/mdx/MDXComponents";
 import { getArticlesByCategory, getContentItem } from "@/lib/content";
 import { urlSegmentToType } from "@/lib/typeConfig";
+import { useMDXComponents as buildMDXComponents } from "@/mdx-components";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
@@ -27,6 +27,7 @@ export default async function BlogPost({
   const { category, slug } = await params;
   const normalizedCategory = urlSegmentToType(category);
   const post = await getContentItem(normalizedCategory, slug);
+  const mdxComponents = buildMDXComponents({});
 
   if (!post) {
     notFound();

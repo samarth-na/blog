@@ -252,42 +252,32 @@ export function ScrollRail() {
         <div className="relative z-10 flex h-full w-full items-center justify-center py-1.5">
           <div className="flex flex-col items-end" style={{ rowGap: `${markerGapPx}px` }}>
             {railMarkers.map((marker, index) => (
-              <button
-                key={marker.key}
-                type="button"
-                onMouseEnter={() => setHoveredMarkerIndex(index)}
-                onFocus={() => setHoveredMarkerIndex(index)}
-                onBlur={() =>
-                  setHoveredMarkerIndex((current) => (current === index ? null : current))
-                }
-                aria-label={marker.label ?? "Section marker"}
-                className={`relative ${markerWidthClass(marker.level)} h-[2px] rounded-full transition-all duration-150 ${
-                  marker.active || hoveredMarkerIndex === index
-                    ? "bg-gray-900 dark:bg-white shadow-[0_0_8px_color-mix(in_oklch,var(--foreground)_45%,transparent)]"
-                    : "bg-muted-foreground/45"
-                }`}
-              >
+              <div key={marker.key} className="relative">
+                <button
+                  type="button"
+                  onClick={() => jumpToHeading(marker.targetId)}
+                  onMouseEnter={() => setHoveredMarkerIndex(index)}
+                  onFocus={() => setHoveredMarkerIndex(index)}
+                  onBlur={() =>
+                    setHoveredMarkerIndex((current) => (current === index ? null : current))
+                  }
+                  aria-label={marker.label ?? "Section marker"}
+                  className={`relative block ${markerWidthClass(marker.level)} h-[2px] rounded-full transition-all duration-150 ${
+                    marker.active || hoveredMarkerIndex === index
+                      ? "bg-gray-900 dark:bg-white shadow-[0_0_8px_color-mix(in_oklch,var(--foreground)_45%,transparent)]"
+                      : "bg-muted-foreground/45"
+                  }`}
+                />
                 {hoveredMarkerIndex === index && marker.label ? (
-                  <span
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      jumpToHeading(marker.targetId);
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        jumpToHeading(marker.targetId);
-                      }
-                    }}
-                    role="button"
-                    tabIndex={0}
+                  <button
+                    type="button"
+                    onClick={() => jumpToHeading(marker.targetId)}
                     className="absolute right-full top-1/2 mr-2 max-w-[15rem] -translate-y-1/2 cursor-pointer truncate whitespace-nowrap rounded-[6px] bg-background/75 px-2 py-1 text-[12px] leading-none text-foreground shadow-lg backdrop-blur-md supports-[backdrop-filter]:bg-background/55"
                   >
                     {marker.label}
-                  </span>
+                  </button>
                 ) : null}
-              </button>
+              </div>
             ))}
           </div>
         </div>

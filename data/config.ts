@@ -9,7 +9,10 @@ export const SITE_CONFIG = {
   copyright: "© 2026",
 } as const;
 
-export const STATIC_NAV_ITEMS = [{ label: "now", href: "/now" }] as const;
+export const STATIC_NAV_ITEMS = [
+  { label: "projects", href: "/projects" },
+  { label: "now", href: "/now" },
+] as const;
 
 export const SOCIAL_LINKS = [
   { label: "twitter", href: "https://x.com/samarth7na" },

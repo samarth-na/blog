@@ -1,12 +1,9 @@
-import { mdxComponents } from "@/components/mdx/MDXComponents";
+import { useMDXComponents as buildMDXComponents } from "@/mdx-components";
 import type { MDXComponents } from "mdx/types";
 import type React from "react";
 
 export function useMDXComponents(componentsFromProps: MDXComponents): MDXComponents {
-  return {
-    ...mdxComponents,
-    ...componentsFromProps,
-  };
+  return buildMDXComponents(componentsFromProps);
 }
 
 export default function NowLayout({ children }: { children: React.ReactNode }) {
